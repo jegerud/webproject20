@@ -41,4 +41,3 @@ app.get('/getUsers', function (req, res) {
     }
   });
 });
-
