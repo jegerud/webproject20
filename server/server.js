@@ -3,6 +3,7 @@
 import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
+
 const app = express();
 const PORT = 8081;
 
@@ -37,7 +38,28 @@ app.get('/getUsers', function (req, res) {
     } else {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(result));
-      //console.log("Result: " + res);
+    }
+  });
+});
+
+app.get('/getComments', (req, res) => {
+  db.query('SELECT * FROM comments', (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.get('/getPosts', (req, res) => {
+  db.query('SELECT * FROM posts', (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
     }
   });
 });
