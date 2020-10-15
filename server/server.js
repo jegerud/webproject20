@@ -3,9 +3,12 @@
 import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
+import cors from 'cors';
 
 const app = express();
 const PORT = 8081;
+
+app.use(cors());
 
 app.listen(PORT, () => {
   console.log('Running...');
