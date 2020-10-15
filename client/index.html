@@ -37,10 +37,29 @@
 		<script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
 		<!-- Import the main component -->
-		<script type="module" src="./src/test-element.js"></script>
+		<script type="module" src="./src/menuBar.js"></script>
+		<script type="module" src="./src/sideBar.js"></script>
 	</head>
 
 	<body>
-		<test-element></test-element>
+		<div class="container outer">
+			<div class="p-2 mb-2">
+				<menu-bar></menu-bar>
+			</div>
+			<div class="row">
+				<div class="col-9">
+					<div class="p-3 mb-2 bg-secondary">
+
+					</div>
+				</div>
+				<div class="col">
+					<div class="p-3 mb-2">
+						<side-bar></side-bar>
+					</div>
+				</div>
+			</div>
+		</div>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
 </html>

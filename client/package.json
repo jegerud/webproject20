@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.4",
-    "lit-element": "^2.4.0"
+    "lit-element": "^2.4.0",
+    "node-fetch": "^2.6.1"
   },
   "optionalDependencies": {
     "fsevents": "^2.1.3"
