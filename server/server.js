@@ -57,7 +57,23 @@ app.get('/getComments', (req, res) => {
 });
 
 app.get('/getPosts', (req, res) => {
-  db.query('SELECT * FROM posts', (err, result) => {
+  var query = 'SELECT posts.title, posts.content, users.email FROM posts INNER JOIN users ON posts.user = users.uid'
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.get('/insertPost/:title/:content/:id', (req, res) => {
+  var query = `INSERT INTO posts (title, content, user) 
+               VALUES ('${req.params.title}', 
+                       '${req.params.content}', 
+                        ${req.params.id})`
+  db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
     } else {
