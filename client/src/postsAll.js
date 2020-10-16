@@ -28,7 +28,8 @@ export class postsAll extends LitElement {
         return html`
         ${this.data.map(item => html`
         <h4>${item.title}</h4>
-        <p>${item.content}</p><br>`)}
+        <p>${item.content}</p>
+        <p>${item.email}</p><br>`)}
         `;
     }
 }
