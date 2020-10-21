@@ -27,23 +27,19 @@ export class newPost extends LitElement {
         super();
     }
 
-    publishPost() {
-        let _data = {
-            title: "foo",
-            content: "bar", 
-            uid:1
+    _handleClick() {
+        let rawData = {
+            "title": this.title,
+            "content": this.content,
+            "uid":3
         }
-        
+
         fetch('http://localhost:8081/posts', {
-            method: "POST",
-            body: JSON.stringify({
-                title: 'Title of post',
-                content: 'This is the content of the post',
-                uid: 4
-              }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8"
-              }
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
         }).then(function (response) {
             if (response.ok) {
                 return response.json();
@@ -59,15 +55,15 @@ export class newPost extends LitElement {
     render() {
         return html`
         <form>
-            <input 
+            <input
                 @input="${(e)=>this.title=e.target.value}"
                 type="text" placeholder="Title" id="title" name="title"><br><br>
             <textarea
-                @input="${(e)=>this.content=e.target.value}" 
-                id="content"placeholder="Text (Optional)"></textarea> 
-            <button @click="${this.publishPost()}">Publish</button>
+                @input="${(e)=>this.content=e.target.value}"
+                id="content"placeholder="Text (Optional)"></textarea>
+            <button @click="${this._handleClick}" type="button">Publish</button><br>
             <br><br>
-        </form> 
+        </form>
         `;
     }
 }
