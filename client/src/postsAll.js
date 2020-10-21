@@ -9,19 +9,22 @@ export class postsAll extends LitElement {
 
     constructor() {
         super();
+        this.data = [];
         this.getResource();
     }
 
     async getResource() {
-        fetch('http://localhost:8081/getPosts')
-            .then((response) => response.text())
-            .then((responseText) => {
-                this.data = JSON.parse(responseText);
-            })
-            .catch((error) => {
-                console.log("The data could not be fetched");
-                console.error(error);
-            });
+        fetch('http://localhost:8081/posts', {
+            method: 'GET'
+        })
+        .then((response) => response.text())
+        .then((responseText) => {
+            this.data = JSON.parse(responseText);
+        })
+        .catch((error) => {
+            console.log("The data could not be fetched");
+            console.error(error);
+        });
     }
 
     render() {
@@ -30,7 +33,7 @@ export class postsAll extends LitElement {
         <h4>${item.title}</h4>
         <p>${item.content}</p>
         <p>${item.email}</p><br>`)}
-        `;
+        `
     }
 }
 
