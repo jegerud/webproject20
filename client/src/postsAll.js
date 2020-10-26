@@ -30,7 +30,9 @@ export class postsAll extends LitElement {
     render() {
         return html`
         ${this.data.map(item => html`
-        <h4>${item.title}</h4>
+        <h4>
+            <a href="posts.html">${item.title}</a>
+        </h4>
         <p>${item.content}</p>
         <p>${item.email}</p><br>`)}
         `
