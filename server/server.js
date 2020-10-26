@@ -53,12 +53,11 @@ app.get('/getComments', (req, res) => {
     if (err) {
       res.status(400).send('Error in database operation.');
     } else {
-      res.writeHead(200, { 'Content-Type': 'aspplication/json' });
-      res.end(result);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
     }
   });
 });
-
 app.get('/posts', (req, res) => {
   var query = 'SELECT posts.title, posts.content, users.email FROM posts INNER JOIN users ON posts.user = users.uid'
   db.query(query, (err, result) => {
