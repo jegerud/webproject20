@@ -14,7 +14,5 @@ COPY ./server/package.json ./
 RUN npm cache clean --force && \
     npm i -g nodemon && \
     npm install 
-    
 
-#CMD [ "nodemon", "server.js", "-L" ]
 ENTRYPOINT ["nodemon", "server.js", "-L"]
