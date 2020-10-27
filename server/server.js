@@ -97,3 +97,16 @@ app.get('/comments/:pid', (req, res) => {
     }
   });
 });
+
+
+app.get('/posts/:pid', (req, res) => {
+  var query = `SELECT user, title, content FROM posts WHERE pid = ${req.params.pid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
