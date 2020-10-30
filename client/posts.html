@@ -29,20 +29,19 @@
 			*/
 			window.MyAppGlobals = {
 				rootPath: '/',
-				serverURL: 'http://localhost:8081/'
+				serverURL: 'http://localhost:8080/posts.html'
 			};
 		</script>
-		<link rel="shortcut icon" href="#"/>
+
 		<!-- Load webcomponents, this needs to be activated once you have installed node -->
 		<script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
 		<!-- Import the main component -->
 		<script type="module" src="./src/menuBar.js"></script>
 		<script type="module" src="./src/sideBar.js"></script>
-		<script type="module" src="./src/headerBar.js"></script>
-		<script type="module" src="./src/postsAll.js"></script>
-		<script type="module" src="./src/newPost.js"></script>
-		
+		<script type="module" src="./src/seeComments.js"></script>
+		<script type="module" src="./src/seePost.js"></script>
+
 	</head>
 
 	<body>
@@ -53,8 +52,14 @@
 			</div>
 			<div class="row">
 				<div class="col-10">
-					<new-post>></new-post>
-					<posts-all></posts-all>
+					<link href="./src/styles/post.css" rel="stylesheet">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-8">
+								<see-post></see-post>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="col">
 					<side-bar></side-bar>
