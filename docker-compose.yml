@@ -3,7 +3,7 @@ version: "3"
 services:
   db:
     image: mariadb:latest
-    command: --max_allowed_packet=1073741824 
+    command: --max_allowed_packet=1073741824
     environment:
       MYSQL_DATABASE: prog2053-proj
       MYSQL_USER: admin
@@ -24,7 +24,7 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
       PMA_HOST: db
-    volumes: 
+    volumes:
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
         - default
@@ -41,7 +41,7 @@ services:
     networks:
       - default
     links:
-      - db
+      - db:db
 
   client:
     build:

@@ -9,7 +9,7 @@ RUN mkdir -p /client
 
 WORKDIR /client
 
-COPY ./client/package*.json ./
+COPY ./client/package.json ./
 
 RUN npm cache clean --force && \
     npm install && \
