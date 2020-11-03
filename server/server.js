@@ -5,13 +5,14 @@ import path from 'path';
 import mysql from 'mysql';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import passwordHash from 'password-hash';
 
 
 const app = express();
 const PORT = 8081;
 
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 app.listen(PORT, () => {
   console.log('Running...');
@@ -58,6 +59,7 @@ app.get('/getComments', (req, res) => {
     }
   });
 });
+
 app.get('/posts', (req, res) => {
   var query = 'SELECT posts.title, posts.content, users.email FROM posts INNER JOIN users ON posts.user = users.uid'
   db.query(query, (err, result) => {
@@ -71,9 +73,9 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/posts', (req, res) => {
-  var query = `INSERT INTO posts (title, content, user) 
-               VALUES ('${req.body.title}', 
-                       '${req.body.content}', 
+  var query = `INSERT INTO posts (title, content, user)
+               VALUES ('${req.body.title}',
+                       '${req.body.content}',
                         ${req.body.uid})`
 
   db.query(query, (err, result) => {
@@ -109,4 +111,45 @@ app.get('/posts/:pid', (req, res) => {
       res.end(JSON.stringify(result));
     }
   });
+});
+
+app.post('/register', (req, res) => {
+  var hashedPassword = passwordHash.generate(req.body.password);
+
+  var query = `INSERT INTO users (uid, email, password, userType, picture, username)
+               VALUES (NULL, '${req.body.email}', '${hashedPassword}',
+                      'user', NULL, '${req.body.username}')`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.post('/login', (req, res) => {
+	var username = req.body.username;
+  var password = req.body.password;
+
+	if (username && password) {
+    var query = `SELECT * FROM users WHERE username LIKE '${username}'`;
+    db.query(query, (err, result, fields) => {
+			if (result[0].password == password) {
+				// request.session.loggedin = true;
+        // request.session.username = username;
+        console.log("User authenticated");
+        res.redirect('/');
+			} else {
+        console.log('Incorrect Username and/or Password!');
+				res.send('');
+			}
+			res.end();
+		});
+	} else {
+		console.log("Username or/and password is missing");
+		res.end();
+	}
 });
