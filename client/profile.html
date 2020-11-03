@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Forum</title>
+		<script>
+			window.ShadyDOM = {
+				force: true
+			};
+			if (window.customElements) customElements.forcePolyfill = true;
+
+			window.process = {
+            env: {
+            	NODE_ENV: 'production'
+            	}
+        	};
+
+			/*
+			* [polymer-root-path]
+			*
+			* Leave this line unchanged if you intend to serve your app from the root
+			* path (e.g., with URLs like `my.domain/` and `my.domain/view1`).
+			*
+			* If you intend to serve your app from a non-root path (e.g., with URLs
+			* like `my.domain/my-app/` and `my.domain/my-app/view1`), edit this line
+			* to indicate the path from which you'll be serving, including leading
+			* and trailing slashes (e.g., `/my-app/`).
+			*/
+			window.MyAppGlobals = {
+				rootPath: '/',
+				serverURL: 'http://localhost:8080/'
+			};
+		</script>
+		<link rel="shortcut icon" href="#"/>
+		<!-- Load webcomponents, this needs to be activated once you have installed node -->
+		<script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+
+		<!-- Import the main component -->
+		<script type="module" src="./src/menuBar.js"></script>
+		<script type="module" src="./src/headerBar.js"></script>
+		<script type="module" src="./src/profileBar.js"></script>
+
+	</head>
+
+	<body>
+		<div class="container outer">
+			<div class="p-2 mb-2">
+				<menu-bar></menu-bar>
+				<profile-bar></profile-bar> 
+			</div>
+			<div class="row">
+				<div class="col-10">
+				</div>
+				<div class="col">
+					<side-bar></side-bar>
+				</div>
+			</div>
+		</div>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>
