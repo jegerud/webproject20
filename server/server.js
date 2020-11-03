@@ -86,6 +86,24 @@ app.post('/posts', (req, res) => {
   });
 });
 
+
+app.post('/comments', (req, res) => {
+  var query = `INSERT INTO comments (post, user, comment) 
+               VALUES (${req.body.pid}, 
+                       ${req.body.uid}, 
+                        '${req.body.comment}')`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+
+
 app.get('/comments/:pid', (req, res) => {
   var query = `SELECT post, user, comment FROM comments WHERE post = ${req.params.pid}`;
   db.query(query, (err, result) => {
