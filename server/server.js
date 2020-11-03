@@ -49,6 +49,19 @@ app.get('/getUsers', function (req, res) {
   });
 });
 
+app.get('/getUser/:uid', function(req, res){
+  var query = `SELECT email FROM users WHERE uid = ${req.params.uid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    }
+    else{
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+}); 
+
 app.get('/getComments', (req, res) => {
   db.query('SELECT * FROM comments', (err, result) => {
     if (err) {
