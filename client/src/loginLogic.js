@@ -27,12 +27,17 @@ export class userLogin extends LitElement {
             }
         }).then(function (response) {
             if (response.ok) {
-                // return response.json();
-                return console.log('User authenticated');
+                return response.json();
             }
             return Promise.reject(response);
-        // }).then(function (data) {
-        //     console.log(data);
+        }).then(function (data) {
+            if (data) {
+                console.log("Autheticated");
+                localStorage.setItem("userid", data);
+                window.location.href = "./index.html";
+            } else {
+                console.log("Not autheticated");
+            }
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
