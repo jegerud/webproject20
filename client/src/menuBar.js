@@ -8,8 +8,8 @@ export class menuBar extends LitElement {
     <div class="header">
      <a href="/" class="logo">Creddit</a>
    <div class="header-right">
-    <a href="">Sign up</a>
-    <a class="active" href="">Log in</a>
+    <a href="./register.html">Sign up</a>
+    <a class="active" href="./login.html">Log in</a>
    </div>
    </div> 
       `;
