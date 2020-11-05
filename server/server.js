@@ -153,13 +153,17 @@ app.post('/register', (req, res) => {
   var query = `INSERT INTO users (uid, email, password, userType, picture, username)
                VALUES (NULL, '${req.body.email}', '${hashedPassword}',
                       'user', NULL, '${req.body.username}')`
+  var loginquery = `SELECT * FROM users WHERE username LIKE '${req.body.username}'`
 
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
+      res.send(false);
     } else {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(result));
+      db.query(loginquery, (err, result) => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result[0].uid));
+      });
     }
   });
 });
