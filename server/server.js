@@ -6,13 +6,16 @@ import mysql from 'mysql';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import passwordHash from 'password-hash';
-
+import session from 'express-session';
 
 const app = express();
 const PORT = 8081;
 
 app.use(cors());
 app.use(express.json());
+
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
 
 app.listen(PORT, () => {
   console.log('Running...');
@@ -149,15 +152,13 @@ app.post('/login', (req, res) => {
 
 	if (username && password) {
     var query = `SELECT * FROM users WHERE username LIKE '${username}'`;
-    db.query(query, (err, result, fields) => {
-			if (result[0].password == password) {
-				// request.session.loggedin = true;
-        // request.session.username = username;
-        console.log("User authenticated");
-        res.redirect('/');
+    db.query(query, (err, result) => {
+      if (result[0].password == password) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result[0].uid));
 			} else {
         console.log('Incorrect Username and/or Password!');
-				res.send('');
+				res.send(false);
 			}
 			res.end();
 		});
