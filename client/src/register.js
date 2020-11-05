@@ -32,7 +32,14 @@ export class userRegister extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(data);
+            console.log("Before check");
+            if (data) {
+                console.log("Registered");
+                localStorage.setItem("userid", data);
+                window.location.href = "./index.html";
+            } else {
+                console.log("Not registered");
+            }
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
