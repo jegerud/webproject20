@@ -19,7 +19,7 @@ export class userRegister extends LitElement {
             "email": this.email,
             "password": this.password
         }
-        
+        console.log("Button clicked");
         fetch('http://localhost:8081/register', {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -28,6 +28,7 @@ export class userRegister extends LitElement {
             }
         }).then(function (response) {
             if (response.ok) {
+                console.log("Response OK");
                 return response.json();
             }
             return Promise.reject(response);
@@ -35,13 +36,15 @@ export class userRegister extends LitElement {
             console.log("Before check");
             if (data) {
                 console.log("Registered");
+                console.log(data);
                 localStorage.setItem("userid", data);
                 window.location.href = "./index.html";
             } else {
                 console.log("Not registered");
             }
         }).catch(function (error) {
-            console.warn('Something went wrong.', error);
+            console.log("This didnt work");
+            // console.warn('Something went wrong.', error);
         });
     }
 
