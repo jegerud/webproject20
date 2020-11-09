@@ -90,7 +90,9 @@ app.get('/getComments', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  var query = 'SELECT posts.title, posts.content, users.email FROM posts INNER JOIN users ON posts.user = users.uid'
+  var query = `SELECT posts.pid, posts.title, posts.content, users.email 
+              FROM posts INNER JOIN users ON posts.user = users.uid
+              ORDER BY posts.pid DESC`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
