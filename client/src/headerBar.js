@@ -7,11 +7,11 @@ export class headerBar extends LitElement {
         display: block;
     }
     .header {
-        padding: 30px;
+        padding: 20px;
         text-align: center;
         background: #A9A9A9;
         color: white;
-        font-size: 30px;
+        font-size: 26px;
       }
     `;
 
