@@ -46,22 +46,18 @@
 	</head>
 
 	<body>
-		<div class="container outer">
-			<div class="p-2 mb-2">
-				<menu-bar></menu-bar>
-				<header-bar></header-bar>
+		<div class="container">
+			<menu-bar class="menubar"></menu-bar>
+			<header-bar class="header"></header-bar>
+			<div class="posts">
+				<new-post></new-post>
+				<posts-all></posts-all>
 			</div>
-			<div class="row">
-				<div class="col-10">
-					<new-post></new-post>
-					<posts-all></posts-all>
-				</div>
-				<div class="col">
-					<side-bar></side-bar>
-				</div>
+			<div class="sidebar">
+				<side-bar></side-bar>
 			</div>
 		</div>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="src/styles/style.css">
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
