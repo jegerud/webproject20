@@ -4,7 +4,9 @@ export class newPost extends LitElement {
     static get properties() {
         return {
             title: {type: String},
-            content: {type: String}
+            content: {type: String},
+            userid: {type: Number},
+            loggedIn: {type: Boolean}
         }
     }
 
@@ -25,13 +27,23 @@ export class newPost extends LitElement {
 
     constructor() {
         super();
+        this.getUserid();
     }
+
+    getUserid() {
+        this.userid = localStorage.getItem('userid');
+        if (this.userid !== undefined && this.userid !== null) {
+           this.loggedIn = true;
+        } else {
+           this.loggedIn = false;
+        }
+     }
 
     _handleClick() {
         let rawData = {
             "title": this.title,
             "content": this.content,
-            "uid":3
+            "uid": this.userid
         }
 
         fetch('http://localhost:8081/posts', {
@@ -54,16 +66,19 @@ export class newPost extends LitElement {
 
     render() {
         return html`
-        <form>
-            <input
-                @input="${(e)=>this.title=e.target.value}"
-                type="text" placeholder="Title" id="title" name="title"><br><br>
-            <textarea
-                @input="${(e)=>this.content=e.target.value}"
-                id="content"placeholder="Text (Optional)"></textarea>
-            <button @click="${this._handleClick}" type="button">Publish</button><br>
-            <br><br>
-        </form>
+        ${this.loggedIn ?
+            html`
+            <form>
+                <input
+                    @input="${(e)=>this.title=e.target.value}"
+                    type="text" placeholder="Title" id="title" name="title"><br><br>
+                <textarea
+                    @input="${(e)=>this.content=e.target.value}"
+                    id="content"placeholder="Text (Optional)"></textarea>
+                <button @click="${this._handleClick}" type="button">Publish</button><br>
+                <br><br>
+            </form>` :
+            html``}
         `;
     }
 }
