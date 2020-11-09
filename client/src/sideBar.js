@@ -1,6 +1,25 @@
 import { LitElement, html, css } from '../node_modules/lit-element/lit-element';
 
 export class sideBar extends LitElement {
+    static get properties() {
+      return {
+        loggedIn: {type: Boolean},
+      };
+    }
+
+    constructor() {
+      super();
+      this.getLogin();
+    }
+
+    getLogin() {
+      var userid = localStorage.getItem('userid');
+      if (userid !== undefined && userid !== null) {
+         this.loggedIn = true;
+      } else {
+         this.loggedIn = false;
+      }
+    }
 
     static styles = css`
     .vertical-menu {
@@ -25,17 +44,23 @@ export class sideBar extends LitElement {
       .vertical-menu a.active {
         background-color: #A9A9A9; 
         color: white;
-        text-align: center;
+        text-align: center;   
       }
     `;
 
     render() {
         return html`
          <div class="vertical-menu">
-         <a href="" class="active">My Profile</a>
-         <a href="">New Post</a>
-         <a href="">New Link</a>
-</div> 
+         ${this.loggedIn ?
+          html`
+            <a href="" class="active">My Profile</a>
+            <a href="">New Post</a>
+            <a href="">New Link</a>
+          `:
+          html`
+            <a href="" class="active">Register</a>
+          `}
+        </div> 
     `;}
 }
 
