@@ -8,6 +8,7 @@ CREATE TABLE `users` (
   `password` VARCHAR(128) NOT NULL,
   `userType` ENUM('admin', 'moderator', 'user') DEFAULT "user" NOT NULL,
   `picture` LONGBLOB DEFAULT NULL,
+  'username' VARCHAR(128) NOT NULL
   PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_bin;
 
@@ -31,9 +32,9 @@ FOREIGN KEY(`post`) REFERENCES posts(`pid`)
 ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_bin;
 
 /* Insert data */
-INSERT INTO `users` (`uid`, `email`, `password`, `userType`) VALUES ('1','bartell.martine@example.com','40bcc6f6193986153cae1bb1c36668650a3d5f97','admin'),
-('2','zcrona@example.net','1f66d81577cd95514cedc8504d65ec8eff9c336a','moderator'),
-('3','wgaylord@example.com','3fcba21eebd2d09681515b4849d2bbeae566451e','user');
+INSERT INTO `users` (`uid`, `email`, `password`, `userType`, `username`) VALUES ('1','bartell.martine@example.com','40bcc6f6193986153cae1bb1c36668650a3d5f97','admin', 'bartell'),
+('2','zcrona@example.net','1f66d81577cd95514cedc8504d65ec8eff9c336a','moderator', 'zcrona'),
+('3','wgaylord@example.com','3fcba21eebd2d09681515b4849d2bbeae566451e','user', 'wgaylord');
 
 INSERT INTO `posts` VALUES ('1','3','Animi ut occaecati omnis iure magnam aliquam quam.','Dolorum beatae porro autem et possimus qui eum. Et facilis soluta quo distinctio. Voluptatem quam quia fugiat quaerat dolore aut. Autem autem aut minus quia optio.'),
 ('2','2','Nobis laboriosam totam labore aut possimus pariatur recusandae.','Accusantium unde dignissimos quia ab quas corporis. Impedit possimus rerum ut ratione qui et a. Illum cum fugit atque.'),
