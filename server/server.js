@@ -65,6 +65,19 @@ app.get('/getUser/:uid', function(req, res){
   });
 }); 
 
+app.get('/getUsername/:uid', function(req, res){
+  var query = `SELECT username FROM users WHERE uid = ${req.params.uid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    }
+    else{
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+}); 
+
 app.get('/getComments', (req, res) => {
   db.query('SELECT * FROM comments', (err, result) => {
     if (err) {
@@ -161,8 +174,6 @@ app.post('/register', (req, res) => {
         res.end(false);
       } else {
         db.query(loginquery, (err, result) => {
-          // console.log("Password Original: ", myPlaintextPassword);
-          // console.log("Password Hash: ", hash);
           res.end(JSON.stringify(result[0].uid));
         });
       }
@@ -175,7 +186,6 @@ app.post('/login', (req, res) => {
   var password = req.body.password;
 
 	if (username && password) {
-    console.log("Password matches");
     var query = `SELECT * FROM users WHERE username LIKE '${username}'`;
     db.query(query, (err, result) => {
       bcrypt.compare(password, result[0].password).then(function(response) {
