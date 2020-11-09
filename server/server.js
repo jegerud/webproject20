@@ -5,8 +5,8 @@ import path from 'path';
 import mysql from 'mysql';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import passwordHash from 'password-hash';
-import session from 'express-session';
+// import passwordHash from 'password-hash';
+import bcrypt from 'bcryptjs';
 
 const app = express();
 const PORT = 8081;
@@ -121,7 +121,6 @@ app.post('/comments', (req, res) => {
 });
 
 
-
 app.get('/comments/:pid', (req, res) => {
   var query = `SELECT post, user, comment FROM comments WHERE post = ${req.params.pid}`;
   db.query(query, (err, result) => {
@@ -148,23 +147,26 @@ app.get('/posts/:pid', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  var hashedPassword = passwordHash.generate(req.body.password);
+  const saltRounds = 10;
+  var myPlaintextPassword = req.body.password;
 
-  var query = `INSERT INTO users (uid, email, password, userType, picture, username)
-               VALUES (NULL, '${req.body.email}', '${hashedPassword}',
-                      'user', NULL, '${req.body.username}')`
-  var loginquery = `SELECT * FROM users WHERE username LIKE '${req.body.username}'`
-
-  db.query(query, (err, result) => {
-    if (err) {
-      res.status(400).send('Error in database operation.');
-      res.send(false);
-    } else {
-      db.query(loginquery, (err, result) => {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(result[0].uid));
-      });
-    }
+  bcrypt.hash(myPlaintextPassword, saltRounds, (err, hash) => {
+    var query = `INSERT INTO users (uid, email, password, userType, picture, username)
+                 VALUES (NULL, '${req.body.email}', '${hash}',
+                        'user', NULL, '${req.body.username}')`
+    var loginquery = `SELECT * FROM users WHERE username LIKE '${req.body.username}'`
+    db.query(query, (err, result) => {
+      if (err) {
+        res.status(400).send('Error in database operation.');
+        res.end(false);
+      } else {
+        db.query(loginquery, (err, result) => {
+          // console.log("Password Original: ", myPlaintextPassword);
+          // console.log("Password Hash: ", hash);
+          res.end(JSON.stringify(result[0].uid));
+        });
+      }
+    });
   });
 });
 
@@ -173,17 +175,19 @@ app.post('/login', (req, res) => {
   var password = req.body.password;
 
 	if (username && password) {
+    console.log("Password matches");
     var query = `SELECT * FROM users WHERE username LIKE '${username}'`;
     db.query(query, (err, result) => {
-      if (result[0].password == password) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(result[0].uid));
-			} else {
-        console.log('Incorrect Username and/or Password!');
-				res.send(false);
-			}
-			res.end();
-		});
+      bcrypt.compare(password, result[0].password).then(function(response) {
+        if (response) {
+          res.end(JSON.stringify(result[0].uid));
+        }
+        else {
+          console.log('Incorrect Username and/or Password!');
+				  res.end(false);
+        }
+      });
+    });
 	} else {
 		console.log("Username or/and password is missing");
 		res.end();
