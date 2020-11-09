@@ -4,13 +4,15 @@ export class menuBar extends LitElement {
    static get properties() {
       return {
         userid: {type: Number},
-        loggedIn: {type: Boolean}
+        loggedIn: {type: Boolean},
+        username: {type: String}
       };
    }
 
    constructor() {
       super();
       this.getUserid();
+      this.getUserName();
    }
 
    getUserid() {
@@ -20,8 +22,21 @@ export class menuBar extends LitElement {
       } else {
          this.loggedIn = false;
       }
-      // console.log("User Id  : ", this.userid);
-      // console.log("Logged in: ", this.loggedIn);
+   }
+
+   getUserName() {
+      fetch(`http://localhost:8081/getUsername/${this.userid}`, {
+         method: 'GET'
+     })
+     .then((response) => response.text())
+     .then((responseText) => {
+         var data = JSON.parse(responseText);
+         this.username = data[0].username;
+     })
+     .catch((error) => {
+         console.log("The data could not be fetched");
+         console.error(error);
+     });
    }
 
    logout() {
@@ -43,6 +58,7 @@ export class menuBar extends LitElement {
             <a class="active" href="./login.html">Log in</a> 
          `:
          html`
+            <a class="loggedin" href="">${this.username}</a>
             <a @click="${this.logout}">Log out</a>
             `}
             </div>
