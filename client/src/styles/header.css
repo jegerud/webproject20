@@ -38,6 +38,11 @@
     color: white;
   }
 
+  .header a.loggedin {
+    background-color: #7eafcc;
+    color: white;
+  }
+
   /* Float the link section to the right */
   .header-right {
     float: right;
