@@ -4,9 +4,9 @@ export class sideBar extends LitElement {
 
     static styles = css`
     .vertical-menu {
-        width: 170px; /* Set a width if you like */
+        width: 120px;
         position: absolute;
-        padding: 20px
+        padding: 10px
       }
       
       .vertical-menu a {
@@ -19,11 +19,11 @@ export class sideBar extends LitElement {
       }
       
       .vertical-menu a:hover {
-        background-color: #ccc; /* Dark grey background on mouse-over */
+        background-color: #ccc; 
       }
       
       .vertical-menu a.active {
-        background-color: #A9A9A9; /* Add a green color to the "active/current" link */
+        background-color: #A9A9A9; 
         color: white;
         text-align: center;
       }
