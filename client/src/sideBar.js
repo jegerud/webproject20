@@ -4,7 +4,7 @@ export class sideBar extends LitElement {
 
     static styles = css`
     .vertical-menu {
-        width: 120px;
+        align-items: stretch
         position: absolute;
         padding: 10px
       }
