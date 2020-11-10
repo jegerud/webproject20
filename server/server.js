@@ -65,6 +65,19 @@ app.get('/getUser/:uid', function(req, res){
   });
 }); 
 
+app.get('/getUserinfo/:uid', function(req, res){
+  var query = `SELECT * FROM users WHERE uid = ${req.params.uid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    }
+    else{
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+}); 
+
 app.get('/getUsername/:uid', function(req, res){
   var query = `SELECT username FROM users WHERE uid = ${req.params.uid}`;
   db.query(query, (err, result) => {
