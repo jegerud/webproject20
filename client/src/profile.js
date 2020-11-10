@@ -6,6 +6,7 @@ export class profilePage extends LitElement {
             userid: {type: Number},
             loggedIn: {type: Boolean},
             usertype: {type: String},
+            username: {type: String},
             current: {type: Number}
         }
     }
@@ -33,6 +34,7 @@ export class profilePage extends LitElement {
         .then((responseText) => {
             var user = JSON.parse(responseText);
             this.usertype = user[0].userType;
+            this.username = user[0].username;
         })
         .catch((error) => {
             console.log("The data could not be fetched");
@@ -107,8 +109,11 @@ export class profilePage extends LitElement {
         <ul>
             <li><a @click="${this.profileClicked}">Profile</a></li>
             <li><a @click="${this.mypostsClicked}">My Posts</a></li>
-            ${this.usertype4}<li><a @click="${this.requestsClicked}">Requests</a></li>
+            ${this.usertype != "user" ? 
+            html`
+            <li><a @click="${this.requestsClicked}">Requests</a></li>
             <li><a @click="${this.allusersClicked}">All users</a></li>
+            `: html``}
         </ul>
         ${this.current == 1 ?
             html`
