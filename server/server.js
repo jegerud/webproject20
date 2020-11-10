@@ -5,7 +5,6 @@ import path from 'path';
 import mysql from 'mysql';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-// import passwordHash from 'password-hash';
 import bcrypt from 'bcryptjs';
 
 const app = express();
@@ -54,6 +53,19 @@ app.get('/getUsers', function (req, res) {
 
 app.get('/getUser/:uid', function(req, res){
   var query = `SELECT email FROM users WHERE uid = ${req.params.uid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    }
+    else{
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+}); 
+
+app.get('/getUserinfo/:uid', function(req, res){
+  var query = `SELECT * FROM users WHERE uid = ${req.params.uid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -151,6 +163,18 @@ app.get('/comments/:pid', (req, res) => {
 
 app.get('/posts/:pid', (req, res) => {
   var query = `SELECT user, title, content FROM posts WHERE pid = ${req.params.pid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.get('/posts/user/:uid', (req, res) => {
+  var query = `SELECT title, content FROM posts WHERE user = ${req.params.uid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
