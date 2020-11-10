@@ -13,6 +13,12 @@ export class menuBar extends LitElement {
       super();
       this.getUserid();
       this.getUserName();
+      window.currentUser = {
+         id: this.id,
+         name: this.username,
+         email: this.email,
+         loggedIn: true
+      };
    }
 
    getUserid() {
@@ -43,7 +49,8 @@ export class menuBar extends LitElement {
       this.userid = null;
       localStorage.removeItem('userid');
       this.loggedIn = false;
-      location.reload(); 
+      currentUser = null;
+      location.reload();
    }
 
    render() {

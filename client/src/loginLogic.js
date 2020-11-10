@@ -15,43 +15,63 @@ export class userLogin extends LitElement {
 
     _handleClick() {
         let rawData = {
-            "username": this.username,
-            "password": this.password
+           "username": this.username,
+           "password": this.password
         }
-        
+
         fetch('http://localhost:8081/login', {
-            method: 'POST',
-            body: JSON.stringify(rawData),
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            }
+        method: 'POST',
+        body: JSON.stringify(rawData),
+        headers: {
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
         }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
+        if (response.ok) {
+            console.log("Tester json");
+            return response.json();
+        }
+        return Promise.reject(response);
         }).then(function (data) {
-            if (data) {
-                console.log("Autheticated");
-                localStorage.setItem("userid", data);
-                window.location.href = "./index.html";
-            } else {
-                console.log("Not autheticated");
-            }
+        if (data) {
+            console.log("Autheticated");
+            localStorage.setItem("userid", data);
+            window.location.href = "./index.html";
+        } else {
+            console.log("Not autheticated");
+        }
         }).catch(function (error) {
-            console.warn('Something went wrong.', error);
+           console.warn('Something went wrong.', error);
         });
     }
+    
+    
 
     render() {
+        var clicked = false;
         return html`
-            <input @input="${(e)=>this.username=e.target.value}" 
-                type="text" placeholder="username" id="username" name="username"><br>
-            <input @input="${(e)=>this.password=e.target.value}" 
-                type="password" placeholder="password" id="password" name="password"><br>
-            <button @click="${this._handleClick}" type="button">Publish</button><br>
+        <link rel="stylesheet" href="./src/styles/login.css">
+        <div class="container">
+            <h1>Log in</h1>
+            <div class="textbox">
+                <input @input="${(e)=>this.username=e.target.value}"
+                type="text" placeholder="Username" name="" value="" required>
+            </div>
+            <div class="textbox">
+                <input @input="${(e)=>this.password=e.target.value}"
+                type="password" placeholder="Password" name="" value="" required>
+            </div>
+            <input id="submit" @click="${this._handleClick}" type="submit" class="btn" type="button" name="" value="Sign In"></input>
+        </div>
         `;
     }
 }
 
 customElements.define('user-login', userLogin);
+
+/*
+function wrong() {
+    console.log("hey");
+    let message = document.getElementById("msg");
+    message.style.display= "none";
+}
+*/

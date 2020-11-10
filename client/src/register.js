@@ -50,15 +50,57 @@ export class userRegister extends LitElement {
 
     render() {
         return html`
-            <input @input="${(e)=>this.username=e.target.value}" 
-                type="text" placeholder="username" id="username" name="username"><br>
-            <input @input="${(e)=>this.email=e.target.value}" 
-                type="text" placeholder="email" id="email" name="email"><br>
-            <input @input="${(e)=>this.password=e.target.value}" 
-                type="password" placeholder="password" id="password" name="password"><br>
-            <button @click="${this._handleClick}" type="button">Publish</button><br>
+            <link rel="stylesheet" href="./src/styles/login.css">
+            <div class="container">
+                <h1>Register</h1>
+                <div class="textbox">
+                    <input @input="${(e)=>this.username=e.target.value}"
+                    type="text" placeholder="Username" name="" value="" required>
+                </div>
+                <div class="textbox">
+                    <input @input="${(e)=>this.email=e.target.value}"
+                    type="text" placeholder="eMail" name="" value="" required>
+                </div>
+                <div class="textbox">
+                    <input @input="${(e)=>this.password=e.target.value}"
+                    type="password" placeholder="Password" name="" value="" required>
+                </div>
+                <input @click="${this._handleClick}" type="submit" class="btn" type="button" name="" value="Sign Up"></input>
+            </div>
         `;
     }
 }
 
 customElements.define('user-register', userRegister);
+
+/*
+
+function validate(){
+    let valid = true;
+    console.log("Her!!");
+    let name = 'SELECT username FROM users';
+    console.log(name)
+    let name_list = []
+    console.log(valid);
+    con.query(name, function(err, username, fields){
+    for(i in name){
+        name_list.push(name[i].username)
+    }
+    }); 
+    console.log(valid);
+    if(!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(rawData.email))){
+        valid = false;
+    };
+
+    console.log(valid);
+
+    for (let i = 0; i < listOptions.length; i++) {
+        if (name_list[i].value === rawData.username.value) {
+          valid = false;
+        };
+    };
+
+    console.log(valid);
+
+    return valid;
+} */

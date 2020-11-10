@@ -30,12 +30,32 @@ export class postsAll extends LitElement {
     render() {
         return html`
         ${this.data.map(item => html`
-        <h4>
-            <a href="posts.html">${item.title}</a>
-        </h4>
-        <p>${item.content}</p>
-        <p>${item.email}</p><br>`)}
-        `
+        <head> 
+            <link rel="stylesheet" href="./src/styles/posts.css">
+        </head>
+        <div class="flex-container">
+            <div class="post" id="left">
+                <h4 class="postTitle">
+                    <a href="posts.html">${item.title}</a>
+                </h4>
+                <p>${item.email}</p><br>
+            </div>
+            <div class="post" id="text">
+                <p>${item.content}</p>
+            </div>
+            <div class="post" id="right">
+            ${!currentUser.loggedIn && currentUser.email == item.email ?
+                html`
+                    <div>Det funka ikke ass</div>
+                    <p> ${item.email}</p>
+                `:
+                html`
+                   <p> ${currentUser.email}</p>
+                   `}
+            </div>
+        </div>
+        <br></br> `)}
+            `
     }
 }
 
