@@ -5,9 +5,7 @@ export class profilePage extends LitElement {
         return{
             userid: {type: Number},
             loggedIn: {type: Boolean},
-            username: {type: String},
             usertype: {type: String},
-            email: {type: String},
             current: {type: Number}
         }
     }
@@ -16,7 +14,7 @@ export class profilePage extends LitElement {
         super();
         this.current = 1;
         this.getUserid();
-        this.getResource();
+        this.getUsertype();
     }
 
     getUserid() {
@@ -28,15 +26,13 @@ export class profilePage extends LitElement {
         }
     }
 
-    async getResource() {
+    async getUsertype() {
         fetch(`http://localhost:8081/getUserinfo/${this.userid}`, {
             method: 'GET'})
         .then((response) => response.text())
         .then((responseText) => {
             var user = JSON.parse(responseText);
-            this.username = user[0].username;
             this.usertype = user[0].userType;
-            this.email = user[0].email;
         })
         .catch((error) => {
             console.log("The data could not be fetched");
@@ -105,11 +101,13 @@ export class profilePage extends LitElement {
         return html`
         <div class="header">
             <h1>${this.username}</h1>
-        </div> 
+        </div>
+        ${this.loggedIn ?
+        html`
         <ul>
             <li><a @click="${this.profileClicked}">Profile</a></li>
             <li><a @click="${this.mypostsClicked}">My Posts</a></li>
-            <li><a @click="${this.requestsClicked}">Requests</a></li>
+            ${this.usertype4}<li><a @click="${this.requestsClicked}">Requests</a></li>
             <li><a @click="${this.allusersClicked}">All users</a></li>
         </ul>
         ${this.current == 1 ?
@@ -128,6 +126,8 @@ export class profilePage extends LitElement {
             html`
                 <sub-allusers></sub-allusers>
             `:html``}
+        ` :
+        html``}
     `;
     }
 }
