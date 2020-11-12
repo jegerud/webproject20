@@ -16,6 +16,11 @@ export class seePost extends LitElement {
         this.getResource();
     }
 
+
+    refresh(){
+        location.reload();
+    }
+
     async getResource() {
         fetch(`http://localhost:8081/posts/${this.postId}`, {
             method: 'GET'
@@ -54,13 +59,12 @@ export class seePost extends LitElement {
       }).catch(function (error) {
           console.warn('Something went wrong.', error);
       });
-  }
-
+      this.refresh();
+     }
 
     render() {
         return html`
         ${this.data.map(item => html`
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                     <div class="post-content">
                       <img src="https://via.placeholder.com/400x150/FFB6C1/000000" alt="post-image" class="img-responsive post-image">
                       <div class="post-container">
@@ -83,14 +87,14 @@ export class seePost extends LitElement {
                           <div class="post-comment">
                           <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
                           <form>
-                          <input @input="${(e)=>this.comment=e.target.value}"
-                          type="text" class="form-control" placeholder="Post a comment">
-                          <button @click="${this._handleClick}" type="button">Publish</button><br>
+                          <input @input="${(e)=>this.comment=e.target.value}" type="text" class="form-control" placeholder="Post a comment">
+                          <button @click="${this._handleClick}" type="submit" id ="button">Publish</button><br>
                           </form>
                         </div>
                       </div>
                     </div>
                    </div>
+
         `)}
         `
     }
