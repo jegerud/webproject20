@@ -1,7 +1,81 @@
 body{margin-top:20px;}
 
 /*==================================================
-  Post Contents CSS
+  Layout and styling of the page as a whole
+  ==================================================*/
+  .contain {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto 130px;
+    grid-template-rows: 70px 210px auto;
+    grid-template-areas: 
+        "menubar menubar"
+        "header header"
+        "posts sidebar";
+    padding: 40px;
+
+  }
+
+  .menubar {
+    grid-area: menubar;
+}
+
+.header {
+    grid-area: header;
+
+}
+
+.posts {
+    grid-area: posts;
+}
+
+
+@media (min-width: 1200px) {
+  .contain {
+      grid-gap: 10px;
+      grid-template-columns: auto 230px;
+      grid-template-rows: 70px 210px auto;
+      grid-template-areas: 
+          "menubar menubar"
+          "header header"
+          "posts sidebar";
+      padding-left: 250px;
+      padding-right: 250px;
+  }
+}
+
+@media (max-width: 800px) {
+  .contain {
+      grid-gap: 10px;
+      grid-template-columns: auto 60px;
+      grid-template-rows: 70px 210px auto;
+      grid-template-areas: 
+          "menubar menubar"
+          "header header"
+          "posts sidebar";
+      padding-left: 40px;
+      padding-right: 40px;
+  }
+}
+
+@media (max-width: 500px) {
+  .contain {
+      grid-gap: 10px;
+      grid-template-columns: auto;
+      grid-template-rows: 70px 210px auto 70px;
+      grid-template-areas: 
+          "menubar"
+          "header"
+          "posts"
+          "sidebar";
+      padding-left: 40px;
+      padding-right: 40px;
+  }
+}
+
+
+/*==================================================
+  Styling of the posts
   ==================================================*/
 
 .post-content{
@@ -15,7 +89,7 @@ body{margin-top:20px;}
 }
 
 .post-content img.post-image, video.post-video, .google-maps{
-  width: 100%;
+  width: 10%;
   height: auto;
 }
 
