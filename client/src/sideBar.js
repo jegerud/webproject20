@@ -10,16 +10,20 @@ export class sideBar extends LitElement {
     }
     
     .vertical-menu a {
-      background-color: #FFFFF; /* Grey background color */
+      background-color: #f1f1f1; /* Grey background color */
       color: black; /* Black text color */
       display: block; /* Make the links appear below each other */
       padding: 12px; /* Add some padding */
       text-decoration: none; /* Remove underline from links */
       text-align: center;
+      font-size: 20px;
+      font-family: Trebuchet MS, sans-serif;
+      
     }
     
     .vertical-menu a:hover {
       background-color: #ccc; 
+      border-radius: 3px;
     }
     
     .vertical-menu a.active {

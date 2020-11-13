@@ -49,9 +49,12 @@ export class profilePage extends LitElement {
     .header {
         padding: 30px;
         text-align: center;
-        background: #A9A9A9;
+        background: #3983AD;
         color: white;
         font-size: 30px;
+        text-transform: uppercase;
+        font-family: Avant Garde, Courier, monospace;
+
     }
     
     ul {
@@ -60,6 +63,7 @@ export class profilePage extends LitElement {
         padding: 0;
         overflow: hidden;
         background-color: #f1f1f1;
+        font-family: Trebuchet MS, sans-serif;
     }
     
     li {

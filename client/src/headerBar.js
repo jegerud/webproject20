@@ -9,9 +9,11 @@ export class headerBar extends LitElement {
     .header {
         padding: 20px;
         text-align: center;
-        background: #A9A9A9;
+        background: #3983AD;
         color: white;
+        font-family: Avant Garde, Courier, monospace;
         font-size: 26px;
+        text-transform: uppercase;
       }
     `;
 

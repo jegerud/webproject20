@@ -37,7 +37,7 @@ export class menuBar extends LitElement {
      .then((response) => response.text())
      .then((responseText) => {
          var data = JSON.parse(responseText);
-         this.username = data[0].username;
+         this.username = data[0].username.toUpperCase();
      })
      .catch((error) => {
          console.log("The data could not be fetched");
@@ -65,7 +65,7 @@ export class menuBar extends LitElement {
             <a class="active" href="./login.html">Log in</a> 
          `:
          html`
-            <a class="loggedin" href="">${this.username}</a>
+            <a class="loggedin" href="./profile.html">${this.username}</a>
             <a @click="${this.logout}">Log out</a>
             `}
             </div>

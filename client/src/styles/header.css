@@ -6,6 +6,7 @@
   overflow: hidden;
   background-color: #f1f1f1;
   padding: 20px 10px;
+  border-radius: 7px;
   }
 
 /* Style the header links */
@@ -15,32 +16,36 @@
     text-align: center;
     padding: 12px;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 19px;
     line-height: 25px;
-    border-radius: 4px;
+    font-family: Trebuchet MS, sans-serif;
+    border-radius: 17px;
   }
 
   /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
   .header a.logo {
-    font-size: 25px;
+    font-size: 30px;
+    font-family: Andale Mono, monospace;
     font-weight: bold;
+    
   }
 
   /* Change the background color on mouse-over */
   .header a:hover {
     background-color: #ddd;
     color: black;
+    border-radius: 17px;
   }
 
   /* Style the active/current link*/
   .header a.active {
-    background-color: #3983ad;
-    color: white;
+    background-color: #3983AD;
+    color: #ffffff;
   }
 
   .header a.loggedin {
-    background-color: #7eafcc;
-    color: white;
+    background-color: #3983AD;
+    color: #ffffff;
   }
 
   /* Float the link section to the right */
