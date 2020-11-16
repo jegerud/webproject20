@@ -27,7 +27,6 @@ export class userLogin extends LitElement {
         }
         }).then(function (response) {
         if (response.ok) {
-            console.log("Tester json");
             return response.json();
         }
         return Promise.reject(response);
