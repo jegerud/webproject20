@@ -185,6 +185,7 @@ app.get('/posts/user/:uid', (req, res) => {
   });
 });
 
+
 app.post('/register', (req, res) => {
   const saltRounds = 10;
   var myPlaintextPassword = req.body.password;
