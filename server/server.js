@@ -230,3 +230,43 @@ app.post('/login', (req, res) => {
 		res.end();
 	}
 });
+
+app.post('/validate', (req, res) => {
+	var userid = req.body.uid;
+  var password = req.body.password;
+
+	if (userid && password) {
+    var query = `SELECT * FROM users WHERE uid LIKE '${userid}'`;
+    db.query(query, (err, result) => {
+      bcrypt.compare(password, result[0].password).then(function(response) {
+        if (response) {
+          res.end(JSON.stringify(true));
+        }
+        else {
+          console.log('Incorrect Username and/or Password!');
+				  res.end(JSON.stringify(false));
+        }
+      });
+    });
+	} else {
+		console.log("Username or/and password is missing");
+		res.end();
+	}
+});
+
+app.post('/updatePassword', (req, res) => {
+  const saltRounds = 10;
+  var myPlaintextPassword = req.body.password;
+
+  bcrypt.hash(myPlaintextPassword, saltRounds, (err, hash) => {
+    var query = `UPDATE users SET password = '${hash}' WHERE uid LIKE '${req.body.uid}'`
+    db.query(query, (err, result) => {
+      if (err) {
+        res.status(400).send('Error in database operation.');
+        res.end(false);
+      } else {
+        res.end(true);
+      }
+    });
+  });
+});
