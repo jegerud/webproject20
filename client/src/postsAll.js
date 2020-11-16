@@ -46,7 +46,6 @@ export class postsAll extends LitElement {
             <div class="post" id="right">
             ${!currentUser.loggedIn && currentUser.email == item.email ?
                 html`
-                    <div>Det funka ikke ass</div>
                     <p> ${item.email}</p>
                 `:
                 html`
