@@ -2,19 +2,40 @@ import { LitElement, html, css } from '../node_modules/lit-element/lit-element';
 
 export class subAllusers extends LitElement {
     static get properties() {
-      return {
-        loggedIn: {type: Boolean},
-      };
+        return {
+            data: {type: Array}
+        }
     }
 
     constructor() {
-      super();
+        super();
+        this.data = [];
+        this.getResource();
+    }
+
+    async getResource() {
+        fetch('http://localhost:8081/getUsers', {
+            method: 'GET'
+        })
+        .then((response) => response.text())
+        .then((responseText) => {
+            this.data = JSON.parse(responseText);
+        })
+        .catch((error) => {
+            console.log("The data could not be fetched");
+            console.error(error);
+        });
     }
 
     render() {
-        return html`
-          <p>Nr 4</p>
-    `;}
+      return html`
+      <br>
+      ${this.data.map(item => html`
+        <a>Username:  ${item.username}</a><br>
+        <a>User Type: ${item.userType}</a><br>
+      <br>`)}
+    `
+    ;}
 }
 
 
