@@ -19,7 +19,6 @@ export class userRegister extends LitElement {
             "email": this.email,
             "password": this.password
         }
-        console.log("Button clicked");
         fetch('http://localhost:8081/register', {
             method: 'POST',
             body: JSON.stringify(rawData),
