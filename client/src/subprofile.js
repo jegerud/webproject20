@@ -50,48 +50,43 @@ export class subProfile extends LitElement {
     }
 
     passwordUpdated() {
-      console.log("Password updated");
       this.changePassword = 2;
     }
 
     submitPassword() {
+      var current = this;
       let validateData = {
         "uid": this.userid,
-        "password": this.oldPassword
+        "oldpassword": this.oldPassword
       }
-
-      console.log(this);
-
+      
       if (this.newPassword == this.newPasswordValidate) {
+        console.log("Password matches");
         fetch('http://localhost:8081/validate', {
           method: 'POST',
           body: JSON.stringify(validateData),
           headers: {
              'Content-Type': 'application/json; charset=UTF-8'
           }
-          }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-          }).then(function (data) {
-          if (data) {
-            console.log("Update password ready");
-            // this.updatePassword();
-          } else {
-              alert("Current password not correct!");
-          }
-          }).catch(function (error) {
-             console.warn('Something went wrong.', error);
-          });
+        }).then(function (response) {
+        if (response.ok) {
+          return response.json();
         }
-        else {
-          alert("Password didn't match, please try again!");
+        return Promise.reject(response);
+        }).then(function (data) {
+        if (data) {
+          current.updatePassword();
+        } else {
+          alert("Something went wrong. Please try again!");
         }
+        }).catch(function (error) {
+           console.warn('Something went wrong.', error);
+        });
+      }
     }
 
     updatePassword() {
-      console.log("Ready to update password");
+      var current = this;
       let newData = {
         "uid": this.userid,
         "password": this.newPassword
@@ -109,9 +104,9 @@ export class subProfile extends LitElement {
           return Promise.reject(response);
           }).then(function (data) {
           if (data) {
-            this.passwordUpdated();
+            current.passwordUpdated();
           } else {
-              alert("Current password not correct!");
+            alert("Current password not correct!");
           }
           }).catch(function (error) {
              console.warn('Something went wrong.', error);
