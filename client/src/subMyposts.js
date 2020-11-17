@@ -42,12 +42,13 @@ export class subMyposts extends LitElement {
 
     render() {
         return html`
+          <br>
           ${this.data.map(item => html`
           <h4>
               <a href="posts.html">${item.title}</a>
           </h4>
           <p>${item.content}</p>
-          <br>`)}
+          `)}
         `
     }
 }
