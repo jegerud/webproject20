@@ -295,28 +295,26 @@ app.post('/updateUsername', (req, res) => {
   });
 });
 
-app.get('/getUserScore/:uid', (req, res) => {
-  var posts;
-  var comments;
-  var likes = 0;
-  var postquery = `SELECT COUNT(pid) cn FROM posts WHERE user = ${req.params.uid}`;
-  var commentquery = `SELECT COUNT(cid) cn FROM comments WHERE user = ${req.params.uid}`;
-  db.query(postquery, (err, result) => {
+app.get('/getUserPostScore/:uid', (req, res) => {
+  var query = `SELECT COUNT(pid) cn FROM posts WHERE user = ${req.params.uid}`;
+  db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
       res.end(JSON.stringify(false));
     } else {
-      posts = result[0].cn;
+      res.end(JSON.stringify(result[0].cn));
     }
   });
-  db.query(commentquery, (err, result) => {
+})
+
+app.get('/getUserCommentScore/:uid', (req, res) => {
+  var query = `SELECT COUNT(cid) cn FROM comments WHERE user = ${req.params.uid}`;
+  db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
       res.end(JSON.stringify(false));
     } else {
-      comments = result[0].cn;
+      res.end(JSON.stringify(result[0].cn));
     }
   });
-  console.log("Posts: ", posts);
-  console.log("Comments: ", comments);
 })
