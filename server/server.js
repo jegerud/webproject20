@@ -233,7 +233,7 @@ app.post('/login', (req, res) => {
 
 app.post('/validate', (req, res) => {
 	var userid = req.body.uid;
-  var password = req.body.password;
+  var password = req.body.oldpassword;
 
 	if (userid && password) {
     var query = `SELECT * FROM users WHERE uid LIKE '${userid}'`;
@@ -263,9 +263,9 @@ app.post('/updatePassword', (req, res) => {
     db.query(query, (err, result) => {
       if (err) {
         res.status(400).send('Error in database operation.');
-        res.end(false);
+        res.end(JSON.stringify(false));
       } else {
-        res.end(true);
+        res.end(JSON.stringify(true));
       }
     });
   });
