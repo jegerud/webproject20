@@ -7,9 +7,16 @@ export class subProfile extends LitElement {
         userid: {type: Number},
         data: {type: Array},
         changePassword: {type: Number},
+        changeEmail: {type: Number},
+        changeUsername: {type: Number},
         oldPassword: {type: String},
         newPassword: {type: String},
-        newPasswordValidate: {type: String}
+        newPasswordValidate: {type: String},
+        newEmail: {type: String},
+        newUsername: {type: String},
+        nrPost: {type: Number},
+        nrComments: {type: Number},
+        nrLikes: {type: Number}
       };
     }
 
@@ -17,8 +24,11 @@ export class subProfile extends LitElement {
       super();
       this.data = [];
       this.changePassword = 0;
+      this.changeEmail = 0;
+      this.changeUsername = 0;
       this.getUserid();
       this.getResource();
+      this.getScores();
     }
 
     getUserid() {
@@ -45,12 +55,35 @@ export class subProfile extends LitElement {
       });
     }
 
+    async getScores() {
+      fetch(`http://localhost:8081/getUserScore/${this.userid}`, {
+        method: 'GET'
+      })
+      .then((response) => response.text())
+      .then((responseText) => {
+        this.data = JSON.parse(responseText);
+        console.log(this.data);
+      })
+      .catch((error) => {
+        console.log("The data could not be fetched");
+        console.error(error);
+      });
+    }
+
     changePasswordClicked() {
       this.changePassword = 1;
     }
 
-    passwordUpdated() {
-      this.changePassword = 2;
+    moderatorRequestClicked() {
+
+    }
+    
+    changeEmailClicked() {
+      this.changeEmail = 1;
+    }
+
+    changeUsernameClicked() {
+      this.changeUsername = 1;
     }
 
     submitPassword() {
@@ -59,7 +92,7 @@ export class subProfile extends LitElement {
         "uid": this.userid,
         "oldpassword": this.oldPassword
       }
-      
+
       if (this.newPassword == this.newPasswordValidate) {
         console.log("Password matches");
         fetch('http://localhost:8081/validate', {
@@ -92,49 +125,175 @@ export class subProfile extends LitElement {
         "password": this.newPassword
       }
       fetch('http://localhost:8081/updatePassword', {
-          method: 'POST',
-          body: JSON.stringify(newData),
-          headers: {
-             'Content-Type': 'application/json; charset=UTF-8'
-          }
-          }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-          }).then(function (data) {
-          if (data) {
-            current.passwordUpdated();
-          } else {
-            alert("Current password not correct!");
-          }
-          }).catch(function (error) {
-             console.warn('Something went wrong.', error);
-          });
+        method: 'POST',
+        body: JSON.stringify(newData),
+        headers: {
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+      if (response.ok) {
+          return response.json();
+      }
+      return Promise.reject(response);
+      }).then(function (data) {
+      if (data) {
+        current.changePassword = 2;
+      } else {
+        alert("Current password not correct!");
+      }
+      }).catch(function (error) {
+         console.warn('Something went wrong.', error);
+      });
+    }
 
+    submitEmail() {
+      var current = this;
+      let newData = {
+        "uid": this.userid,
+        "email": this.newEmail
+      }
+      fetch('http://localhost:8081/updateEmail', {
+        method: 'POST',
+        body: JSON.stringify(newData),
+        headers: {
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+      if (response.ok) {
+          return response.json();
+      }
+      return Promise.reject(response);
+      }).then(function (data) {
+      if (data) {
+        current.changeEmail = 2;
+      } else {
+        alert("Something went wrong, please try again later!");
+      }
+      }).catch(function (error) {
+         console.warn('Something went wrong.', error);
+      }); 
+    }
+
+    submitUsername() {
+      var current = this;
+      let newData = {
+        "uid": this.userid,
+        "username": this.newUsername
+      }
+      console.log(newData);
+      fetch('http://localhost:8081/updateUsername', {
+        method: 'POST',
+        body: JSON.stringify(newData),
+        headers: {
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+      if (response.ok) {
+          return response.json();
+      }
+      return Promise.reject(response);
+      }).then(function (data) {
+      if (data) {
+        current.changeUsername = 2;
+      } else {
+        alert("Something went wrong, please try again later!");
+      }
+      }).catch(function (error) {
+         console.warn('Something went wrong.', error);
+      }); 
     }
 
     render() {
         return html`
-          <p>Nr 1</p>
-          <input id="submit" @click="${this.changePasswordClicked}" type="submit" class="btn" type="button" name="" value="Change Password"></input>
+          <br>
+          <div>
+            <b>Username:</b> 
+            <p>${this.data[0].username} <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Username"></input>
+            </p>
+          </div><br>
+          <div>
+            <b>Email:</b> 
+            <p>${this.data[0].email} <input id="submit" @click="${this.changeEmailClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Email"></input>
+            </p>
+          </div>
+          <div><br>
+            <b>Usertype:</b>
+            <p> ${this.data[0].userType} ${this.userType == 'user'? html`<input id="submit" @click="${this.moderatorRequestClicked}" type="submit" 
+            class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
+            </p>
+          </div><br>
+          <div>
+            <b>Change Password <input id="submit" @click="${this.changePasswordClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change"></input>
+            </b>
+          </div>
+          <div>
+            <p>
+              <b>Number of posts:</b>
+              12
+            </p>
+            <p>
+              <b>Number of comments:</b>
+              12
+            </p>
+            <p>
+              <b>Number of likes:</b>
+              *Yet to come*
+            </p>
+          </div>
+          
+          ${this.changeUsername == 1 ? 
+            html`
+            <br><br>
+            <div>New username 
+              <input @input="${(e)=>this.newUsername=e.target.value}"
+              type="text" placeholder="" id="oldPass" name="oldPass">
+            </div><br>
+            <input id="submit" @click="${this.submitUsername}" type="submit" class="btn" 
+              type="button" name="" value="Change Username"></input>
+            ` : html` `}
+          ${this.changeUsername == 2 ? 
+            html`
+            <br><br>
+            <div>Username changed!</div>`
+            : html` `}
+
+          ${this.changeEmail == 1 ? 
+            html`
+            <br><br>
+            <div>New Email 
+              <input @input="${(e)=>this.newEmail=e.target.value}"
+              type="text" placeholder="" id="oldPass" name="oldPass">
+            </div><br>
+            <input id="submit" @click="${this.submitEmail}" type="submit" class="btn" 
+              type="button" name="" value="Change Email"></input>
+            ` : html` `}
+          ${this.changeEmail == 2 ? 
+            html`
+            <br><br>
+            <div>Email changed!</div>`
+            : html` `}
+
           ${this.changePassword == 1 ? 
-          html`
-          <br><br>
-          <div>Old Password 
-            <input @input="${(e)=>this.oldPassword=e.target.value}"
-            type="password" placeholder="" id="oldPass" name="oldPass">
-          </div><br>
-          <div>New Password 
-            <input @input="${(e)=>this.newPassword=e.target.value}"
-            type="password" placeholder="" id="newPass" name="newPass">
-          </div><br>
-          <div>New Password 
-            <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
-            type="password" placeholder="" id="newPass2" name="newPass2">
-          </div><br>
-          <input id="submit" @click="${this.submitPassword}" type="submit" class="btn" type="button" name="" value="Set Password"></input>
-          ` : html` `}
+            html`
+            <br><br>
+            <div>Old Password 
+              <input @input="${(e)=>this.oldPassword=e.target.value}"
+              type="password" placeholder="" id="oldPass" name="oldPass">
+            </div><br>
+            <div>New Password 
+              <input @input="${(e)=>this.newPassword=e.target.value}"
+              type="password" placeholder="" id="newPass" name="newPass">
+            </div><br>
+            <div>New Password 
+              <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
+              type="password" placeholder="" id="newPass2" name="newPass2">
+            </div><br>
+            <input id="submit" @click="${this.submitPassword}" type="submit" class="btn" 
+              type="button" name="" value="Set Password"></input>` 
+            : html` `}
           ${this.changePassword == 2 ? 
             html`
             <br><br>
