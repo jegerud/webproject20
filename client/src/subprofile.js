@@ -28,7 +28,8 @@ export class subProfile extends LitElement {
       this.changeUsername = 0;
       this.getUserid();
       this.getResource();
-      this.getScores();
+      this.getPostScores();
+      this.getCommentScores();
     }
 
     getUserid() {
@@ -47,7 +48,6 @@ export class subProfile extends LitElement {
       .then((response) => response.text())
       .then((responseText) => {
           this.data = JSON.parse(responseText);
-          console.log(this.data);
       })
       .catch((error) => {
           console.log("The data could not be fetched");
@@ -55,14 +55,27 @@ export class subProfile extends LitElement {
       });
     }
 
-    async getScores() {
-      fetch(`http://localhost:8081/getUserScore/${this.userid}`, {
+    async getPostScores() {
+      fetch(`http://localhost:8081/getUserPostScore/${this.userid}`, {
         method: 'GET'
       })
       .then((response) => response.text())
       .then((responseText) => {
-        this.data = JSON.parse(responseText);
-        console.log(this.data);
+        this.nrPost = JSON.parse(responseText);
+      })
+      .catch((error) => {
+        console.log("The data could not be fetched");
+        console.error(error);
+      });
+    }
+
+    async getCommentScores() {
+      fetch(`http://localhost:8081/getUserCommentScore/${this.userid}`, {
+        method: 'GET'
+      })
+      .then((response) => response.text())
+      .then((responseText) => {
+        this.nrComments = JSON.parse(responseText);
       })
       .catch((error) => {
         console.log("The data could not be fetched");
@@ -232,11 +245,11 @@ export class subProfile extends LitElement {
           <div>
             <p>
               <b>Number of posts:</b>
-              12
+              ${this.nrPost}
             </p>
             <p>
               <b>Number of comments:</b>
-              12
+              ${this.nrComments}
             </p>
             <p>
               <b>Number of likes:</b>
