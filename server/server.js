@@ -270,3 +270,53 @@ app.post('/updatePassword', (req, res) => {
     });
   });
 });
+
+app.post('/updateEmail', (req, res) => {
+  var query = `UPDATE users SET email = '${req.body.email}' WHERE uid LIKE '${req.body.uid}'`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/updateUsername', (req, res) => {
+  var query = `UPDATE users SET username = '${req.body.username}' WHERE uid LIKE '${req.body.uid}'`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.get('/getUserScore/:uid', (req, res) => {
+  var posts;
+  var comments;
+  var likes = 0;
+  var postquery = `SELECT COUNT(pid) cn FROM posts WHERE user = ${req.params.uid}`;
+  var commentquery = `SELECT COUNT(cid) cn FROM comments WHERE user = ${req.params.uid}`;
+  db.query(postquery, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      posts = result[0].cn;
+    }
+  });
+  db.query(commentquery, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      comments = result[0].cn;
+    }
+  });
+  console.log("Posts: ", posts);
+  console.log("Comments: ", comments);
+})
