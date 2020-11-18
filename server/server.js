@@ -77,6 +77,20 @@ app.get('/getUserinfo/:uid', function(req, res){
   });
 }); 
 
+app.get('/getUserid/:username', function(req, res){
+  var query = `SELECT uid FROM users WHERE username = '${req.params.username}'`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    }
+    else{
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result[0].uid));
+    }
+  });
+}); 
+
+
 app.get('/getUsername/:uid', function(req, res){
   var query = `SELECT username FROM users WHERE uid = ${req.params.uid}`;
   db.query(query, (err, result) => {
@@ -159,6 +173,20 @@ app.get('/comments/:pid', (req, res) => {
     }
   });
 });
+
+
+app.get('/comments/user/:uid', (req, res) => {
+  var query = `SELECT post, comment, upvote, downvote FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
 
 
 app.get('/posts/:pid', (req, res) => {
@@ -318,3 +346,42 @@ app.get('/getUserCommentScore/:uid', (req, res) => {
     }
   });
 })
+
+app.post('/deleteusers', (req, res) => {
+  console.log(req.body);
+  console.log("Deleting user");
+  var query = `DELETE FROM users WHERE uid = '${req.body.userid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/deleteposts', (req, res) => {
+  console.log(req.body.userid);
+  console.log("Deleting posts");
+  var query = `DELETE FROM posts WHERE user = '${req.body.userid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/deletecomments', (req, res) => {
+  console.log(req.body);
+  console.log("Deleting comments");
+  var query = `DELETE FROM comments WHERE user = '${req.body.userid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
