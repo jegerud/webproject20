@@ -117,7 +117,7 @@ export class profilePage extends LitElement {
         <ul>
             <li><a @click="${this.profileClicked}">Profile</a></li>
             <li><a @click="${this.mypostsClicked}">My Posts</a></li>
-            <li><a @click="${this.mycommentsClicked}">My Posts</a></li>
+            <li><a @click="${this.mycommentsClicked}">My Comments</a></li>
             ${this.usertype != "user" ? 
             html`
             <li><a @click="${this.requestsClicked}">Requests</a></li>
