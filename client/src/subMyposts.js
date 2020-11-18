@@ -32,7 +32,6 @@ export class subMyposts extends LitElement {
       .then((response) => response.text())
       .then((responseText) => {
           this.data = JSON.parse(responseText);
-          console.log(this.data);
       })
       .catch((error) => {
           console.log("The data could not be fetched");
@@ -43,14 +42,19 @@ export class subMyposts extends LitElement {
     render() {
         return html`
           <br>
-          ${this.data.map(item => html`
-          <h4>
-              <a href="posts.html">${item.title}</a>
-          </h4>
-          <p>${item.content}</p>
-          <div><b>Up: </b>${item.upvote}</div>
-          <div><b>Down: </b>${item.downvote}</div>
-          `)}
+          ${this.data.length != 0 ? 
+            html`
+            ${this.data.map(item => html`
+            <h4>
+                <a href="posts.html">${item.title}</a>
+            </h4>
+            <p>${item.content}</p>
+            <div><b>Up: </b>${item.upvote}</div>
+            <div><b>Down: </b>${item.downvote}</div>
+            `)}
+            ` : html`
+            <p>You haven't posted anything yet</p>
+          `}
         `
     }
 }
