@@ -102,7 +102,7 @@ app.get('/getComments', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  var query = `SELECT posts.pid, posts.title, posts.content, users.email 
+  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email 
               FROM posts INNER JOIN users ON posts.user = users.uid
               ORDER BY posts.pid DESC`
   db.query(query, (err, result) => {
@@ -149,7 +149,7 @@ app.post('/comments', (req, res) => {
 
 
 app.get('/comments/:pid', (req, res) => {
-  var query = `SELECT post, user, comment FROM comments WHERE post = ${req.params.pid}`;
+  var query = `SELECT post, user, comment, upvote, downvote FROM comments WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -162,7 +162,7 @@ app.get('/comments/:pid', (req, res) => {
 
 
 app.get('/posts/:pid', (req, res) => {
-  var query = `SELECT user, title, content FROM posts WHERE pid = ${req.params.pid}`;
+  var query = `SELECT user, title, content, upvote, downvote FROM posts WHERE pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -174,7 +174,7 @@ app.get('/posts/:pid', (req, res) => {
 });
 
 app.get('/posts/user/:uid', (req, res) => {
-  var query = `SELECT title, content FROM posts WHERE user = ${req.params.uid}`;
+  var query = `SELECT title, content, upvote, downvote FROM posts WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
