@@ -48,6 +48,8 @@ export class subMyposts extends LitElement {
               <a href="posts.html">${item.title}</a>
           </h4>
           <p>${item.content}</p>
+          <div><b>Up: </b>${item.upvote}</div>
+          <div><b>Down: </b>${item.downvote}</div>
           `)}
         `
     }
