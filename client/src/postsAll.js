@@ -20,7 +20,6 @@ export class postsAll extends LitElement {
         .then((response) => response.text())
         .then((responseText) => {
             this.data = JSON.parse(responseText);
-            console.log(this.data);
         })
         .catch((error) => {
             console.log("The data could not be fetched");
