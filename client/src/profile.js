@@ -95,12 +95,16 @@ export class profilePage extends LitElement {
         this.current = 2;
     }
 
-    requestsClicked() {
+    mycommentsClicked() {
         this.current = 3;
     }
 
-    allusersClicked() {
+    requestsClicked() {
         this.current = 4;
+    }
+
+    allusersClicked() {
+        this.current = 5;
     }
 
     render() {
@@ -113,6 +117,7 @@ export class profilePage extends LitElement {
         <ul>
             <li><a @click="${this.profileClicked}">Profile</a></li>
             <li><a @click="${this.mypostsClicked}">My Posts</a></li>
+            <li><a @click="${this.mycommentsClicked}">My Posts</a></li>
             ${this.usertype != "user" ? 
             html`
             <li><a @click="${this.requestsClicked}">Requests</a></li>
@@ -129,9 +134,13 @@ export class profilePage extends LitElement {
             `:html``}
         ${this.current == 3 ?
             html`
-                <sub-requests></sub-requests>
+                <sub-mycomments></sub-mycomments>
             `:html``}
         ${this.current == 4 ?
+            html`
+                <sub-requests></sub-requests>
+            `:html``}
+        ${this.current == 5 ?
             html`
                 <sub-allusers></sub-allusers>
             `:html``}
