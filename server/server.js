@@ -116,7 +116,7 @@ app.get('/getComments', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email 
+  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email, users.username 
               FROM posts INNER JOIN users ON posts.user = users.uid
               ORDER BY posts.pid DESC`
   db.query(query, (err, result) => {
@@ -130,10 +130,10 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/posts', (req, res) => {
-  var query = `INSERT INTO posts (title, content, user)
+  var query = `INSERT INTO posts (title, content, user, upvote, downvote)
                VALUES ('${req.body.title}',
                        '${req.body.content}',
-                        ${req.body.uid})`
+                        ${req.body.uid}, '0', '0')`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -147,10 +147,10 @@ app.post('/posts', (req, res) => {
 
 
 app.post('/comments', (req, res) => {
-  var query = `INSERT INTO comments (post, user, comment) 
+  var query = `INSERT INTO comments (post, user, comment, upvote, downvote) 
                VALUES (${req.body.pid}, 
                        ${req.body.uid}, 
-                        '${req.body.comment}')`
+                        '${req.body.comment}', '0', '0')`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -163,7 +163,8 @@ app.post('/comments', (req, res) => {
 
 
 app.get('/comments/:pid', (req, res) => {
-  var query = `SELECT post, user, comment, upvote, downvote FROM comments WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
+  var query = `SELECT comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
+              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -190,7 +191,8 @@ app.get('/comments/user/:uid', (req, res) => {
 
 
 app.get('/posts/:pid', (req, res) => {
-  var query = `SELECT user, title, content, upvote, downvote FROM posts WHERE pid = ${req.params.pid}`;
+  var query = `SELECT posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
+               INNER JOIN users ON posts.user = users.uid WHERE  pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -347,9 +349,7 @@ app.get('/getUserCommentScore/:uid', (req, res) => {
   });
 })
 
-app.post('/deleteusers', (req, res) => {
-  console.log(req.body);
-  console.log("Deleting user");
+app.post('/deleteuser', (req, res) => {
   var query = `DELETE FROM users WHERE uid = '${req.body.userid}';`
   db.query(query, (err, result) => {
     if (err) {
@@ -361,8 +361,6 @@ app.post('/deleteusers', (req, res) => {
 });
 
 app.post('/deleteposts', (req, res) => {
-  console.log(req.body.userid);
-  console.log("Deleting posts");
   var query = `DELETE FROM posts WHERE user = '${req.body.userid}';`
   db.query(query, (err, result) => {
     if (err) {
@@ -374,8 +372,6 @@ app.post('/deleteposts', (req, res) => {
 });
 
 app.post('/deletecomments', (req, res) => {
-  console.log(req.body);
-  console.log("Deleting comments");
   var query = `DELETE FROM comments WHERE user = '${req.body.userid}';`
   db.query(query, (err, result) => {
     if (err) {
