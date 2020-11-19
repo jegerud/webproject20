@@ -10,9 +10,16 @@ export class seeCommments extends LitElement {
 
     constructor() {
         super();
-        this.postId = 1;
         this.data = [];
+        this.getPostid();
         this.getResource();
+    }
+
+    getPostid(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        var temp = parameters[0].split("=");
+        current.postId = unescape(temp[1]);
     }
 
     async getResource() {
@@ -34,7 +41,8 @@ export class seeCommments extends LitElement {
         ${this.data.map(item => html`
             <div class="post-comment">
                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i>${item.comment}</p>
+                <p><a href="timeline.html" class="profile-link">${item.username} </a>
+                <i class="em em-laughing"></i>${item.comment} <br><br> U: ${item.upvote}, D: ${item.downvote}</p>
             </div>
         `)}
         `
