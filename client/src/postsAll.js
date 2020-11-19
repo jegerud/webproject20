@@ -36,7 +36,7 @@ export class postsAll extends LitElement {
         <div class="flex-container">
             <div class="post" id="left">
                 <h4 class="postTitle">
-                    <a href="posts.html">${item.title}</a>
+                    <a href="posts.html?pid=${item.pid}">${item.title}</a>
                 </h4>
                 <p>${item.email}</p><br>
             </div>
