@@ -38,7 +38,7 @@ export class newPost extends LitElement {
            this.loggedIn = false;
         }
      }
-
+    
     _handleClick() {
         let rawData = {
             "title": this.title,
@@ -59,6 +59,7 @@ export class newPost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
+            location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
