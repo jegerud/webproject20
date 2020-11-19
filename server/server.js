@@ -349,6 +349,19 @@ app.get('/getUserCommentScore/:uid', (req, res) => {
   });
 })
 
+app.get('/getUserLikesScore/:uid', (req, res) => {
+  var query = `SELECT (SELECT SUM(upvote) cn FROM comments WHERE user = '${req.params.uid}') + 
+                      (SELECT SUM(upvote) cn FROM posts WHERE user = '${req.params.uid}') cn`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      res.end(JSON.stringify(result[0].cn));
+    }
+  });
+})
+
 app.post('/deleteuser', (req, res) => {
   var query = `DELETE FROM users WHERE uid = '${req.body.userid}';`
   db.query(query, (err, result) => {
