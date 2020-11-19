@@ -79,8 +79,7 @@ export class seePost extends LitElement {
     render() {
         return html`
         ${this.data.map(item => html`
-                    <div class="post-content">
-                      <img src="https://via.placeholder.com/400x150/FFB6C1/000000" alt="post-image" class="img-responsive post-image">
+                    <!--<div class="post-content">
                       <div class="post-container">
                         <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-md pull-left">
                         <div class="post-detail">
@@ -106,7 +105,7 @@ export class seePost extends LitElement {
                         </div>
                       </div>
                     </div>
-                   </div>
+                   </div>-->
 
         `)}
         `
