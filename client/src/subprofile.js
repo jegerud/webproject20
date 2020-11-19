@@ -30,6 +30,7 @@ export class subProfile extends LitElement {
       this.getResource();
       this.getPostScores();
       this.getCommentScores();
+      this.getLikesScores();
     }
 
     getUserid() {
@@ -76,6 +77,21 @@ export class subProfile extends LitElement {
       .then((response) => response.text())
       .then((responseText) => {
         this.nrComments = JSON.parse(responseText);
+      })
+      .catch((error) => {
+        console.log("The data could not be fetched");
+        console.error(error);
+      });
+    }
+
+    async getLikesScores() {
+      fetch(`http://localhost:8081/getUserLikesScore/${this.userid}`, {
+        method: 'GET'
+      })
+      .then((response) => response.text())
+      .then((responseText) => {
+        this.nrLikes = JSON.parse(responseText);
+        console.log(responseText);
       })
       .catch((error) => {
         console.log("The data could not be fetched");
@@ -253,7 +269,7 @@ export class subProfile extends LitElement {
             </p>
             <p>
               <b>Number of likes:</b>
-              *Yet to come*
+              ${this.nrLikes}
             </p>
           </div>
           
