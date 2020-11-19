@@ -66,14 +66,16 @@ export class subAllusers extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            current.deleteComments(data);
+            console.log(data);
+            current.deleteComments(data, text);
     
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
 
-    deleteComments(uid) {
+    deleteComments(uid, text) {
+        var current = this;
         let rawData = {
             "userid": uid
         }
@@ -106,7 +108,7 @@ export class subAllusers extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(text, "'s comments deleted");
+            console.log(text, "'s posts deleted");
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
@@ -123,7 +125,8 @@ export class subAllusers extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(text, "'s comments deleted");
+            console.log(text, " deleted");
+            location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
@@ -140,7 +143,7 @@ export class subAllusers extends LitElement {
             <input id="submit" @click="${() => this.deleteUser(item.username)}" type="submit" 
             class="btn" type="button" name="" value="Delete user"></input>
         ` : 
-        html`<br>`}
+        html``}
       <br><br>`)}
     `
     ;}
