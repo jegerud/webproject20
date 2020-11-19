@@ -1,8 +1,5 @@
 body{margin-top:20px;}
 
-/*==================================================
-  Layout and styling of the page as a whole
-  ==================================================*/
   .contain {
     display: grid;
     grid-gap: 10px;
@@ -16,7 +13,7 @@ body{margin-top:20px;}
 
   }
 
-  .menubar {
+.menubar {
     grid-area: menubar;
 }
 
