@@ -4,7 +4,8 @@ export class seeCommments extends LitElement {
     static get properties() {
         return {
             data: {type: Array},
-            postId: {type: Number}
+            postId: {type: Number},
+            currentuid: {type: Number}
         }
     }
 
@@ -36,14 +37,78 @@ export class seeCommments extends LitElement {
         });
     }
 
+    getCurrentUserid(user) {
+        fetch(`http://localhost:8081/getUserid/${user}`, {
+            method: 'GET'
+        })
+        .then((response) => response.text())
+        .then((responseText) => {
+            this.currentuid = JSON.parse(responseText);
+            console.log(this.currentuid);
+        })
+        .catch((error) => {
+            console.log("The data could not be fetched");
+            console.error(error);
+        });
+    }
+
+    _likeComment() {
+        var current = this;
+        let rawData = {
+            "uid": 0
+        }
+        fetch('http://localhost:8081/likecomment', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    _dislikeComment() {
+        var current = this;
+        let rawData = {
+            "uid": 0
+        }
+        fetch('http://localhost:8081/dislikecomment', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
     render() {
         return html`
         ${this.data.map(item => html`
-            <div class="post-comment">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                <p><a href="timeline.html" class="profile-link">${item.username} </a>
-                <i class="em em-laughing"></i>${item.comment} <br><br> U: ${item.upvote}, D: ${item.downvote}</p>
-            </div>
+        <p class="comment-title">Posted by <b>${item.username}</b></p>
+        <p class="comment-content">${item.comment}</p> 
+        <like>
+            <button @click="${this._likeComment}" type="button" id="like">Likes: ${item.upvote}</button> 
+            <button @click="${this._dislikeComment}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+        </like><br><br><hr class="mid-solid">
         `)}
         `
     }
