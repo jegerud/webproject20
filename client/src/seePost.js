@@ -76,38 +76,72 @@ export class seePost extends LitElement {
       });
      }
 
+    _likePost() {
+        let rawData = {
+            "pid":this.postId
+        }
+        fetch('http://localhost:8081/likepost', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    __dislikePost() {
+        let rawData = {
+            "pid":this.postId
+        }
+        fetch('http://localhost:8081/dislikepost', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
     render() {
         return html`
-        ${this.data.map(item => html`
-                    <!--<div class="post-content">
-                      <div class="post-container">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-md pull-left">
-                        <div class="post-detail">
-                          <div class="user-info">
-                            <h5><a href="timeline.html" class="profile-link">${item.username}</a> <span class="following">following</span></h5>
-                          </div>
-                          <div class="reaction">
-                            <a class="btn text-green"><i class="fa fa-thumbs-up" style="color:green"></i> ${item.upvote}</a>
-                            <a class="btn text-red"><i class="fa fa-thumbs-down" style="color:red"></i> ${item.downvote}</a>
-                          </div>
-                          <div class="line-divider"></div>
-                            <div class="post-text">
-                              <p>${item.content} <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                            </div>
-                          <div class="line-divider"></div>
-                          <comments-all></comments-all>
-                          <div class="post-comment">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
-                          <form>
-                          <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="title" name="title">
-                          <button @click="${this._handleClick}" type="button" id ="button">Publish</button><br>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                   </div>-->
-
-        `)}
+        <div class="main-post"> 
+            <p>Posted by <b>${this.data[0].username}</b></p>
+            <hr class="solid">
+            <h4 class="head">${this.data[0].title}</h4>
+            <p class="post-content">${this.data[0].content}</p>
+            <like>
+                <button @click="${this._likePost}" type="button" id="like">Likes: ${this.data[0].upvote}</button> 
+                <button @click="${this.__dislikePost}" type="button" id="dislike">Dislikes: ${this.data[0].downvote}</button>
+            </like><br><br>
+            <hr class="solid">
+        </div>
+        <form class="post-comment">
+            <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
+            <button @click="${this._handleClick}" type="button" id ="button">Publish</button><br>
+        </form><br>
+        <div class="comments"> 
+            <comments-all></comments-all>
+        </div>
         `
     }
 }
