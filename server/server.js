@@ -394,3 +394,49 @@ app.post('/deletecomments', (req, res) => {
     }
   });
 });
+
+app.post('/likepost', (req, res) => {
+  var query = `UPDATE posts SET upvote = upvote + 1 WHERE pid = '${req.body.pid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/dislikepost', (req, res) => {
+  var query = `UPDATE posts SET downvote = downvote + 1 WHERE pid = '${req.body.pid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/likecomment', (req, res) => {
+  var query = `UPDATE comments SET upvote = upvote + 1 WHERE uid = '${req.body.uid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/dislikecomment', (req, res) => {
+  var query = `UPDATE posts SET downvote = downvote + 1 WHERE uid = '${req.body.uid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+
