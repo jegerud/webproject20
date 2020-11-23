@@ -52,12 +52,19 @@ export class seeCommments extends LitElement {
         });
     }
 
-    _likeComment() {
-        var current = this;
+    handleClick(commentid, mode) {
+        var url = '';
         let rawData = {
-            "uid": 0
+            "commentid": commentid
         }
-        fetch('http://localhost:8081/likecomment', {
+        if (mode == 1) {
+            console.log("Will be liked");
+            url = 'http://localhost:8081/likecomment';
+        } else {
+            console.log("Will be disliked");
+            url = 'http://localhost:8081/dislikecomment';
+        }
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
             headers: {
@@ -69,31 +76,6 @@ export class seeCommments extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(data);
-            location.reload();
-        }).catch(function (error) {
-            console.warn('Something went wrong.', error);
-        });
-    }
-
-    _dislikeComment() {
-        var current = this;
-        let rawData = {
-            "uid": 0
-        }
-        fetch('http://localhost:8081/dislikecomment', {
-            method: 'POST',
-            body: JSON.stringify(rawData),
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            }
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        }).then(function (data) {
-            console.log(data);
             location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
@@ -106,8 +88,8 @@ export class seeCommments extends LitElement {
         <p class="comment-title">Posted by <b>${item.username}</b></p>
         <p class="comment-content">${item.comment}</p> 
         <like>
-            <button @click="${this._likeComment}" type="button" id="like">Likes: ${item.upvote}</button> 
-            <button @click="${this._dislikeComment}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            <button @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+            <button @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
         </like><br><br><hr class="mid-solid">
         `)}
         `
