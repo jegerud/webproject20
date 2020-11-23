@@ -91,7 +91,6 @@ export class subProfile extends LitElement {
       .then((response) => response.text())
       .then((responseText) => {
         this.nrLikes = JSON.parse(responseText);
-        console.log(responseText);
       })
       .catch((error) => {
         console.log("The data could not be fetched");
@@ -259,28 +258,30 @@ export class subProfile extends LitElement {
     render() {
         return html`
           <br>
+          ${this.data.map(item => html`
           <div>
             <b>Username:</b> 
-            <p>${this.data[0].username} <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
+            <p>${item.username} <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
             class="btn" type="button" name="" value="Change Username"></input>
             </p>
           </div><br>
           <div>
             <b>Email:</b> 
-            <p>${this.data[0].email} <input id="submit" @click="${this.changeEmailClicked}" type="submit" 
+            <p>${item.email} <input id="submit" @click="${this.changeEmailClicked}" type="submit" 
             class="btn" type="button" name="" value="Change Email"></input>
             </p>
           </div>
           <div><br>
             <b>Usertype:</b>
-            <p>${this.data[0].userType}</p>
-            ${this.data[0].userType == 'user' && this.data[0].request == false ? 
+            <p>${item.userType}</p>
+            ${item.userType == 'user' && item.request == false ? 
             html`
             <input id="submit" @click="${this.handleRequest}" type="submit" 
             class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
-            ${this.data[0].userType == 'user' && this.data[0].request == true ? 
+            ${item.userType == 'user' && item.request == true ? 
             html`<p>Moderator request sent!</p>` : html``}
           </div><br>
+          `)}
           <div>
             <b>Change Password <input id="submit" @click="${this.changePasswordClicked}" type="submit" 
             class="btn" type="button" name="" value="Change"></input>
