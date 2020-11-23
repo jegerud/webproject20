@@ -259,6 +259,13 @@ export class subProfile extends LitElement {
             </b>
           </div>
           <div>
+            ${this.data[0].userType == 'user' ? 
+            html`
+            <
+            ` :
+            html``}
+          </div>
+          <div>
             <p>
               <b>Number of posts:</b>
               ${this.nrPost}
