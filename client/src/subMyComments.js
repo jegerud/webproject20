@@ -9,6 +9,19 @@ export class subMycomments extends LitElement {
       };
     }
 
+    static styles = css`
+    :host {
+        display: block;
+    }
+    .body {
+        padding-left: 20px;
+    }
+    .sublikes {
+        padding-left: 20px;
+        font-size: 13px;
+    }
+    `;
+
     constructor() {
       super();
       this.data = [];
@@ -45,18 +58,15 @@ export class subMycomments extends LitElement {
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-            <h4>
-                <a href="posts.html">${item.comment}</a>
-            </h4>
-            <div><b>Up: <b>${this.upvotes}</div>
-            <div><b>Down: <b>${this.downvotes}</div>
-            <h4>
-              <a href="posts.html">${item.post}</a>
-            </h4>
+            <b><a href="posts.html?pid=${item.post}">Link to post ${item.post}</a></b>
+            <p class="body">${item.comment}</p>
+            <div>
+              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
+            </div><br>
             `)}
             ` : 
             html`
-            <p>You haven't commented any post yet</p>
+            <br><p>You haven't commented any post yet</p>
           `}
         `
     }
