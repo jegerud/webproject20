@@ -10,6 +10,7 @@ body{margin-top:20px;}
         "header header"
         "posts sidebar";
     padding: 40px;
+    padding-bottom: 250px;
 }
 
 @media (min-width: 1200px) {
@@ -115,7 +116,7 @@ head, p, like {
 }
 
 #post-comment {
-    width: 85%;
+    width: 70%;
 }
 
 #like {
