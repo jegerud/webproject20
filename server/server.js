@@ -245,15 +245,19 @@ app.post('/login', (req, res) => {
 	if (username && password) {
     var query = `SELECT * FROM users WHERE username LIKE '${username}'`;
     db.query(query, (err, result) => {
-      bcrypt.compare(password, result[0].password).then(function(response) {
-        if (response) {
-          res.end(JSON.stringify(result[0].uid));
-        }
-        else {
-          console.log('Incorrect Username and/or Password!');
-				  res.end(false);
-        }
-      });
+      if (result.length < 1 || result == undefined) {
+        res.end(JSON.stringify(false));  
+      } else {
+        bcrypt.compare(password, result[0].password).then(function(response) {
+          if (response) {
+            res.end(JSON.stringify(result[0].uid));
+          }
+          else {
+            console.log('Incorrect Username and/or Password!');
+			  	  res.end(JSON.stringify(false));
+          }
+        });
+      }
     });
 	} else {
 		console.log("Username or/and password is missing");
@@ -439,4 +443,13 @@ app.post('/dislikecomment', (req, res) => {
   });
 });
 
-
+app.post('/sendModeratorrequest', (req, res) => {
+  var query = `UPDATE users SET request = 1 WHERE uid = '${req.body.uid}';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
