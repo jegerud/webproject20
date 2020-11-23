@@ -8,7 +8,8 @@ CREATE TABLE `users` (
   `password` VARCHAR(128) NOT NULL,
   `userType` ENUM('admin', 'moderator', 'user') DEFAULT "user" NOT NULL,
   `picture` LONGBLOB DEFAULT NULL,
-  'username' VARCHAR(128) NOT NULL
+  `username` VARCHAR(128) NOT NULL,
+  `request` BOOLEAN DEFAULT "false" 
   PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_bin;
 
