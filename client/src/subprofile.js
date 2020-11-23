@@ -102,10 +102,6 @@ export class subProfile extends LitElement {
     changePasswordClicked() {
       this.changePassword = 1;
     }
-
-    moderatorRequestClicked() {
-
-    }
     
     changeEmailClicked() {
       this.changeEmail = 1;
@@ -232,6 +228,34 @@ export class subProfile extends LitElement {
       }); 
     }
 
+    handleRequest() {
+      var current = this;
+      let newData = {
+        "uid": this.userid,
+      }
+      fetch('http://localhost:8081/sendModeratorrequest', {
+        method: 'POST',
+        body: JSON.stringify(newData),
+        headers: {
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+      if (response.ok) {
+          return response.json();
+      }
+      return Promise.reject(response);
+      }).then(function (data) {
+      if (data) {
+        console.log("Request sent");
+        location.reload();
+      } else {
+        alert("Something went wrong, please try again later!");
+      }
+      }).catch(function (error) {
+         console.warn('Something went wrong.', error);
+      }); 
+    }
+
     render() {
         return html`
           <br>
@@ -249,21 +273,18 @@ export class subProfile extends LitElement {
           </div>
           <div><br>
             <b>Usertype:</b>
-            <p> ${this.data[0].userType} ${this.userType == 'user'? html`<input id="submit" @click="${this.moderatorRequestClicked}" type="submit" 
+            <p>${this.data[0].userType}</p>
+            ${this.data[0].userType == 'user' && this.data[0].request == false ? 
+            html`
+            <input id="submit" @click="${this.handleRequest}" type="submit" 
             class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
-            </p>
+            ${this.data[0].userType == 'user' && this.data[0].request == true ? 
+            html`<p>Moderator request sent!</p>` : html``}
           </div><br>
           <div>
             <b>Change Password <input id="submit" @click="${this.changePasswordClicked}" type="submit" 
             class="btn" type="button" name="" value="Change"></input>
             </b>
-          </div>
-          <div>
-            ${this.data[0].userType == 'user' ? 
-            html`
-            <
-            ` :
-            html``}
           </div>
           <div>
             <p>
