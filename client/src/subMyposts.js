@@ -9,6 +9,19 @@ export class subMyposts extends LitElement {
       };
     }
 
+    static styles = css`
+    :host {
+        display: block;
+    }
+    .body {
+        padding-left: 0px;
+    }
+    .sublikes {
+        padding-left: 10px;
+        font-size: 13px;
+    }
+    `;
+
     constructor() {
       super();
       this.data = [];
@@ -48,9 +61,10 @@ export class subMyposts extends LitElement {
             <h4>
                 <a href="posts.html">${item.title}</a>
             </h4>
-            <p>${item.content}</p>
-            <div><b>Up: </b>${item.upvote}</div>
-            <div><b>Down: </b>${item.downvote}</div>
+            <p class="body">${item.content}</p>
+            <div>
+              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
+            </div>
             `)}
             ` : html`
             <p>You haven't posted anything yet</p>
