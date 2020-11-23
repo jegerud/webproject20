@@ -453,3 +453,41 @@ app.post('/sendModeratorrequest', (req, res) => {
     }
   });
 });
+
+app.post('/approveRequest', (req, res) => {
+  var query = `UPDATE users SET usertype = 'moderator', request = '0' WHERE uid = '${req.body.uid}';`
+  console.log(query);
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      console.log("Request approved");
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/disapproveRequest', (req, res) => {
+  var query = `UPDATE users SET request = '0' WHERE uid = '${req.body.uid}';`
+  console.log(query);
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      console.log("Request disapproved");
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.get('/seeAllRequests', (req, res) => {
+  var query = `SELECT * FROM users WHERE request = '1';`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
