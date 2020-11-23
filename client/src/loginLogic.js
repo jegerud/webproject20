@@ -37,6 +37,7 @@ export class userLogin extends LitElement {
             window.location.href = "./index.html";
         } else {
             console.log("Not autheticated");
+            location.reload();
         }
         }).catch(function (error) {
            console.warn('Something went wrong.', error);
