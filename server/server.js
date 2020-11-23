@@ -163,7 +163,7 @@ app.post('/comments', (req, res) => {
 
 
 app.get('/comments/:pid', (req, res) => {
-  var query = `SELECT comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
+  var query = `SELECT comments.cid, comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
               INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
@@ -422,7 +422,7 @@ app.post('/dislikepost', (req, res) => {
 });
 
 app.post('/likecomment', (req, res) => {
-  var query = `UPDATE comments SET upvote = upvote + 1 WHERE uid = '${req.body.uid}';`
+  var query = `UPDATE comments SET upvote = upvote + 1 WHERE cid = '${req.body.commentid}';`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -433,7 +433,7 @@ app.post('/likecomment', (req, res) => {
 });
 
 app.post('/dislikecomment', (req, res) => {
-  var query = `UPDATE posts SET downvote = downvote + 1 WHERE uid = '${req.body.uid}';`
+  var query = `UPDATE comments SET downvote = downvote + 1 WHERE cid = '${req.body.commentid}';`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
