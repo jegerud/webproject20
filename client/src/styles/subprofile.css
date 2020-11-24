@@ -3,15 +3,21 @@ html{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.userAttributes {
+#userAttributes {
     font-size: large;
 }
 
+#stats > p {
+    padding-right: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle
+}
+
 .btn {
-    position: relative;
-    outline: none;
+    display: inline;
+    outline: nones;
     font-size: small;
-    text-decoration: none;
     border-radius: 500px;
     justify-content: center;
     cursor: pointer;
@@ -20,7 +26,13 @@ html{
     width: 200px;
     opacity: 0.9;
     background-color: #ffffff;
-    border: 1px solid rgba(22, 76, 167, 0.6);
+    border: 1px solid black;
+}
+
+.btn:hover{
+    background: darken(#C06C84,20%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
 }
 
 .btn_confirm {
@@ -37,5 +49,10 @@ html{
     opacity: 0.9;
     background-color: #4CAF50;
     color: white;
-    border: 1px solid white
+    border: 1px solid white;
+}
+.btn_confirm:hover{
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
 }
