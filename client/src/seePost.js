@@ -6,7 +6,10 @@ export class seePost extends LitElement {
             data: {type: Array},
             postId: {type: Number},
             comment: {type: String},
-            userid: {type: Number}
+            userid: {type: Number},
+            usertype: {type: String},
+            username: {type: String},
+            current: {type: Number}
         }
     }
 
@@ -16,6 +19,7 @@ export class seePost extends LitElement {
         this.getUserid();
         this.getPostid();
         this.getResource();
+        this.getUsertype();
     }
 
     getPostid(){
@@ -26,11 +30,12 @@ export class seePost extends LitElement {
     }
 
     getUserid() {
-        this.userid = localStorage.getItem('userid');
-        if (this.userid !== undefined && this.userid !== null) {
-           this.loggedIn = true;
+        var current = this;
+        current.userid = localStorage.getItem('userid');
+        if (current.userid !== undefined && current.userid !== null) {
+           current.loggedIn = true;
         } else {
-           this.loggedIn = false;
+           current.loggedIn = false;
         }
     }
 
@@ -49,34 +54,50 @@ export class seePost extends LitElement {
         });
     }
 
-    _handleClick() {
-      console.log(this.comment);
-      let rawData = {
-          "comment": this.comment,
-          "pid":this.postId,
-          "uid":this.userid
-      }
-      console.log(rawData);
-      fetch('http://localhost:8081/comments', {
-          method: 'POST',
-          body: JSON.stringify(rawData),
-          headers: {
-              'Content-Type': 'application/json; charset=UTF-8'
-          }
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-          location.reload();
-      }).catch(function (error) {
-          console.warn('Something went wrong.', error);
-      });
-     }
+    async getUsertype() {
+        var current = this;
+        fetch(`http://localhost:8081/getUserinfo/${current.userid}`, {
+            method: 'GET'})
+        .then((response) => response.text())
+        .then((responseText) => {
+            var user = JSON.parse(responseText);
+            this.usertype = user[0].userType;
+            this.username = user[0].username;
+        })
+        .catch((error) => {
+            console.log("The data could not be fetched");
+            console.error(error);
+        });
+    }
 
-    handleLike(mode) {
+    _handleClick() {
+        console.log(this.comment);
+        let rawData = {
+            "comment": this.comment,
+            "pid":this.postId,
+            "uid":this.userid
+        }
+        console.log(rawData);
+        fetch('http://localhost:8081/comments', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    handlePost(mode) {
         var url = '';
         let rawData = {
             "pid":this.postId
@@ -100,8 +121,35 @@ export class seePost extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(data);
             location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    blockPost(postid) {
+        var url = 'http://localhost:8081/handleblock';
+        var rawData = {
+            "place": 'posts',
+            "type": 'pid',
+            "id": postid,
+            "value": 1
+          }
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.replace("index.html");
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
@@ -118,6 +166,12 @@ export class seePost extends LitElement {
             <like>
                 <button @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            ${this.getUsertype != 'user' ? 
+            html`
+                <button @click="${(e) => this.blockPost(item.pid)}" type="button" id="like">Block Post</button> 
+            ` :
+            html``
+            }
             </like><br><br>
             <hr class="solid">
         </div>

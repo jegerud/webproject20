@@ -91,22 +91,6 @@ export class profilePage extends LitElement {
         this.current = number;
     }
 
-    mypostsClicked() {
-        this.current = 2;
-    }
-
-    mycommentsClicked() {
-        this.current = 3;
-    }
-
-    requestsClicked() {
-        this.current = 4;
-    }
-
-    allusersClicked() {
-        this.current = 5;
-    }
-
     render() {
         return html`
         <div class="header">
@@ -123,6 +107,7 @@ export class profilePage extends LitElement {
             <li><a @click="${(e) => this.tabClicked(4)}">Requests</a></li>
             <li><a @click="${(e) => this.tabClicked(5)}">All Users</a></li>
             <li><a @click="${(e) => this.tabClicked(6)}">Blocked Posts</a></li>
+            <li><a @click="${(e) => this.tabClicked(7)}">Blocked Comments</a></li>
             `: html``}
         </ul>
         ${this.current == 1 ?
@@ -148,6 +133,10 @@ export class profilePage extends LitElement {
         ${this.current == 6 ?
             html`
                 <sub-blockedposts></sub-blockedposts>
+            `:html``}
+        ${this.current == 7 ?
+            html`
+                <sub-blockedcomments></sub-blockedcomments>
             `:html``}
         ` :
         html``}

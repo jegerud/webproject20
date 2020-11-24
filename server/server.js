@@ -115,10 +115,17 @@ app.get('/getComments', (req, res) => {
   });
 });
 
-app.get('/posts', (req, res) => {
-  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email, users.username 
-              FROM posts INNER JOIN users ON posts.user = users.uid
-              ORDER BY posts.pid DESC`
+app.get('/allposts/:time', (req, res) => {
+  var query = ''; 
+  if (req.params.time == 0) {
+    query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
+              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
+              ORDER BY posts.upvote DESC`;
+  } else {
+    query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
+              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
+              ORDER BY posts.date DESC`;
+  }
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -147,7 +154,6 @@ app.post('/posts', (req, res) => {
                VALUES ('${req.body.title}',
                        '${req.body.content}',
                         ${req.body.uid}, '0', '0')`
-
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -177,7 +183,7 @@ app.post('/comments', (req, res) => {
 
 app.get('/comments/:pid', (req, res) => {
   var query = `SELECT comments.cid, comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
-              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
+              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} AND comments.blocked = 0 ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -204,8 +210,8 @@ app.get('/comments/user/:uid', (req, res) => {
 
 
 app.get('/posts/:pid', (req, res) => {
-  var query = `SELECT posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
-               INNER JOIN users ON posts.user = users.uid WHERE  pid = ${req.params.pid}`;
+  var query = `SELECT posts.pid, posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
+               INNER JOIN users ON posts.user = users.uid WHERE posts.pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -228,8 +234,45 @@ app.get('/posts/user/:uid', (req, res) => {
   });
 });
 
-app.get('/blockedposts', (req, res) => {
-  var query = `SELECT * FROM posts WHERE blocked = 'true'`;
+app.get('/blocked/:place', (req, res) => {
+  var query = `SELECT * FROM ${req.params.place} WHERE blocked = 1`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.post('/handleblock', (req, res) => {
+  var query = `UPDATE ${req.body.place} SET blocked = ${req.body.value} WHERE ${req.body.type} = '${req.body.id}'`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.post('/deletecomments', (req, res) => {
+  var query = `DELETE FROM comments WHERE cid = '${req.body.id}'`
+  console.log(query);
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.post('/deletebypid', (req, res) => {
+  var query = `DELETE FROM ${req.body.place} WHERE ${req.body.type} = '${req.body.id}'`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');

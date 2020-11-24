@@ -20,7 +20,8 @@ CREATE TABLE `posts` (
 `content` VARCHAR(20000) NOT NULL,
 `upvote` BIGINT(8) NOT NULL,
 `downvote` BIGINT(8) NOT NULL,
-`blocked` BOOLEAN DEFAULT "false", 
+`blocked` BOOLEAN DEFAULT "false",
+`date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
 PRIMARY KEY (`pid`),
 FOREIGN KEY (`user`) REFERENCES users(`uid`)
 ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_bin;
@@ -33,6 +34,7 @@ CREATE TABLE `comments` (
 `upvote` BIGINT(8) NOT NULL,
 `downvote` BIGINT(8) NOT NULL,
 `blocked` BOOLEAN DEFAULT "false",
+`date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (`cid`),
 FOREIGN KEY (`user`) REFERENCES users(`uid`),
 FOREIGN KEY(`post`) REFERENCES posts(`pid`)
