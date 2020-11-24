@@ -145,7 +145,6 @@ app.post('/posts', (req, res) => {
   });
 });
 
-
 app.post('/comments', (req, res) => {
   var query = `INSERT INTO comments (post, user, comment, upvote, downvote) 
                VALUES (${req.body.pid}, 
@@ -215,8 +214,8 @@ app.get('/posts/user/:uid', (req, res) => {
   });
 });
 
-app.get('/blockedposts', (req, res) => {
-  var query = `SELECT * FROM posts WHERE blocked = 1`;
+app.get('/blocked/:place', (req, res) => {
+  var query = `SELECT * FROM ${req.params.place} WHERE blocked = 1`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -227,8 +226,33 @@ app.get('/blockedposts', (req, res) => {
   });
 });
 
-app.get('/blockedcomments', (req, res) => {
-  var query = `SELECT * FROM comments WHERE blocked = 1`;
+app.post('/handleblock', (req, res) => {
+  var query = `UPDATE ${req.body.place} SET blocked = ${req.body.value} WHERE ${req.body.type} = '${req.body.id}'`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.post('/deletecomments', (req, res) => {
+  var query = `DELETE FROM comments WHERE cid = '${req.body.id}'`
+  console.log(query);
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.post('/deletebypid', (req, res) => {
+  var query = `DELETE FROM ${req.body.place} WHERE ${req.body.type} = '${req.body.id}'`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
