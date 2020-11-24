@@ -1,6 +1,6 @@
 import { LitElement, html, css } from '../node_modules/lit-element/lit-element';
 
-export class subBlockedposts extends LitElement {
+export class subBlockedcomments extends LitElement {
     static get properties() {
       return {
         loggedIn: {type: Boolean},
@@ -39,7 +39,8 @@ export class subBlockedposts extends LitElement {
     }
 
     async getResource() {
-      fetch(`http://localhost:8081/blockedposts`, {
+      console.log("Fetching");
+      fetch(`http://localhost:8081/blocked/comments`, {
           method: 'GET'
       })
       .then((response) => response.text())
@@ -53,7 +54,37 @@ export class subBlockedposts extends LitElement {
     }
 
     handleBlock(mode, commentid) {
+      var url = '';
+      var rawData = {
+        "place": 'comments',
+        "type": 'cid',
+        "id": commentid,
+        "value": 0
+      }
 
+      if (mode == 0) {
+        url = 'http://localhost:8081/handleblock';
+      } else {
+        url = 'http://localhost:8081/deletecomments';
+      }
+      
+      fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
     }
 
     render() {
@@ -61,11 +92,11 @@ export class subBlockedposts extends LitElement {
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-            <b><a href="posts.html?pid=${item.post}">${item.title}</a></b>
-            <p class="body">${item.content}</p>
+            <b><a href="posts.html?pid=${item.post}">${item.post}: Link</a></b>
+            <p class="body">${item.comment}</p>
             <div>
-                <button @click="${(e) => this.handleBlock(1, item.post)}" type="button">Delete post</button> 
-                <button @click="${(e) => this.handleBlock(0, item.post)}" type="button"></button>
+                <button @click="${(e) => this.handleBlock(1, item.cid)}" type="button">Delete comment</button> 
+                <button @click="${(e) => this.handleBlock(0, item.cid)}" type="button">Approve comment</button>
             </div><br><br>
             `)}
             ` : 
@@ -77,4 +108,4 @@ export class subBlockedposts extends LitElement {
 }
 
 
-customElements.define('sub-blockedposts', subBlockedposts);
+customElements.define('sub-blockedcomments', subBlockedcomments);
