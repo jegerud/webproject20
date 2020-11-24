@@ -52,20 +52,25 @@ export class subBlockedposts extends LitElement {
       });
     }
 
+    handleBlock(mode) {
+      
+    }
+
     render() {
         return html`
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-            <b><a href="posts.html?pid=${item.post}">Link to post ${item.post}</a></b>
-            <p class="body">${item.comment}</p>
+            <b><a href="posts.html?pid=${item.post}">${item.title}</a></b>
+            <p class="body">${item.content}</p>
             <div>
-              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
-            </div><br>
+                <button @click="${(e) => this.handleBlock(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+                <button @click="${(e) => this.handleBlock(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            </div><br><br>
             `)}
             ` : 
             html`
-            <br><p>No comments blocked yet!</p>
+            <p>No posts blocked!</p>
           `}
         `
     }
