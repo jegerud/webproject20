@@ -27,14 +27,14 @@
 @media (max-width: 800px) {
     .container {
         grid-gap: 10px;
-        grid-template-columns: auto 60px;
-        grid-template-rows: 70px 210px auto;
+        grid-template-columns: auto 100px;
+        grid-template-rows: auto 210px auto;
         grid-template-areas: 
             "menubar menubar"
             "header header"
             "posts sidebar";
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }
 
@@ -42,14 +42,14 @@
     .container {
         grid-gap: 10px;
         grid-template-columns: auto;
-        grid-template-rows: 70px 210px auto 70px;
+        grid-template-rows: auto 210px auto 70px;
         grid-template-areas: 
-            "menubar"
-            "header"
-            "posts"
-            "sidebar";
-        padding-left: 40px;
-        padding-right: 40px;
+            "menubar menubar"
+            "header header"
+            "posts posts"
+            "sidebar sidebar";
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }
 

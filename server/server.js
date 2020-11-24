@@ -129,6 +129,19 @@ app.get('/posts', (req, res) => {
   });
 });
 
+
+app.get('/posts/:title', (req, res) => {
+  var query = `SELECT * FROM posts WHERE title LIKE "%${req.params.title}%"`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
 app.post('/posts', (req, res) => {
   var query = `INSERT INTO posts (title, content, user, upvote, downvote)
                VALUES ('${req.body.title}',

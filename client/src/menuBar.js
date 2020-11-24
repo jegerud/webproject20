@@ -5,7 +5,8 @@ export class menuBar extends LitElement {
       return {
         userid: {type: Number},
         loggedIn: {type: Boolean},
-        username: {type: String}
+        username: {type: String},
+        title: {type: String}
       };
    }
 
@@ -17,7 +18,7 @@ export class menuBar extends LitElement {
          id: this.id,
          name: this.username,
          email: this.email,
-         loggedIn: true
+         loggedIn: true,
       };
    }
 
@@ -53,12 +54,32 @@ export class menuBar extends LitElement {
       location.reload();
    }
 
+   searchFunction() {
+      fetch(`http://localhost:8081/posts/${this.title}`, {
+         method: 'GET'
+     })
+     .then((response) => response.text())
+     .then((responseText) => {
+        console.log(responseText);
+         var data = JSON.parse(responseText);
+     })
+     .catch((error) => {
+         console.log("The data could not be fetched");
+         console.error(error);
+     });
+
+   }
+
    render() {
       return html`
       <link rel="stylesheet" href="./src/styles/header.css">
       <div class="header">
       <a href="/" class="logo">Creddit</a>
       <div class="header-right">
+      <form id=form>
+      <input @input="${(e)=>this.title=e.target.value}" type="text"  placeholder="Search...">
+      <button @click="${this.searchFunction}" type="Button" id ="button">Search</button>
+      </form>
       ${!this.loggedIn ?
          html`
             <a href="./register.html">Register</a>
@@ -69,7 +90,7 @@ export class menuBar extends LitElement {
             <a @click="${this.logout}">Log out</a>
             `}
             </div>
-         </div>
+      </div>
          `;
    } 
 }

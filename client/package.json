@@ -27,11 +27,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.4",
-<<<<<<< HEAD
-    "bcrypt": "^5.0.0",
-=======
     "express-session": "^1.17.1",
->>>>>>> ef348eda81dc731cd36839aeb8025a364e91969c
     "lit-element": "^2.4.0",
     "node-fetch": "^2.6.1"
   },

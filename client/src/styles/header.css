@@ -53,6 +53,32 @@
     float: right;
   }
 
+  .header-right input[type=text] {
+    float: left;
+    padding: 6px;
+    border-radius: 17px;
+    border: none;
+    margin-right: 5px;
+    margin-top: 9px;
+    font-size: 17px;
+  }
+
+
+  .header-right button{
+    float: left;
+    padding: 6px;
+    border: none;
+    margin-right: 9px;
+    margin-top: 9px;
+    font-size: 17px;
+  }
+
+  #form{
+  float: left;
+  }
+
+
+
   /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
   @media screen and (max-width: 500px) {
     .header a {
@@ -63,4 +89,14 @@
     .header-right {
       float: none;
     }
-      }
+
+  .header-right input[type=text] {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  
+}
