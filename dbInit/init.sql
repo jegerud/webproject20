@@ -9,7 +9,7 @@ CREATE TABLE `users` (
   `userType` ENUM('admin', 'moderator', 'user') DEFAULT "user" NOT NULL,
   `picture` LONGBLOB DEFAULT NULL,
   `username` VARCHAR(128) NOT NULL,
-  `request` BOOLEAN DEFAULT "false" 
+  `request` BOOLEAN DEFAULT "false", 
   PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_bin;
 
@@ -20,6 +20,7 @@ CREATE TABLE `posts` (
 `content` VARCHAR(20000) NOT NULL,
 `upvote` BIGINT(8) NOT NULL,
 `downvote` BIGINT(8) NOT NULL,
+`blocked` BOOLEAN DEFAULT "false", 
 PRIMARY KEY (`pid`),
 FOREIGN KEY (`user`) REFERENCES users(`uid`)
 ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_bin;
@@ -31,6 +32,7 @@ CREATE TABLE `comments` (
 `comment` VARCHAR(20000),
 `upvote` BIGINT(8) NOT NULL,
 `downvote` BIGINT(8) NOT NULL,
+`blocked` BOOLEAN DEFAULT "false",
 PRIMARY KEY (`cid`),
 FOREIGN KEY (`user`) REFERENCES users(`uid`),
 FOREIGN KEY(`post`) REFERENCES posts(`pid`)
