@@ -76,34 +76,19 @@ export class seePost extends LitElement {
       });
      }
 
-    _likePost() {
+    handleLike(mode) {
+        var url = '';
         let rawData = {
             "pid":this.postId
         }
-        fetch('http://localhost:8081/likepost', {
-            method: 'POST',
-            body: JSON.stringify(rawData),
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            }
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        }).then(function (data) {
-            console.log(data);
-            location.reload();
-        }).catch(function (error) {
-            console.warn('Something went wrong.', error);
-        });
-    }
 
-    __dislikePost() {
-        let rawData = {
-            "pid":this.postId
+        if (mode == 1) {
+            url = 'http://localhost:8081/likepost';
+        } else {
+            url = 'http://localhost:8081/dislikepost';
         }
-        fetch('http://localhost:8081/dislikepost', {
+
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
             headers: {
@@ -130,8 +115,8 @@ export class seePost extends LitElement {
             <h4 class="head">${this.data[0].title}</h4>
             <p class="post-content">${this.data[0].content}</p>
             <like>
-                <button @click="${this._likePost}" type="button" id="like">Likes: ${this.data[0].upvote}</button> 
-                <button @click="${this.__dislikePost}" type="button" id="dislike">Dislikes: ${this.data[0].downvote}</button>
+                <button @click="${(e) => this.handleLike(1)}" type="button" id="like">Likes: ${this.data[0].upvote}</button> 
+                <button @click="${(e) => this.handleLike(0)}" type="button" id="dislike">Dislikes: ${this.data[0].downvote}</button>
             </like><br><br>
             <hr class="solid">
         </div>
