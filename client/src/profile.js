@@ -87,8 +87,8 @@ export class profilePage extends LitElement {
       }
     `;
 
-    profileClicked() {
-        this.current = 1;
+    tabClicked(number) {
+        this.current = number;
     }
 
     mypostsClicked() {
@@ -115,13 +115,14 @@ export class profilePage extends LitElement {
         ${this.loggedIn ?
         html`
         <ul>
-            <li><a @click="${this.profileClicked}">Profile</a></li>
-            <li><a @click="${this.mypostsClicked}">My Posts</a></li>
-            <li><a @click="${this.mycommentsClicked}">My Comments</a></li>
-            ${this.usertype != "user" ? 
+            <li><a @click="${(e) => this.tabClicked(1)}">Profile</a></li>
+            <li><a @click="${(e) => this.tabClicked(2)}">My Posts</a></li>
+            <li><a @click="${(e) => this.tabClicked(3)}">My Comments</a></li>
+            ${this.usertype == "admin" ? 
             html`
-            <li><a @click="${this.requestsClicked}">Requests</a></li>
-            <li><a @click="${this.allusersClicked}">All users</a></li>
+            <li><a @click="${(e) => this.tabClicked(4)}">Requests</a></li>
+            <li><a @click="${(e) => this.tabClicked(5)}">All Users</a></li>
+            <li><a @click="${(e) => this.tabClicked(6)}">Blocked Posts</a></li>
             `: html``}
         </ul>
         ${this.current == 1 ?
@@ -143,6 +144,10 @@ export class profilePage extends LitElement {
         ${this.current == 5 ?
             html`
                 <sub-allusers></sub-allusers>
+            `:html``}
+        ${this.current == 6 ?
+            html`
+                <sub-blockedposts></sub-blockedposts>
             `:html``}
         ` :
         html``}

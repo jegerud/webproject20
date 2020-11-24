@@ -69,3 +69,11 @@
 .sidebar {
     grid-area: sidebar;
 }
+
+.main-post-title {
+    font-size: 24px;
+}
+
+.head {
+    font-size: 18px;
+}

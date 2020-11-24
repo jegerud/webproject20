@@ -76,15 +76,16 @@ export class seePost extends LitElement {
       });
      }
 
-    handlePost(mode) {
+    handleLike(mode) {
+        var url = '';
         let rawData = {
             "pid":this.postId
         }
-        var url = '';
+
         if (mode == 1) {
             url = 'http://localhost:8081/likepost';
         } else {
-            url = 'http://localhost:8081/dislikepost'
+            url = 'http://localhost:8081/dislikepost';
         }
 
         fetch(url, {
@@ -115,8 +116,13 @@ export class seePost extends LitElement {
             <h4 class="head">${item.title}</h4>
             <p class="post-content">${item.content}</p>
             <like>
+<<<<<<< HEAD
                 <button @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+=======
+                <button @click="${(e) => this.handleLike(1)}" type="button" id="like">Likes: ${this.data[0].upvote}</button> 
+                <button @click="${(e) => this.handleLike(0)}" type="button" id="dislike">Dislikes: ${this.data[0].downvote}</button>
+>>>>>>> featurePosts
             </like><br><br>
             <hr class="solid">
         </div>

@@ -58,10 +58,8 @@ export class seeCommments extends LitElement {
             "commentid": commentid
         }
         if (mode == 1) {
-            console.log("Will be liked");
             url = 'http://localhost:8081/likecomment';
         } else {
-            console.log("Will be disliked");
             url = 'http://localhost:8081/dislikecomment';
         }
         fetch(url, {
