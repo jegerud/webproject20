@@ -50,33 +50,33 @@ export class seePost extends LitElement {
     }
 
     _handleClick() {
-      console.log(this.comment);
-      let rawData = {
-          "comment": this.comment,
-          "pid":this.postId,
-          "uid":this.userid
-      }
-      console.log(rawData);
-      fetch('http://localhost:8081/comments', {
-          method: 'POST',
-          body: JSON.stringify(rawData),
-          headers: {
-              'Content-Type': 'application/json; charset=UTF-8'
-          }
-      }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-      }).then(function (data) {
-          console.log(data);
-          location.reload();
-      }).catch(function (error) {
-          console.warn('Something went wrong.', error);
-      });
+        console.log(this.comment);
+        let rawData = {
+            "comment": this.comment,
+            "pid":this.postId,
+            "uid":this.userid
+        }
+        console.log(rawData);
+        fetch('http://localhost:8081/comments', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
      }
 
-    handleLike(mode) {
+    handlePost(mode) {
         var url = '';
         let rawData = {
             "pid":this.postId
@@ -116,13 +116,8 @@ export class seePost extends LitElement {
             <h4 class="head">${item.title}</h4>
             <p class="post-content">${item.content}</p>
             <like>
-<<<<<<< HEAD
                 <button @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-=======
-                <button @click="${(e) => this.handleLike(1)}" type="button" id="like">Likes: ${this.data[0].upvote}</button> 
-                <button @click="${(e) => this.handleLike(0)}" type="button" id="dislike">Dislikes: ${this.data[0].downvote}</button>
->>>>>>> featurePosts
             </like><br><br>
             <hr class="solid">
         </div>

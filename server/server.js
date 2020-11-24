@@ -117,7 +117,7 @@ app.get('/getComments', (req, res) => {
 
 app.get('/posts', (req, res) => {
   var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email, users.username 
-              FROM posts INNER JOIN users ON posts.user = users.uid
+              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
               ORDER BY posts.pid DESC`
   db.query(query, (err, result) => {
     if (err) {
@@ -216,7 +216,19 @@ app.get('/posts/user/:uid', (req, res) => {
 });
 
 app.get('/blockedposts', (req, res) => {
-  var query = `SELECT * FROM posts WHERE blocked = 'true'`;
+  var query = `SELECT * FROM posts WHERE blocked = 1`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.get('/blockedcomments', (req, res) => {
+  var query = `SELECT * FROM comments WHERE blocked = 1`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');

@@ -1,6 +1,6 @@
 import { LitElement, html, css } from '../node_modules/lit-element/lit-element';
 
-export class subBlockedposts extends LitElement {
+export class subBlockedcomments extends LitElement {
     static get properties() {
       return {
         loggedIn: {type: Boolean},
@@ -39,7 +39,7 @@ export class subBlockedposts extends LitElement {
     }
 
     async getResource() {
-      fetch(`http://localhost:8081/blockedposts`, {
+      fetch(`http://localhost:8081/blockedcomments`, {
           method: 'GET'
       })
       .then((response) => response.text())
@@ -52,10 +52,6 @@ export class subBlockedposts extends LitElement {
       });
     }
 
-    handleBlock(mode, pid) {
-
-    }
-
     render() {
         return html`
           <br>
@@ -64,17 +60,16 @@ export class subBlockedposts extends LitElement {
             <b><a href="posts.html?pid=${item.post}">${item.title}</a></b>
             <p class="body">${item.content}</p>
             <div>
-                <button @click="${(e) => this.handleBlock(1, item.post)}" type="button">Delete post</button> 
-                <button @click="${(e) => this.handleBlock(0, item.post)}" type="button"></button>
-            </div><br><br>
+              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
+            </div><br>
             `)}
             ` : 
             html`
-            <p>No posts blocked!</p>
+            <p>No comments blocked yet!</p>
           `}
         `
     }
 }
 
 
-customElements.define('sub-blockedposts', subBlockedposts);
+customElements.define('sub-blockedcomments', subBlockedcomments);
