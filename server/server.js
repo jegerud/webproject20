@@ -215,6 +215,17 @@ app.get('/posts/user/:uid', (req, res) => {
   });
 });
 
+app.get('/blockedposts', (req, res) => {
+  var query = `SELECT * FROM posts WHERE blocked = 'true'`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
 
 app.post('/register', (req, res) => {
   const saltRounds = 10;
