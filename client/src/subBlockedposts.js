@@ -64,8 +64,8 @@ export class subBlockedposts extends LitElement {
             <b><a href="posts.html?pid=${item.post}">${item.title}</a></b>
             <p class="body">${item.content}</p>
             <div>
-                <button @click="${(e) => this.handleBlock(1)}" type="button">Delete post</button> 
-                <button @click="${(e) => this.handleBlock(0)}" type="button"></button>
+                <button @click="${(e) => this.handleBlock(1, item.post)}" type="button">Delete post</button> 
+                <button @click="${(e) => this.handleBlock(0, item.post)}" type="button"></button>
             </div><br><br>
             `)}
             ` : 
