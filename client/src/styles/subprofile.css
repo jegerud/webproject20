@@ -3,14 +3,39 @@ html{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.usernameItem {
-}
-
-.nameTitle {
+.userAttributes {
     font-size: large;
-    
 }
 
 .btn {
+    position: relative;
+    outline: none;
+    font-size: small;
+    text-decoration: none;
+    border-radius: 500px;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 30px;
+    width: 200px;
+    opacity: 0.9;
+    background-color: #ffffff;
+    border: 1px solid rgba(22, 76, 167, 0.6);
+}
 
+.btn_confirm {
+    position: relative;
+    outline: none;
+    font-size: small;
+    text-decoration: none;
+    border-radius: 500px;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 30px;
+    width: 200px;
+    opacity: 0.9;
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid white
 }
