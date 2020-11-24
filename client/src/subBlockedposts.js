@@ -39,7 +39,7 @@ export class subBlockedposts extends LitElement {
     }
 
     async getResource() {
-      fetch(`http://localhost:8081/blockedposts`, {
+      fetch(`http://localhost:8081/blocked/posts`, {
           method: 'GET'
       })
       .then((response) => response.text())
@@ -52,20 +52,96 @@ export class subBlockedposts extends LitElement {
       });
     }
 
-    handleBlock(mode) {
+    unblockPost(postid) {
+      var url = 'http://localhost:8081/handleblock';
+      var rawData = {
+        "place": 'posts',
+        "type": 'pid',
+        "id": postid,
+        "value": 0
+      }
+
+      fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    deletePost(postid) {
+      var rawData = {
+        "place": 'comments',
+        "type": 'post',
+        "id": postid,
+      }
+      
+      fetch('http://localhost:8081/deletebypid', {
+        method: 'POST',
+        body: JSON.stringify(rawData),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+          if (response.ok) {
+              return response.json();
+          }
+          return Promise.reject(response);
+      }).then(function (data) {
+          console.log(data);
+          location.reload();
+      }).catch(function (error) {
+          console.warn('Something went wrong.', error);
+      });
+
+      rawData = {
+        "place": 'posts',
+        "type": 'pid',
+        "id": postid,
+      }
+      
+      fetch('http://localhost:8081/deletebypid', {
+        method: 'POST',
+        body: JSON.stringify(rawData),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+          if (response.ok) {
+              return response.json();
+          }
+          return Promise.reject(response);
+      }).then(function (data) {
+          console.log(data);
+          location.reload();
+      }).catch(function (error) {
+          console.warn('Something went wrong.', error);
+      });
 
     }
+
 
     render() {
         return html`
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-            <b><a href="posts.html?pid=${item.post}">${item.title}</a></b>
+            <b><a href="posts.html?pid=${item.pid}">${item.title}, ${item.pid}</a></b>
             <p class="body">${item.content}</p>
             <div>
-                <button @click="${(e) => this.handleBlock(1, item.post)}" type="button">Delete post</button> 
-                <button @click="${(e) => this.handleBlock(0, item.post)}" type="button"></button>
+                <button @click="${(e) => this.unblockPost(item.pid)}" type="button">Delete post</button> 
+                <button @click="${(e) => this.deletePost(item.pid)}" type="button">Approve post</button>
             </div><br><br>
             `)}
             ` : 
