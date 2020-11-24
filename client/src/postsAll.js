@@ -27,36 +27,54 @@ export class postsAll extends LitElement {
         });
     }
 
+    handleClick(pid, mode) {
+        var url = '';
+        let rawData = {
+            "pid": pid
+        }
+
+        if (mode == 1) {
+            url = 'http://localhost:8081/likepost';
+        } else {
+            url = 'http://localhost:8081/dislikepost';
+        }
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
     render() {
         return html`
         ${this.data.map(item => html`
-        <head> 
-            <link rel="stylesheet" href="./src/styles/posts.css">
-        </head>
-        <div class="flex-container">
-            <div class="post" id="left">
-                <h4 class="postTitle">
-                    <a href="posts.html?pid=${item.pid}">${item.title}</a>
-                </h4>
-                <p>${item.email}</p><br>
-            </div>
-            <div class="post" id="text">
-                <p>${item.content}</p>
-            </div>
-            <div class="post" id="right">
-            ${!currentUser.loggedIn && currentUser.email == item.email ?
-                html`
-                    <p> ${item.email}</p>
-                `:
-                html`
-                   <p> ${currentUser.email}</p>
-                   `}
-                <p>U: ${item.upvote}</p>
-                <p>D: ${item.downvote}</p>
-            </div>
+        <div class=""> 
+            <p>Posted by <b>${item.username}</b></p>
+            <h4 class="head">
+            <a href="posts.html?pid=${item.pid}">${item.title}</a>
+            </h4>
+            <p class="post-content">${item.content}</p>
+            <like>
+                <button @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+                <button @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            </like><br><br>
+            <hr class="solid">
         </div>
-        <br></br> `)}
-            `
+        <br>`)}
+        `
     }
 }
 
