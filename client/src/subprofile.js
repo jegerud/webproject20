@@ -19,7 +19,7 @@ export class subProfile extends LitElement {
         nrLikes: {type: Number}
       };
     }
-
+  
     constructor() {
       super();
       this.data = [];
@@ -257,52 +257,15 @@ export class subProfile extends LitElement {
 
     render() {
         return html`
+         <link rel="stylesheet" href="./src/styles/subprofile.css">
           <br>
           ${this.data.map(item => html`
-          <div>
-            <b>Username:</b> 
+          <div class="usernameItem">
+            <b class="nameTitle">Username:</b> 
             <p>${item.username} <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
             class="btn" type="button" name="" value="Change Username"></input>
             </p>
-          </div><br>
-          <div>
-            <b>Email:</b> 
-            <p>${item.email} <input id="submit" @click="${this.changeEmailClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Email"></input>
-            </p>
-          </div>
-          <div><br>
-            <b>Usertype:</b>
-            <p>${item.userType}</p>
-            ${item.userType == 'user' && item.request == false ? 
-            html`
-            <input id="submit" @click="${this.handleRequest}" type="submit" 
-            class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
-            ${item.userType == 'user' && item.request == true ? 
-            html`<p>Moderator request sent!</p>` : html``}
-          </div><br>
-          `)}
-          <div>
-            <b>Change Password <input id="submit" @click="${this.changePasswordClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change"></input>
-            </b>
-          </div>
-          <div>
-            <p>
-              <b>Number of posts:</b>
-              ${this.nrPost}
-            </p>
-            <p>
-              <b>Number of comments:</b>
-              ${this.nrComments}
-            </p>
-            <p>
-              <b>Number of likes:</b>
-              ${this.nrLikes}
-            </p>
-          </div>
-          
-          ${this.changeUsername == 1 ? 
+          </div>${this.changeUsername == 1 ? 
             html`
             <br><br>
             <div>New username 
@@ -316,9 +279,14 @@ export class subProfile extends LitElement {
             html`
             <br><br>
             <div>Username changed!</div>`
-            : html` `}
-
-          ${this.changeEmail == 1 ? 
+            : html` `}<br><br>
+          <div>
+            <b>Email:</b> 
+            <p>${item.email} <input id="submit" @click="${this.changeEmailClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Email"></input>
+            </p>
+          </div>
+          <div> ${this.changeEmail == 1 ? 
             html`
             <br><br>
             <div>New Email 
@@ -332,9 +300,23 @@ export class subProfile extends LitElement {
             html`
             <br><br>
             <div>Email changed!</div>`
-            : html` `}
-
-          ${this.changePassword == 1 ? 
+            : html` `}<br>
+            <br>
+            <br>Usertype:</br>
+            <p>${item.userType}</p>
+            ${item.userType == 'user' && item.request == false ? 
+            html`
+            <input id="submit" @click="${this.handleRequest}" type="submit" 
+            class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
+            ${item.userType == 'user' && item.request == true ? 
+            html`<p>Moderator request sent!</p>` : html``}
+          </div><br>
+          `)}
+          <div>
+            <b>Change Password <input id="submit" @click="${this.changePasswordClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change"></input>
+            </b>
+            ${this.changePassword == 1 ? 
             html`
             <br><br>
             <div>Old Password 
@@ -357,6 +339,21 @@ export class subProfile extends LitElement {
             <br><br>
             <div>Password changed!</div>`
             : html` `}
+          </div>
+          <div>
+            <p>
+              <b>Number of posts:</b>
+              ${this.nrPost}
+            </p>
+            <p>
+              <b>Number of comments:</b>
+              ${this.nrComments}
+            </p>
+            <p>
+              <b>Number of likes:</b>
+              ${this.nrLikes}
+            </p>
+          </div>
     `;}
 }
 
