@@ -92,17 +92,6 @@ export class subBlockedcomments extends LitElement {
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-<<<<<<< HEAD
-            <b><a href="posts.html?pid=${item.post}">${item.title}</a></b>
-            <p class="body">${item.content}</p>
-            <div>
-              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
-            </div><br>
-            `)}
-            ` : 
-            html`
-            <p>No comments blocked yet!</p>
-=======
             <b><a href="posts.html?pid=${item.post}">${item.post}: Link</a></b>
             <p class="body">${item.comment}</p>
             <div>
@@ -113,7 +102,6 @@ export class subBlockedcomments extends LitElement {
             ` : 
             html`
             <p>No posts blocked!</p>
->>>>>>> featurePosts
           `}
         `
     }
