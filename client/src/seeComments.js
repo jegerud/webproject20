@@ -52,36 +52,19 @@ export class seeCommments extends LitElement {
         });
     }
 
-    _likeComment() {
+    handleClick(mode) {
         var current = this;
+        var url = '';
         let rawData = {
             "uid": 0
         }
-        fetch('http://localhost:8081/likecomment', {
-            method: 'POST',
-            body: JSON.stringify(rawData),
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            }
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        }).then(function (data) {
-            console.log(data);
-            location.reload();
-        }).catch(function (error) {
-            console.warn('Something went wrong.', error);
-        });
-    }
 
-    _dislikeComment() {
-        var current = this;
-        let rawData = {
-            "uid": 0
+        if (mode == 1) {
+            url = 'http://localhost:8081/likecomment';
+        } else {
+            url = 'http://localhost:8081/dislikecomment';
         }
-        fetch('http://localhost:8081/dislikecomment', {
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
             headers: {
@@ -106,8 +89,8 @@ export class seeCommments extends LitElement {
         <p class="comment-title">Posted by <b>${item.username}</b></p>
         <p class="comment-content">${item.comment}</p> 
         <like>
-            <button @click="${this._likeComment}" type="button" id="like">Likes: ${item.upvote}</button> 
-            <button @click="${this._dislikeComment}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            <button @click="${this.handleClick(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+            <button @click="${this.handleClick(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
         </like><br><br><hr class="mid-solid">
         `)}
         `
