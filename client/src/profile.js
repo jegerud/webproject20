@@ -91,22 +91,6 @@ export class profilePage extends LitElement {
         this.current = number;
     }
 
-    mypostsClicked() {
-        this.current = 2;
-    }
-
-    mycommentsClicked() {
-        this.current = 3;
-    }
-
-    requestsClicked() {
-        this.current = 4;
-    }
-
-    allusersClicked() {
-        this.current = 5;
-    }
-
     render() {
         return html`
         <div class="header">
