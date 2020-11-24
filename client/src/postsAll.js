@@ -8,13 +8,36 @@ export class postsAll extends LitElement {
             loggedIn: {type: Boolean},
             usertype: {type: String},
             username: {type: String},
-            current: {type: Number}
+            current: {type: Number},
+            time: {type: Boolean}
         }
     }
-
+    
+    static styles = css`
+    .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+      }
+      
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+    `
+    
     constructor() {
         super();
         this.data = [];
+        this.time = false;
         this.getUserid();
         this.getUsertype();
         this.getResource();
@@ -30,7 +53,14 @@ export class postsAll extends LitElement {
     }
 
     async getResource() {
-        fetch('http://localhost:8081/posts', {
+        var url = '';
+        if (this.time == true) {
+            url = 'http://localhost:8081/allposts/1';
+        } else {
+            url = 'http://localhost:8081/allposts/0';
+        }
+        console.log(url);
+        fetch(url, {
             method: 'GET'
         })
         .then((response) => response.text())
@@ -96,7 +126,7 @@ export class postsAll extends LitElement {
             "type": 'pid',
             "id": postid,
             "value": 1
-          }
+        }
 
         fetch(url, {
             method: 'POST',
@@ -119,6 +149,13 @@ export class postsAll extends LitElement {
 
     render() {
         return html`
+        <form>
+            <select name = "dropdown">
+               <option @click="${(e) => this.time = false}" value="Likes">Likes</option>
+               <option @click="${(e) => this.time = true}" value="Date">Date</option>
+            </select>
+        </form>
+        <br><br>
         ${this.data.map(item => html`
         <div class=""> 
             <p>Posted by <b>${item.username}</b></p>
