@@ -101,7 +101,7 @@ export class subBlockedcomments extends LitElement {
             `)}
             ` : 
             html`
-            <p>No posts blocked!</p>
+            <p>No comments blocked!</p>
           `}
         `
     }
