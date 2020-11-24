@@ -265,9 +265,9 @@ export class subProfile extends LitElement {
             <p>${item.username} <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
             class="btn" type="button" name="" value="Change Username"></input>
             </p>
+
           </div>${this.changeUsername == 1 ? 
             html`
-            <br><br>
             <div>New username 
               <input @input="${(e)=>this.newUsername=e.target.value}"
               type="text" placeholder="" id="oldPass" name="oldPass">
@@ -275,9 +275,9 @@ export class subProfile extends LitElement {
             <input id="submit" @click="${this.submitUsername}" type="submit" class="btn" 
               type="button" name="" value="Change Username"></input>
             ` : html` `}
+            
           ${this.changeUsername == 2 ? 
             html`
-            <br><br>
             <div>Username changed!</div>`
             : html` `}<br><br>
           <div>
@@ -286,9 +286,9 @@ export class subProfile extends LitElement {
             class="btn" type="button" name="" value="Change Email"></input>
             </p>
           </div>
+
           <div> ${this.changeEmail == 1 ? 
             html`
-            <br><br>
             <div>New Email 
               <input @input="${(e)=>this.newEmail=e.target.value}"
               type="text" placeholder="" id="oldPass" name="oldPass">
@@ -296,6 +296,7 @@ export class subProfile extends LitElement {
             <input id="submit" @click="${this.submitEmail}" type="submit" class="btn" 
               type="button" name="" value="Change Email"></input>
             ` : html` `}
+
           ${this.changeEmail == 2 ? 
             html`
             <br><br>
@@ -312,13 +313,14 @@ export class subProfile extends LitElement {
             html`<p>Moderator request sent!</p>` : html``}
           </div><br>
           `)}
+
           <div>
             <b>Change Password <input id="submit" @click="${this.changePasswordClicked}" type="submit" 
             class="btn" type="button" name="" value="Change"></input>
             </b>
+
             ${this.changePassword == 1 ? 
             html`
-            <br><br>
             <div>Old Password 
               <input @input="${(e)=>this.oldPassword=e.target.value}"
               type="password" placeholder="" id="oldPass" name="oldPass">
