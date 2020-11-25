@@ -117,7 +117,7 @@ app.get('/getComments', (req, res) => {
 
 app.get('/allposts/:time', (req, res) => {
   var query = ''; 
-  if (req.params.time == 0) {
+  if (req.params.time == 2) {
     query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
               FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
               ORDER BY posts.upvote DESC`;
