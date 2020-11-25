@@ -56,3 +56,44 @@ html{
     box-shadow: 0 4px 17px rgba(0,0,0,0.2);
     transform: translate3d(0, -2px, 0);
 }
+
+#newUserName {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+
+#newEmail {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+#oldPass {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+#newPass {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+#newPass2{
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+
+#stats {
+    
+}
