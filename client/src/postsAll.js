@@ -9,7 +9,9 @@ export class postsAll extends LitElement {
             usertype: {type: String},
             username: {type: String},
             current: {type: Number},
-            time: {type: Boolean}
+            time: {type: Boolean},
+            options: { type: Array },
+            selected: { type: String }
         }
     }
     
@@ -37,10 +39,12 @@ export class postsAll extends LitElement {
     constructor() {
         super();
         this.data = [];
-        this.time = false;
         this.getUserid();
+        this.getSorting();
         this.getUsertype();
         this.getResource();
+        this.options = [{value:1, text:"Date"}, 
+                        {value:2, text:"Likes"}];
     }
 
     getUserid() {
@@ -52,14 +56,20 @@ export class postsAll extends LitElement {
         }
     }
 
-    async getResource() {
-        var url = '';
-        if (this.time == true) {
-            url = 'http://localhost:8081/allposts/1';
+    getSorting(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        if (parameters != "") {
+            var temp = parameters[0].split("=");
+            current.selected = unescape(temp[1]);
         } else {
-            url = 'http://localhost:8081/allposts/0';
+            current.selected = 1;
         }
-        console.log(url);
+
+    }
+
+    async getResource() {
+        var url = `http://localhost:8081/allposts/${this.selected}`;
         fetch(url, {
             method: 'GET'
         })
@@ -93,13 +103,11 @@ export class postsAll extends LitElement {
         let rawData = {
             "pid": pid
         }
-
         if (mode == 1) {
             url = 'http://localhost:8081/likepost';
         } else {
             url = 'http://localhost:8081/dislikepost';
         }
-
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -147,13 +155,20 @@ export class postsAll extends LitElement {
         });
     }
 
+    onChange(){
+        this.selected = this.shadowRoot.querySelector('#sel').value
+        var url = "index.html?value=" + this.selected;
+        location.replace(url);
+    }
+
     render() {
         return html`
         <form>
-            <select name = "dropdown">
-               <option @click="${(e) => this.time = false}" value="Likes">Likes</option>
-               <option @click="${(e) => this.time = true}" value="Date">Date</option>
-            </select>
+        <select id="sel" @change="${this.onChange}">
+        ${this.options.map(item => html`
+            <option value="${item.value}" ?selected=${this.selected == item.value}>${item.text}</option>
+        `)}
+        </select>
         </form>
         <br><br>
         ${this.data.map(item => html`
@@ -179,5 +194,6 @@ export class postsAll extends LitElement {
         `
     }
 }
+
 
 customElements.define('posts-all', postsAll);
