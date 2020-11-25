@@ -282,9 +282,9 @@ export class subProfile extends LitElement {
             <div> 
               <input @input="${(e)=>this.newUsername=e.target.value}"
               type="text" placeholder="New username..." id="newUserName" name="">
-            </div><br>
-            <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
-              type="button" name="submitter" value="confirm username"></input>
+              <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
+              type="button" name="submitter1" value="Submit"></input>
+            </div>
             ` : html` `}
             
           ${this.changeUsername == 2 ? 
@@ -304,9 +304,9 @@ export class subProfile extends LitElement {
             <div><br>
               <input @input="${(e)=>this.newEmail=e.target.value}"
               type="text" placeholder="New e-mail..." id="newEmail" name="oldPass">
-            </div>
-            <p><input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
-              type="button" name="" value="Confirm e-mail"></input></p>
+              <input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
+              type="button" name="" value="Submit"></input>
+            </div><br>
             ` : html` `}
 
           ${this.changeEmail == 2 ? 
@@ -337,10 +337,10 @@ export class subProfile extends LitElement {
             <div> 
               <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
               type="password" placeholder="Confirm new password..." id="newPass2" name="newPass2">
-            </div><br>
-            <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
-              type="button" name="" value="submit"></input>` 
-            : html` `}
+              <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
+              type="button" name="" value="submit"></input>
+            </div>  
+            ` : html` `}
 
           ${this.changePassword == 2 ? 
             html`
