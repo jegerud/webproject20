@@ -29,32 +29,35 @@
 			*/
 			window.MyAppGlobals = {
 				rootPath: '/',
-				serverURL: 'http://localhost:8081/'
+				serverURL: 'http://localhost:8080/posts.html'
 			};
 		</script>
-		<link rel="shortcut icon" href="#"/>
+
 		<!-- Load webcomponents, this needs to be activated once you have installed node -->
 		<script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
 		<!-- Import the main component -->
 		<script type="module" src="./src/menuBar.js"></script>
 		<script type="module" src="./src/sideBar.js"></script>
+		<script type="module" src="./src/seeComments.js"></script>
+		<script type="module" src="./src/seePost.js"></script>
 		<script type="module" src="./src/headerBar.js"></script>
-		<script type="module" src="./src/postsAll.js"></script>
-		<script type="module" src="./src/newPost.js"></script>
 		
+
 	</head>
 
 	<body>
-		<div class="container">
+		<div class="contain">
 			<menu-bar class="menubar"></menu-bar>
 			<header-bar class="header"></header-bar>
 			<div class="posts">
-				<new-post></new-post>
-				<posts-all></posts-all>
+				<see-post></see-post>
 			</div>
-			<side-bar class="sidebar"></side-bar>
-		</div>
-		<link rel="stylesheet" href="src/styles/style.css">
+			<div class="sidebar">
+				<side-bar></side-bar>
+			</div>
+		</div>	
+		<link rel="stylesheet" href="src/styles/post.css">
+		<!--<link rel="stylesheet" href="src/styles/comments.css">-->
 	</body>
 </html>

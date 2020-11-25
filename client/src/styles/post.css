@@ -1,0 +1,138 @@
+body{margin-top:20px;}
+
+.contain {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto 130px;
+    grid-template-rows: 70px 210px auto;
+    grid-template-areas: 
+        "menubar menubar"
+        "header header"
+        "posts sidebar";
+    padding: 40px;
+    padding-bottom: 250px;
+}
+
+@media (min-width: 1200px) {
+    .contain {
+        grid-gap: 10px;
+        grid-template-columns: auto 230px;
+        grid-template-rows: 70px 210px auto;
+        grid-template-areas: 
+            "menubar menubar"
+            "header header"
+            "posts sidebar";
+        padding-left: 250px;
+        padding-right: 250px;
+    }
+}
+
+@media (max-width: 800px) {
+    .contain {
+        grid-gap: 10px;
+        grid-template-columns: auto 60px;
+        grid-template-rows: 70px 210px auto;
+        grid-template-areas: 
+            "menubar menubar"
+            "header header"
+            "posts sidebar";
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media (max-width: 500px) {
+    .contain {
+        grid-gap: 10px;
+        grid-template-columns: auto;
+        grid-template-rows: 70px 210px auto 70px;
+        grid-template-areas: 
+            "menubar"
+            "header"
+            "posts"
+            "sidebar";
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+.menubar {
+    grid-area: menubar;
+}
+
+.header {
+    grid-area: header;
+}
+
+.posts {
+    grid-area: posts;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto 130px;
+    grid-template-rows: 170px 210px auto;
+    grid-template-areas: 
+        "main-post side"
+        "post-comment post-comment"
+        "comments comments";
+}
+
+.main-post {
+    grid-area: main-post;
+    padding: 20px;
+}
+
+.comments {
+    grid-area: comments;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.post-comment {
+    grid-area: post-comment;
+    padding-left: 20px;
+    padding-right: 0px;
+}
+
+.side {
+    grid-area: side;
+    background-color: green;
+}
+
+head, p, like {
+    font-family: Arial, Helvetica, sans-serif;
+}
+  
+.head {
+    font-size: 20px;
+    padding: 0px;
+}
+
+.post-content {
+    padding-left: 10px;
+}
+
+.comment-content {
+    padding-left: 10px;
+}
+
+#post-comment {
+    width: 70%;
+}
+
+#like {
+    font-size: 13px;
+    padding-left: 10px;
+}
+
+#dislike {
+    font-size: 13px;
+    padding-left: 10px;
+}
+  
+like {
+    padding-left: 10px;
+}
+
+hr.mid-solid {
+    border-top: 1px solid #bbb;
+}

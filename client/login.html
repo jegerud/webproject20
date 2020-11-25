@@ -29,32 +29,23 @@
 			*/
 			window.MyAppGlobals = {
 				rootPath: '/',
-				serverURL: 'http://localhost:8081/'
+				serverURL: 'http://localhost:8080/'
 			};
 		</script>
-		<link rel="shortcut icon" href="#"/>
+		<script type="module" src="./src/loginLogic.js"></script>
+
 		<!-- Load webcomponents, this needs to be activated once you have installed node -->
 		<script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
 		<!-- Import the main component -->
-		<script type="module" src="./src/menuBar.js"></script>
-		<script type="module" src="./src/sideBar.js"></script>
-		<script type="module" src="./src/headerBar.js"></script>
-		<script type="module" src="./src/postsAll.js"></script>
-		<script type="module" src="./src/newPost.js"></script>
-		
+		<style>
+			body {background-color: rgb(60, 181, 197);}
+		</style>
 	</head>
-
 	<body>
-		<div class="container">
-			<menu-bar class="menubar"></menu-bar>
-			<header-bar class="header"></header-bar>
-			<div class="posts">
-				<new-post></new-post>
-				<posts-all></posts-all>
-			</div>
-			<side-bar class="sidebar"></side-bar>
-		</div>
-		<link rel="stylesheet" href="src/styles/style.css">
+		<user-login></user-login>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
 </html>

@@ -29,7 +29,7 @@
 			*/
 			window.MyAppGlobals = {
 				rootPath: '/',
-				serverURL: 'http://localhost:8081/'
+				serverURL: 'http://localhost:8080/'
 			};
 		</script>
 		<link rel="shortcut icon" href="#"/>
@@ -38,23 +38,22 @@
 
 		<!-- Import the main component -->
 		<script type="module" src="./src/menuBar.js"></script>
-		<script type="module" src="./src/sideBar.js"></script>
 		<script type="module" src="./src/headerBar.js"></script>
-		<script type="module" src="./src/postsAll.js"></script>
-		<script type="module" src="./src/newPost.js"></script>
-		
+		<script type="module" src="./src/profile.js"></script>
+		<script type="module" src="./src/subprofile.js"></script>
+		<script type="module" src="./src/subMyposts.js"></script>
+		<script type="module" src="./src/subAllusers.js"></script>
+		<script type="module" src="./src/subRequests.js"></script>
+		<script type="module" src="./src/subMyComments.js"></script>
+		<script type="module" src="./src/subBlockedposts.js"></script>
+		<script type="module" src="./src/subBlockedcomments.js"></script>
 	</head>
 
 	<body>
 		<div class="container">
 			<menu-bar class="menubar"></menu-bar>
-			<header-bar class="header"></header-bar>
-			<div class="posts">
-				<new-post></new-post>
-				<posts-all></posts-all>
-			</div>
-			<side-bar class="sidebar"></side-bar>
+			<profile-page class="profile"></profile-page> 
 		</div>
-		<link rel="stylesheet" href="src/styles/style.css">
+		<link rel="stylesheet" href="src/styles/profile.css">
 	</body>
 </html>
