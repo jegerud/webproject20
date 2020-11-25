@@ -9,6 +9,7 @@ export class subProfile extends LitElement {
         changePassword: {type: Number},
         changeEmail: {type: Number},
         changeUsername: {type: Number},
+        changeImage: {type: Number},
         oldPassword: {type: String},
         newPassword: {type: String},
         newPasswordValidate: {type: String},
@@ -26,6 +27,7 @@ export class subProfile extends LitElement {
       this.changePassword = 0;
       this.changeEmail = 0;
       this.changeUsername = 0;
+      this.changeImage = 0;
       this.getUserid();
       this.getResource();
       this.getPostScores();
@@ -102,6 +104,10 @@ export class subProfile extends LitElement {
       this.changePassword = 1;
     }
     
+    changeImageClicked() {
+      this.changeImage = 1;
+    }
+
     changeEmailClicked() {
       this.changeEmail = 1;
     }
@@ -198,6 +204,41 @@ export class subProfile extends LitElement {
       }); 
     }
 
+    submitImage(){
+        var current = this;
+        var file = req.files.uploaded_image;
+        let newData = {
+          "uid": this.userid,
+          "image": this.file.name
+        }
+        console.log(newData.image);
+        if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
+          fetch('http://localhost:8081/updateImage', {
+            method: 'POST',
+            body: JSON.stringify(newData),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8'
+            }
+          }).then(function (response) {
+          if (response.ok) {
+              return response.json();
+          }
+          return Promise.reject(response);
+          }).then(function (data) {
+          if (data) {
+            current.changeEmail = 2;
+          } else {
+            alert("Something went wrong, please try again later!");
+          }
+          }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+          });
+        } else {
+          message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+          res.render('index.ejs',{message: message});
+        } 
+    }
+
     submitUsername() {
       var current = this;
       let newData = {
@@ -292,7 +333,7 @@ export class subProfile extends LitElement {
             <div>Username changed!</div>`
             : html` `}<br>
           
-
+          
           ${this.changeEmail == 0 ? 
             html`
             <p><input id="submit" @click="${this.changeEmailClicked}" type="submit" 
@@ -346,6 +387,31 @@ export class subProfile extends LitElement {
             html`
             <br><br>
             <div>Password changed!</div>`
+            : html` `}
+          </div>
+
+          <div>
+            ${this.changeImage == 0? 
+            html`<input id="submit" @click="${this.changeImageClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Image"></input>
+            <br><br>
+            `: html` `}
+
+            ${this.changeImage == 1 ? 
+            html`
+            <br>
+            <div>New Image
+              <input @input="${(e)=>this.newImage=e.target.value}"
+              type="file" placeholder="" id="newImg" name="newImg">
+            </div><br>
+            <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
+              type="button" name="" value="submit"></input>`
+            : html` `}
+
+          ${this.changeImage == 2 ? 
+            html`
+            <br><br>
+            <div>Image changed!</div>`
             : html` `}
           </div>
           

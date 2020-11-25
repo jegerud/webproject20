@@ -30,6 +30,19 @@
     
   }
 
+  .header-center {
+    display: visible;
+    float: right;
+    max-width: 100px;
+  }
+
+  .header #profilePicture {
+    border-radius: 50%;
+    width: 70px;
+    height:70px;
+
+  }
+
   /* Change the background color on mouse-over */
   .header a:hover {
     background-color: #ddd;
@@ -50,6 +63,7 @@
 
   /* Float the link section to the right */
   .header-right {
+    display: visible;
     float: right;
   }
 

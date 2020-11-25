@@ -5,8 +5,7 @@ export class menuBar extends LitElement {
       return {
         userid: {type: Number},
         loggedIn: {type: Boolean},
-        username: {type: String},
-        title: {type: String}
+        username: {type: String}
       };
    }
 
@@ -18,8 +17,16 @@ export class menuBar extends LitElement {
          id: this.id,
          name: this.username,
          email: this.email,
-         loggedIn: true,
+         image: this.picture,
+         loggedIn: true
       };
+      if(this.picture == 'NULL'){
+         this.picture == "https://news.images.itv.com/image/file/935582/img.jpg";
+      }
+   }
+
+   getPicture() {
+      this.picture
    }
 
    getUserid() {
@@ -54,43 +61,27 @@ export class menuBar extends LitElement {
       location.reload();
    }
 
-   searchFunction() {
-      fetch(`http://localhost:8081/posts/${this.title}`, {
-         method: 'GET'
-     })
-     .then((response) => response.text())
-     .then((responseText) => {
-        console.log(responseText);
-         var data = JSON.parse(responseText);
-     })
-     .catch((error) => {
-         console.log("The data could not be fetched");
-         console.error(error);
-     });
-
-   }
-
    render() {
       return html`
       <link rel="stylesheet" href="./src/styles/header.css">
       <div class="header">
-      <a href="/" class="logo">Creddit</a>
+         <a href="/" class="logo">Creddit</a>
+      <div class="header-center">
+         <img src="https://news.images.itv.com/image/file/935582/img.jpg" alt="AdamJohnsom" id="profilePicture">
+      </div>
       <div class="header-right">
-      <form id=form>
-      <input @input="${(e)=>this.title=e.target.value}" type="text"  placeholder="Search...">
-      <button @click="${this.searchFunction}" type="Button" id ="button">Search</button>
-      </form>
       ${!this.loggedIn ?
          html`
             <a href="./register.html">Register</a>
             <a class="active" href="./login.html">Log in</a> 
          `:
          html`
+            
             <a class="loggedin" href="./profile.html">${this.username}</a>
             <a @click="${this.logout}">Log out</a>
             `}
             </div>
-      </div>
+         </div>
          `;
    } 
 }
