@@ -41,12 +41,13 @@ export class seePost extends LitElement {
 
     async getResource() {
         var current = this;
-        fetch(`http://localhost:8081/posts/${current.postId}`, {
+        fetch(`http://localhost:8081/posts/pid/${current.postId}`, {
             method: 'GET'
         })
         .then((response) => response.text())
         .then((responseText) => {
             current.data = JSON.parse(responseText);
+            console.log(current.data);
         })
         .catch((error) => {
             console.log("The data could not be fetched");
