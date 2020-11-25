@@ -136,7 +136,6 @@ app.get('/allposts/:time', (req, res) => {
   });
 });
 
-
 app.get('/posts/:title', (req, res) => {
   var query = `SELECT * FROM posts WHERE title LIKE "%${req.params.title}%"`
   db.query(query, (err, result) => {
@@ -207,9 +206,7 @@ app.get('/comments/user/:uid', (req, res) => {
   });
 });
 
-
-
-app.get('/posts/:pid', (req, res) => {
+app.get('/posts/pid/:pid', (req, res) => {
   var query = `SELECT posts.pid, posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
                INNER JOIN users ON posts.user = users.uid WHERE posts.pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
