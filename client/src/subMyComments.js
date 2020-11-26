@@ -39,19 +39,44 @@ export class subMycomments extends LitElement {
     }
 
     async getResource() {
-      console.log("Ready to fetch");
       fetch(`http://localhost:8081/comments/user/${this.userid}`, {
           method: 'GET'
       })
       .then((response) => response.text())
       .then((responseText) => {
           this.data = JSON.parse(responseText);
-          console.log(this.data);
       })
       .catch((error) => {
           console.log("The data could not be fetched");
           console.error(error);
       });
+    }
+    
+    _handleClick(commentid) {
+      var url = 'http://localhost:8081/deletecomments';;
+      var rawData = {
+        "place": 'comments',
+        "type": 'cid',
+        "id": commentid,
+        "value": 0
+      }
+      
+      fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            location.replace(`profile.html?val=3`);
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
     }
 
     render() {
@@ -62,7 +87,9 @@ export class subMycomments extends LitElement {
             <b><a href="posts.html?pid=${item.post}">Link to post ${item.post}</a></b>
             <p class="body">${item.comment}</p>
             <div>
-              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
+              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}
+              <button @click="${(e) => this._handleClick(item.cid)}" type="button" id ="button">Delete</button>
+              </p>
             </div><br>
             `)}
             ` : 
