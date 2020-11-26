@@ -167,7 +167,7 @@ export class seePost extends LitElement {
             <like>
                 <button @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-            ${this.getUsertype != 'user' ? 
+            ${this.usertype != 'user' ? 
             html`
                 <button @click="${(e) => this.blockPost(item.pid)}" type="button" id="like">Block Post</button> 
             ` :
