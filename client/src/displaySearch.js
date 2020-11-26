@@ -1,6 +1,6 @@
-import { LitElement, html, css } from '../node_modules/lit-element/lit-element';
+import { LitElement, html, css } from 'lit-element';
 
-export class postsAll extends LitElement {
+export class displaySearch extends LitElement {
     static get properties() {
         return {
             data: {type: Array},
@@ -10,11 +10,21 @@ export class postsAll extends LitElement {
             username: {type: String},
             current: {type: Number},
             time: {type: Boolean},
-            options: { type: Array },
-            selected: { type: String }
+            keyword: {type: String}
         }
     }
-    
+
+    constructor() {
+        super();
+        this.data = [];
+        this.time = false;
+        this.getUserid();
+        this.getUsertype();
+        this.setKeyword();
+        this.searchFunction();
+        
+    }
+
     static styles = css`
     .dropdown {
         position: relative;
@@ -35,17 +45,6 @@ export class postsAll extends LitElement {
         display: block;
       }
     `
-    
-    constructor() {
-        super();
-        this.data = [];
-        this.getUserid();
-        this.getSorting();
-        this.getUsertype();
-        this.getResource();
-        this.options = [{value:1, text:"Date"}, 
-                        {value:2, text:"Likes"}];
-    }
 
     getUserid() {
         this.userid = localStorage.getItem('userid');
@@ -56,32 +55,6 @@ export class postsAll extends LitElement {
         }
     }
 
-    getSorting(){
-        var current = this;
-        var parameters = location.search.substring(1).split("&");
-        if (parameters != "") {
-            var temp = parameters[0].split("=");
-            current.selected = unescape(temp[1]);
-        } else {
-            current.selected = 1;
-        }
-
-    }
-
-    async getResource() {
-        var url = `http://localhost:8081/allposts/${this.selected}`;
-        fetch(url, {
-            method: 'GET'
-        })
-        .then((response) => response.text())
-        .then((responseText) => {
-            this.data = JSON.parse(responseText);
-        })
-        .catch((error) => {
-            console.log("The data could not be fetched");
-            console.error(error);
-        });
-    }
 
     async getUsertype() {
         fetch(`http://localhost:8081/getUserinfo/${this.userid}`, {
@@ -103,11 +76,13 @@ export class postsAll extends LitElement {
         let rawData = {
             "pid": pid
         }
+
         if (mode == 1) {
             url = 'http://localhost:8081/likepost';
         } else {
             url = 'http://localhost:8081/dislikepost';
         }
+
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -155,20 +130,37 @@ export class postsAll extends LitElement {
         });
     }
 
-    onChange(){
-        this.selected = this.shadowRoot.querySelector('#sel').value
-        var url = "index.html?value=" + this.selected;
-        location.replace(url);
+
+    setKeyword(){
+    var urlString = (window.location.href).toLowerCase();
+       var url = new URL(urlString);
+       this.keyword = url.searchParams.get("keyword"); 
+       console.log(this.keyword);
+    }
+
+
+
+   async searchFunction() {
+    fetch(`http://localhost:8081/posts/${this.keyword}`, {method: 'GET'})
+   .then((response) => response.text())
+   .then((responseText) => {
+      console.log(responseText);
+      this.data = JSON.parse(responseText);
+   })
+   .catch((error) => {
+       console.log("The data could not be fetched");
+       console.error(error);
+   });
+
     }
 
     render() {
         return html`
         <form>
-        <select id="sel" @change="${this.onChange}">
-        ${this.options.map(item => html`
-            <option value="${item.value}" ?selected=${this.selected == item.value}>${item.text}</option>
-        `)}
-        </select>
+            <select name = "dropdown">
+               <option @click="${(e) => this.time = false}" value="Likes">Likes</option>
+               <option @click="${(e) => this.time = true}" value="Date">Date</option>
+            </select>
         </form>
         <br><br>
         ${this.data.map(item => html`
@@ -195,5 +187,4 @@ export class postsAll extends LitElement {
     }
 }
 
-
-customElements.define('posts-all', postsAll);
+customElements.define('display-search', displaySearch);

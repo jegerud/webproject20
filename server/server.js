@@ -6,6 +6,7 @@ import mysql from 'mysql';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = 8081;
@@ -115,29 +116,10 @@ app.get('/getComments', (req, res) => {
   });
 });
 
-app.get('/allposts/:time', (req, res) => {
-  var query = ''; 
-  if (req.params.time == 0) {
-    query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
+app.get('/posts', (req, res) => {
+  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email, users.username 
               FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
-              ORDER BY posts.upvote DESC`;
-  } else {
-    query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
-              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
-              ORDER BY posts.date DESC`;
-  }
-  db.query(query, (err, result) => {
-    if (err) {
-      res.status(400).send('Error in database operation.');
-    } else {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(result));
-    }
-  });
-});
-
-app.get('/posts/:title', (req, res) => {
-  var query = `SELECT * FROM posts WHERE title LIKE "%${req.params.title}%"`
+              ORDER BY posts.pid DESC`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -153,6 +135,7 @@ app.post('/posts', (req, res) => {
                VALUES ('${req.body.title}',
                        '${req.body.content}',
                         ${req.body.uid}, '0', '0')`
+
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -162,7 +145,6 @@ app.post('/posts', (req, res) => {
     }
   });
 });
-
 
 app.post('/comments', (req, res) => {
   var query = `INSERT INTO comments (post, user, comment, upvote, downvote) 
@@ -182,7 +164,7 @@ app.post('/comments', (req, res) => {
 
 app.get('/comments/:pid', (req, res) => {
   var query = `SELECT comments.cid, comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
-              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} AND comments.blocked = 0 ORDER BY upvote DESC`;
+              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -193,6 +175,21 @@ app.get('/comments/:pid', (req, res) => {
   });
 });
 
+app.get('/picture/:uid', (req, res) => {
+  var query = `SELECT CONVERT(picture USING utf8) FROM users WHERE uid = ${req.params.uid}`;
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      console.log(result[0]["CONVERT(picture USING utf8)"]);
+      console.log("-------------");
+      console.log(result[0]);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result[0]["CONVERT(picture USING utf8)"]));
+    }
+  });
+})
 
 app.get('/comments/user/:uid', (req, res) => {
   var query = `SELECT post, comment, upvote, downvote FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
@@ -206,9 +203,11 @@ app.get('/comments/user/:uid', (req, res) => {
   });
 });
 
-app.get('/posts/pid/:pid', (req, res) => {
-  var query = `SELECT posts.pid, posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
-               INNER JOIN users ON posts.user = users.uid WHERE posts.pid = ${req.params.pid}`;
+
+
+app.get('/posts/:pid', (req, res) => {
+  var query = `SELECT posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
+               INNER JOIN users ON posts.user = users.uid WHERE  pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -285,9 +284,9 @@ app.post('/register', (req, res) => {
   var myPlaintextPassword = req.body.password;
 
   bcrypt.hash(myPlaintextPassword, saltRounds, (err, hash) => {
-    var query = `INSERT INTO users (uid, email, password, userType, picture, username)
+    var query = `INSERT INTO users (uid, email, password, userType, picture, username, img)
                  VALUES (NULL, '${req.body.email}', '${hash}',
-                        'user', NULL, '${req.body.username}')`
+                        'user', 'https://news.images.itv.com/image/file/935582/img.jpg', '${req.body.username}', '')`
     var loginquery = `SELECT * FROM users WHERE username LIKE '${req.body.username}'`
     db.query(query, (err, result) => {
       if (err) {
@@ -371,6 +370,18 @@ app.post('/updatePassword', (req, res) => {
 
 app.post('/updateEmail', (req, res) => {
   var query = `UPDATE users SET email = '${req.body.email}' WHERE uid LIKE '${req.body.uid}'`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+app.post('/updateImage', (req, res) => {
+  var query = `UPDATE users SET picture = '${req.body.email}' WHERE uid LIKE '${req.body.uid}'`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');

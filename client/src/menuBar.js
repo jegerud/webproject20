@@ -13,6 +13,7 @@ export class menuBar extends LitElement {
       super();
       this.getUserid();
       this.getUserName();
+      this.getPicture();
       window.currentUser = {
          id: this.id,
          name: this.username,
@@ -20,13 +21,6 @@ export class menuBar extends LitElement {
          image: this.picture,
          loggedIn: true
       };
-      if(this.picture == 'NULL'){
-         this.picture == "https://news.images.itv.com/image/file/935582/img.jpg";
-      }
-   }
-
-   getPicture() {
-      this.picture
    }
 
    getUserid() {
@@ -53,6 +47,24 @@ export class menuBar extends LitElement {
      });
    }
 
+   getPicture() {
+      fetch(`http://localhost:8081/picture/${this.userid}`, {
+         method: 'GET'
+     })
+     .then((response) => response.text())
+
+     .then((responseText) => {
+         var data = JSON.parse(responseText);
+         console.log(data);
+         this.picture = data;
+         console.log(this.picture);
+     })
+     .catch((error) => {
+         console.log("The data could not be fetched");
+         console.error(error);
+     });
+   }
+
    logout() {
       this.userid = null;
       localStorage.removeItem('userid');
@@ -61,15 +73,47 @@ export class menuBar extends LitElement {
       location.reload();
    }
 
+   searchFunction() {
+      fetch(`http://localhost:8081/posts/${this.title}`, {
+         method: 'GET'
+     })
+     .then((response) => response.text())
+     .then((responseText) => {
+        console.log(responseText);
+         var data = JSON.parse(responseText);
+     })
+     .catch((error) => {
+         console.log("The data could not be fetched");
+         console.error(error);
+     });
+
+   }
+
+   sendKeyword(){
+      console.log("send keyword funker");
+      var urlString = (window.location.href).toLowerCase();
+      var url = new URL(urlString);
+      console.log(url);
+     location.replace("http://localhost:8080/searchPosts.html?keyword="+this.title)
+   }
+
+
+   
+
    render() {
       return html`
       <link rel="stylesheet" href="./src/styles/header.css">
       <div class="header">
          <a href="/" class="logo">Creddit</a>
-      <div class="header-center">
-         <img src="https://news.images.itv.com/image/file/935582/img.jpg" alt="AdamJohnsom" id="profilePicture">
-      </div>
+         ${!this.loggedIn ?
+            html` `:
+            html`
+            <div class="header-pb">
+               <img src="${String(this.picture)}" alt="Kunne ikke laste bilde" id="profilePicture">
+            </div> `}
       <div class="header-right">
+            <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
+      <button type="Button" @click="${this.sendKeyword} id ="button">Search</button>
       ${!this.loggedIn ?
          html`
             <a href="./register.html">Register</a>
