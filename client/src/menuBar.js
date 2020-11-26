@@ -70,16 +70,25 @@ export class menuBar extends LitElement {
 
    }
 
+   sendKeyword(){
+      console.log("send keyword funker");
+      var urlString = (window.location.href).toLowerCase();
+      var url = new URL(urlString);
+      console.log(url);
+     location.replace("http://localhost:8080/searchPosts.html?keyword="+this.title)
+   }
+
+
+   
+
    render() {
       return html`
       <link rel="stylesheet" href="./src/styles/header.css">
       <div class="header">
       <a href="/" class="logo">Creddit</a>
       <div class="header-right">
-      <form id=form>
-      <input @input="${(e)=>this.title=e.target.value}" type="text"  placeholder="Search...">
-      <button @click="${this.searchFunction}" type="Button" id ="button">Search</button>
-      </form>
+      <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
+      <button type="Button" @click="${this.sendKeyword} id ="button">Search</button>
       ${!this.loggedIn ?
          html`
             <a href="./register.html">Register</a>

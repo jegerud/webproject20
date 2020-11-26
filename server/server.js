@@ -136,7 +136,7 @@ app.get('/allposts/:time', (req, res) => {
 });
 
 app.get('/posts/:title', (req, res) => {
-  var query = `SELECT * FROM posts WHERE title LIKE "%${req.params.title}%"`
+  var query =`SELECT * FROM posts WHERE LOWER(title) LIKE LOWER("%${req.params.title}%")`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
