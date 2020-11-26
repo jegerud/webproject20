@@ -79,7 +79,7 @@ export class seeCommments extends LitElement {
     }
 
     async getResource() {
-        var url = `http://localhost:8081/comments/${this.postId}/${this.selected}`;
+        var url = `http://localhost:8081/comments/pid/${this.postId}/${this.selected}`;
         fetch(url, {
             method: 'GET'
         })
@@ -201,7 +201,7 @@ export class seeCommments extends LitElement {
         <like>
             <button @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
             <button @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-        ${this.getUsertype != 'user' ? 
+        ${this.usertype != 'user' ? 
         html`
             <button @click="${(e) => this.blockComment(item.cid)}" type="button" id="like">Block Comment</button> 
         ` :
