@@ -11,18 +11,31 @@ export class newPost extends LitElement {
     }
 
     static styles = css`
-    #content
-    {
+    #title[type=text] {
+        border-width: thin;
+        box-sizing:border-box;
+        float: left;
+        padding: 6px;
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-top: 9px;
+        font-size: 16px;
+        width: 50%;
+      }
+
+    #content {
+        float: left;
+        border-width: thin;
+        padding: 6px;
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-top: 9px;
+        font-size: 13px;
         height:90px;
         width: 100%;
         box-sizing:border-box;
-    }
-
-    #title
-    {
-        border-radius: 0.5px;
-        box-sizing:border-box;
-    }
+        resize: none;
+      }
     `
 
     constructor() {
