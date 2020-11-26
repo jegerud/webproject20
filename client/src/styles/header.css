@@ -100,12 +100,26 @@
     }
 
   .header-right input[type=text] {
-    float: none;
+    float: left;
     display: block;
     text-align: left;
-    width: 100%;
+    width: 60%;
     margin: 0;
+    padding: 10px;
+    position: relative;
+    top: 10px;
+  }
+
+  .header-right button{
+    float: none;
+    border: none;
     padding: 14px;
+    font-size: 17px;
+    border-radius: 17px;
+    position: relative;
+    left: 30px;
+    
+
   }
   
 }
