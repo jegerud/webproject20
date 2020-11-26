@@ -16,9 +16,10 @@ export class seeCommments extends LitElement {
     }
 
     static styles = css`
-    .dropdown {
+    .sel {
         position: relative;
         display: inline-block;
+        border-radius: 17px;
       }
       
       .dropdown-content {

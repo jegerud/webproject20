@@ -160,16 +160,16 @@ export class seePost extends LitElement {
         return html`
         ${this.data.map(item => html`
         <div class="main-post"> 
-            <p>Posted by <b>${item.username}</b></p>
             <hr class="solid">
             <h4 class="head">${item.title}</h4>
             <p class="post-content">${item.content}</p>
+            <p id="posted">Posted by <b>${item.username}</b></p>
             <like>
-                <button @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
-                <button @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+                <button class="btn" @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+                <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.getUsertype != 'user' ? 
             html`
-                <button @click="${(e) => this.blockPost(item.pid)}" type="button" id="like">Block Post</button> 
+                <button class="btn" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
             ` :
             html``
             }
@@ -179,7 +179,7 @@ export class seePost extends LitElement {
         `)}
         <form class="post-comment">
             <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
-            <button @click="${this._handleClick}" type="button" id ="button">Publish</button><br>
+            <button class="btn" @click="${this._handleClick}" type="btn" id ="publish">Publish</button><br>
         </form><br>
         <div class="comments"> 
             <comments-all></comments-all>

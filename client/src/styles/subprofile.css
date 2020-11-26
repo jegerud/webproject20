@@ -16,7 +16,7 @@ html{
 
 .btn {
     display: inline;
-    outline: nones;
+    outline: none;
     font-size: small;
     border-radius: 500px;
     justify-content: center;
@@ -64,6 +64,10 @@ html{
     height: 30px;
     border-radius: 17px;
     outline: none;
+}
+
+#moderatorBtn {
+    
 }
 
 #newEmail {
