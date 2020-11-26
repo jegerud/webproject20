@@ -39,6 +39,7 @@ export class subMycomments extends LitElement {
     }
 
     async getResource() {
+      console.log("Ready to fetch");
       fetch(`http://localhost:8081/comments/user/${this.userid}`, {
           method: 'GET'
       })
