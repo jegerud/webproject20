@@ -116,16 +116,15 @@ app.get('/getComments', (req, res) => {
 });
 
 app.get('/allposts/:time', (req, res) => {
-  var query = ''; 
+  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
+              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
+              ORDER BY `;
   if (req.params.time == 2) {
-    query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
-              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
-              ORDER BY posts.upvote DESC`;
+    query = query + 'posts.upvote DESC';
   } else {
-    query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
-              FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
-              ORDER BY posts.date DESC`;
+    query = query + 'posts.date DESC';
   }
+
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
