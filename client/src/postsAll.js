@@ -15,26 +15,7 @@ export class postsAll extends LitElement {
         }
     }
     
-    static styles = css`
-    .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        padding: 12px 16px;
-        z-index: 1;
-      }
-      
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-    `
+
     
     constructor() {
         super();
@@ -96,7 +77,6 @@ export class postsAll extends LitElement {
             console.error(error);
         });
     }
-
     handleClick(pid, mode) {
         var url = '';
         let rawData = {
@@ -162,6 +142,7 @@ export class postsAll extends LitElement {
 
     render() {
         return html`
+        <link rel="stylesheet" href="./src/styles/postsAll.css">
         <form>
         <select id="sel" @change="${this.onChange}">
         ${this.options.map(item => html`
@@ -171,18 +152,18 @@ export class postsAll extends LitElement {
         </form>
         <br><br>
         ${this.data.map(item => html`
-        <div class=""> 
-            <p>Posted by <b>${item.username}</b></p>
-            <h4 class="head">
-            <a href="posts.html?pid=${item.pid}">${item.title}</a>
+        <div class="post"> 
+            <h4 class="title">
+            <a id="link" href="posts.html?pid=${item.pid}">${item.title}</a>
             </h4>
             <p class="post-content">${item.content}</p>
+            <p href="./profile.html" class="user">Posted by: <b id="username">${item.username}</b></p>
             <like>
-                <button @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
-                <button @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-            ${this.usertype != 'user' ? 
+                <button class="button" @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+                <button class="button" @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            ${this.getUsertype != 'user' ? 
             html`
-                <button @click="${(e) => this.blockPost(item.pid)}" type="button">Block Post</button> 
+                <button class="button" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
             ` :
             html``
             }
@@ -193,6 +174,5 @@ export class postsAll extends LitElement {
         `
     }
 }
-
 
 customElements.define('posts-all', postsAll);
