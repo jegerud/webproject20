@@ -71,7 +71,6 @@ export class menuBar extends LitElement {
    }
 
    sendKeyword(){
-      console.log("send keyword funker");
       var urlString = (window.location.href).toLowerCase();
       var url = new URL(urlString);
       console.log(url);
