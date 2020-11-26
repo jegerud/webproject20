@@ -88,7 +88,7 @@ export class menuBar extends LitElement {
       <a href="/" class="logo">Creddit</a>
       <div class="header-right">
       <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
-      <button type="Button" @click="${this.sendKeyword} id ="button">Search</button>
+      <button type="Button" @click="${this.sendKeyword}" id="searchButton">Search</button>
       ${!this.loggedIn ?
          html`
             <a href="./register.html">Register</a>

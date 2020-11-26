@@ -64,6 +64,7 @@
   }
 
 
+
   .header-right button{
     float: left;
     padding: 6px;
@@ -71,12 +72,20 @@
     margin-right: 9px;
     margin-top: 9px;
     font-size: 17px;
+    border-radius: 17px;
+  }
+
+  .header-right button:hover{
+    background-color: #ddd;
+    color: black;
+    border-radius: 17px;
   }
 
   #form{
   float: left;
   }
 
+  
 
 
   /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
