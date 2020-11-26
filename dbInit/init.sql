@@ -20,7 +20,7 @@ CREATE TABLE `posts` (
 `content` VARCHAR(20000) NOT NULL,
 `upvote` BIGINT(8) NOT NULL,
 `downvote` BIGINT(8) NOT NULL,
-`blocked` BOOLEAN DEFAULT "false",
+`blocked` TINYINT(1) DEFAULT "0",
 `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
 PRIMARY KEY (`pid`),
 FOREIGN KEY (`user`) REFERENCES users(`uid`)
@@ -33,7 +33,7 @@ CREATE TABLE `comments` (
 `comment` VARCHAR(20000),
 `upvote` BIGINT(8) NOT NULL,
 `downvote` BIGINT(8) NOT NULL,
-`blocked` BOOLEAN DEFAULT "false",
+`blocked` TINYINT(1) DEFAULT "0",
 `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (`cid`),
 FOREIGN KEY (`user`) REFERENCES users(`uid`),

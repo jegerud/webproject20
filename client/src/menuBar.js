@@ -90,15 +90,11 @@ export class menuBar extends LitElement {
    }
 
    sendKeyword(){
-      console.log("send keyword funker");
       var urlString = (window.location.href).toLowerCase();
       var url = new URL(urlString);
       console.log(url);
      location.replace("http://localhost:8080/searchPosts.html?keyword="+this.title)
    }
-
-
-   
 
    render() {
       return html`
@@ -112,8 +108,8 @@ export class menuBar extends LitElement {
                <img src="${String(this.picture)}" alt="Kunne ikke laste bilde" id="profilePicture">
             </div> `}
       <div class="header-right">
-            <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
-      <button type="Button" @click="${this.sendKeyword} id ="button">Search</button>
+      <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
+      <button type="Button" @click="${this.sendKeyword}" id="searchButton">Search</button>
       ${!this.loggedIn ?
          html`
             <a href="./register.html">Register</a>

@@ -144,7 +144,6 @@ export class displaySearch extends LitElement {
     fetch(`http://localhost:8081/posts/${this.keyword}`, {method: 'GET'})
    .then((response) => response.text())
    .then((responseText) => {
-      console.log(responseText);
       this.data = JSON.parse(responseText);
    })
    .catch((error) => {
@@ -155,6 +154,7 @@ export class displaySearch extends LitElement {
     }
 
     render() {
+        if(this.data.length != 0){
         return html`
         <form>
             <select name = "dropdown">
@@ -173,7 +173,7 @@ export class displaySearch extends LitElement {
             <like>
                 <button @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-            ${this.getUsertype != 'user' ? 
+            ${this.usertype != 'user' ? 
             html`
                 <button @click="${(e) => this.blockPost(item.pid)}" type="button">Block Post</button> 
             ` :
@@ -184,6 +184,11 @@ export class displaySearch extends LitElement {
         </div>
         <br>`)}
         `
+        }else{
+            return html`
+            <p>Could not find any match for: ${this.keyword}</p>
+            `
+        }
     }
 }
 

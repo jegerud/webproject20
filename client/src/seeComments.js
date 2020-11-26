@@ -9,17 +9,44 @@ export class seeCommments extends LitElement {
             loggedIn: {type: Boolean},
             usertype: {type: String},
             username: {type: String},
-            current: {type: Number}
+            current: {type: Number},
+            options: { type: Array },
+            selected: {type: String}
         }
     }
+
+    static styles = css`
+    .sel {
+        position: relative;
+        display: inline-block;
+        border-radius: 17px;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+      }
+      
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+    `
 
     constructor() {
         super();
         this.data = [];
         this.getPostid();
         this.getUserid();
+        this.getSorting();
         this.getResource();
         this.getUsertype();
+        this.options = [{value:1, text:"Date"}, 
+                        {value:2, text:"Likes"}];
     }
 
     getPostid(){
@@ -39,17 +66,31 @@ export class seeCommments extends LitElement {
         }
     }
 
+    getSorting(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        if(parameters.length > 1){
+            var temp = parameters[1].split("=");
+            current.selected = unescape(temp[1]);
+            console.log(current.selected);
+        } else {
+            current.selected = 1;
+        }
+    }
+
     async getResource() {
-        fetch(`http://localhost:8081/comments/${this.postId}`, {
+        var url = `http://localhost:8081/comments/pid/${this.postId}/${this.selected}`;
+        fetch(url, {
             method: 'GET'
         })
         .then((response) => response.text())
         .then((responseText) => {
             this.data = JSON.parse(responseText);
+            console.log(this.data);
         })
         .catch((error) => {
             console.log("The data could not be fetched");
-            console.error(error);
+            console.log(error);
         });
     }
 
@@ -113,6 +154,12 @@ export class seeCommments extends LitElement {
         });
     }
 
+    onChange(){
+        this.selected = this.shadowRoot.querySelector('#sel').value
+        var url = "?pid=" + this.postId + "&value=" + this.selected;
+        location.replace(url);
+    }
+
     blockComment(commentid) {
         var url = 'http://localhost:8081/handleblock';
         var rawData = {
@@ -143,13 +190,18 @@ export class seeCommments extends LitElement {
 
     render() {
         return html`
+        <select id="sel" @change="${this.onChange}">
+        ${this.options.map(item => html`
+            <option value="${item.value}" ?selected=${this.selected == item.value}>${item.text}</option>
+        `)}
+        </select>
         ${this.data.map(item => html`
         <p class="comment-title">Posted by <b>${item.username}</b></p>
         <p class="comment-content">${item.comment}</p> 
         <like>
             <button @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
             <button @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-        ${this.getUsertype != 'user' ? 
+        ${this.usertype != 'user' ? 
         html`
             <button @click="${(e) => this.blockComment(item.cid)}" type="button" id="like">Block Comment</button> 
         ` :

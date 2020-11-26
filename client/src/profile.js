@@ -7,14 +7,14 @@ export class profilePage extends LitElement {
             loggedIn: {type: Boolean},
             usertype: {type: String},
             username: {type: String},
-            current: {type: Number}
+            selected: {type: Number}
         }
     }
 
     constructor() {
         super();
-        this.current = 1;
         this.getUserid();
+        this.getSelected();
         this.getUsertype();
     }
 
@@ -24,6 +24,19 @@ export class profilePage extends LitElement {
            this.loggedIn = true;
         } else {
            this.loggedIn = false;
+        }
+    }
+
+    getSelected(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        var temp = parameters[0].split("=");
+        if(temp.length > 1){
+            console.log(temp);
+            current.selected = unescape(temp[1]);
+            console.log(current.selected);
+        } else {
+            current.selected = 1;
         }
     }
 
@@ -88,7 +101,7 @@ export class profilePage extends LitElement {
     `;
 
     tabClicked(number) {
-        this.current = number;
+        this.selected = number;
     }
 
     render() {
@@ -110,31 +123,31 @@ export class profilePage extends LitElement {
             <li><a @click="${(e) => this.tabClicked(7)}">Blocked Comments</a></li>
             `: html``}
         </ul>
-        ${this.current == 1 ?
+        ${this.selected == 1 ?
             html`
                 <sub-profile></sub-profile>
             `:html``}
-        ${this.current == 2 ?
+        ${this.selected == 2 ?
             html`
                 <sub-myposts></sub-myposts>
             `:html``}
-        ${this.current == 3 ?
+        ${this.selected == 3 ?
             html`
                 <sub-mycomments></sub-mycomments>
             `:html``}
-        ${this.current == 4 ?
+        ${this.selected == 4 ?
             html`
                 <sub-requests></sub-requests>
             `:html``}
-        ${this.current == 5 ?
+        ${this.selected == 5 ?
             html`
                 <sub-allusers></sub-allusers>
             `:html``}
-        ${this.current == 6 ?
+        ${this.selected == 6 ?
             html`
                 <sub-blockedposts></sub-blockedposts>
             `:html``}
-        ${this.current == 7 ?
+        ${this.selected == 7 ?
             html`
                 <sub-blockedcomments></sub-blockedcomments>
             `:html``}

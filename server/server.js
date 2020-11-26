@@ -116,10 +116,28 @@ app.get('/getComments', (req, res) => {
   });
 });
 
-app.get('/posts', (req, res) => {
-  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, users.email, users.username 
+app.get('/allposts/:time', (req, res) => {
+  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
               FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
-              ORDER BY posts.pid DESC`
+              ORDER BY `;
+  if (req.params.time == 2) {
+    query = query + 'posts.upvote DESC';
+  } else {
+    query = query + 'posts.date DESC';
+  }
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
+
+app.get('/posts/:title', (req, res) => {
+  var query =`SELECT * FROM posts WHERE LOWER(title) LIKE LOWER("%${req.params.title}%")`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -161,10 +179,15 @@ app.post('/comments', (req, res) => {
   });
 });
 
-
-app.get('/comments/:pid', (req, res) => {
+app.get('/comments/pid/:pid/:time', (req, res) => {
   var query = `SELECT comments.cid, comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
-              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} ORDER BY upvote DESC`;
+              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} AND comments.blocked = 0 ORDER BY `;
+  if (req.params.time == 2) {
+    query = query + 'comments.upvote DESC';
+  } else {
+    query = query + 'comments.date DESC';
+  } 
+
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -192,7 +215,7 @@ app.get('/picture/:uid', (req, res) => {
 })
 
 app.get('/comments/user/:uid', (req, res) => {
-  var query = `SELECT post, comment, upvote, downvote FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
+  var query = `SELECT post, comment, upvote, downvote, cid FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');

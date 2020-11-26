@@ -64,6 +64,41 @@ body{margin-top:20px;}
     grid-area: header;
 }
 
+.btn {
+    display: inline;
+    outline: none;
+    font-size: small;
+    border-radius: 500px;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 30px;
+    width: 100px;
+    opacity: 1;
+    border: none;
+}
+
+#like:hover{
+    background-color: #66bb6a;
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+  }
+
+  #dislike:hover{
+    background-color: #f44336;
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+  }
+  
+  #blockPost:hover{
+    background-color: #ffb74d;
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+  }
+
 .posts {
     grid-area: posts;
     display: grid;
@@ -98,21 +133,27 @@ body{margin-top:20px;}
     background-color: green;
 }
 
-head, p, like {
-    font-family: Arial, Helvetica, sans-serif;
+#posted{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
+
   
 .head {
-    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: x-large;
     padding: 0px;
+    color: #3983AD;
 }
 
 .post-content {
-    padding-left: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .comment-content {
-    padding-left: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 #post-comment {
@@ -128,9 +169,18 @@ head, p, like {
     font-size: 13px;
     padding-left: 10px;
 }
-  
-like {
-    padding-left: 10px;
+
+#publish:hover {
+    background-color: #66bb6a;
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+}
+#post-comment {
+    text-align: start ;
+    border-radius: 17px;
+    border-width: 1px;
+    height: 50px;
 }
 
 hr.mid-solid {

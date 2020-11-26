@@ -5,7 +5,8 @@ export class subBlockedcomments extends LitElement {
       return {
         loggedIn: {type: Boolean},
         userid: {type: Number},
-        data: {type: Array}
+        data: {type: Array},
+        selected: {type: Number}
       };
     }
 
@@ -27,6 +28,7 @@ export class subBlockedcomments extends LitElement {
       this.data = [];
       this.getUserid();
       this.getResource();
+      this.selected = 7;
     }
 
     getUserid() {
@@ -39,7 +41,6 @@ export class subBlockedcomments extends LitElement {
     }
 
     async getResource() {
-      console.log("Fetching");
       fetch(`http://localhost:8081/blocked/comments`, {
           method: 'GET'
       })
@@ -55,6 +56,7 @@ export class subBlockedcomments extends LitElement {
 
     handleBlock(mode, commentid) {
       var url = '';
+      var current = this;
       var rawData = {
         "place": 'comments',
         "type": 'cid',
@@ -81,7 +83,7 @@ export class subBlockedcomments extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.reload();
+            location.replace(`profile.html?val=${current.selected}`);
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });

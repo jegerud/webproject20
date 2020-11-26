@@ -78,7 +78,6 @@
     font-size: 17px;
   }
 
-
   .header-right button{
     float: left;
     padding: 6px;
@@ -86,13 +85,18 @@
     margin-right: 9px;
     margin-top: 9px;
     font-size: 17px;
+    border-radius: 17px;
+  }
+
+  .header-right button:hover{
+    background-color: #ddd;
+    color: black;
+    border-radius: 17px;
   }
 
   #form{
   float: left;
-  }
-
-
+  }  
 
   /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
   @media screen and (max-width: 500px) {
@@ -106,12 +110,26 @@
     }
 
   .header-right input[type=text] {
-    float: none;
+    float: left;
     display: block;
     text-align: left;
-    width: 100%;
+    width: 60%;
     margin: 0;
+    padding: 10px;
+    position: relative;
+    top: 10px;
+  }
+
+  .header-right button{
+    float: none;
+    border: none;
     padding: 14px;
+    font-size: 17px;
+    border-radius: 17px;
+    position: relative;
+    left: 30px;
+    
+
   }
   
 }
