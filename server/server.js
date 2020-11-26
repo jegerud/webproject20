@@ -186,10 +186,8 @@ app.get('/comments/:pid/:time', (req, res) => {
   } else {
     query = query + 'comments.date DESC';
   } 
-  console.log("Ready to do query");
 
   db.query(query, (err, result) => {
-    console.log("Query has been done");
     if (err) {
       res.status(400).send('Error in database operation.');
     } else {
