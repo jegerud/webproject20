@@ -178,11 +178,18 @@ app.post('/comments', (req, res) => {
   });
 });
 
-
-app.get('/comments/:pid', (req, res) => {
+app.get('/comments/:pid/:time', (req, res) => {
   var query = `SELECT comments.cid, comments.post, comments.user, comments.comment, comments.upvote, comments.downvote, users.username FROM comments 
-              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} AND comments.blocked = 0 ORDER BY upvote DESC`;
+              INNER JOIN users ON comments.user = users.uid WHERE post = ${req.params.pid} AND comments.blocked = 0 ORDER BY `;
+  if (req.params.time == 2) {
+    query = query + 'comments.upvote DESC';
+  } else {
+    query = query + 'comments.date DESC';
+  } 
+  console.log("Ready to do query");
+
   db.query(query, (err, result) => {
+    console.log("Query has been done");
     if (err) {
       res.status(400).send('Error in database operation.');
     } else {
@@ -191,7 +198,6 @@ app.get('/comments/:pid', (req, res) => {
     }
   });
 });
-
 
 app.get('/comments/user/:uid', (req, res) => {
   var query = `SELECT post, comment, upvote, downvote FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
