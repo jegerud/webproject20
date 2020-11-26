@@ -46,7 +46,6 @@ export class postsAll extends LitElement {
         } else {
             current.selected = 1;
         }
-
     }
 
     async getResource() {
