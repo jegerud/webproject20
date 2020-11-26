@@ -78,9 +78,6 @@ export class menuBar extends LitElement {
      location.replace("http://localhost:8080/searchPosts.html?keyword="+this.title)
    }
 
-
-   
-
    render() {
       return html`
       <link rel="stylesheet" href="./src/styles/header.css">
