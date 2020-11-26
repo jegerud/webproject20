@@ -65,7 +65,6 @@ export class postsAll extends LitElement {
         } else {
             current.selected = 1;
         }
-
     }
 
     async getResource() {
@@ -181,7 +180,7 @@ export class postsAll extends LitElement {
             <like>
                 <button @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-            ${this.getUsertype != 'user' ? 
+            ${this.usertype != 'user' ? 
             html`
                 <button @click="${(e) => this.blockPost(item.pid)}" type="button">Block Post</button> 
             ` :
