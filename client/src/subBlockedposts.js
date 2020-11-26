@@ -5,7 +5,8 @@ export class subBlockedposts extends LitElement {
       return {
         loggedIn: {type: Boolean},
         userid: {type: Number},
-        data: {type: Array}
+        data: {type: Array},
+        selected: {type: Number}
       };
     }
 
@@ -27,6 +28,7 @@ export class subBlockedposts extends LitElement {
       this.data = [];
       this.getUserid();
       this.getResource();
+      this.selected = 6;
     }
 
     getUserid() {
@@ -74,7 +76,7 @@ export class subBlockedposts extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.reload();
+            location.replace(`profile.html?val=${current.selected}`);
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
