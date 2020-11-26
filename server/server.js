@@ -198,8 +198,7 @@ app.get('/comments/pid/:pid/:time', (req, res) => {
 });
 
 app.get('/comments/user/:uid', (req, res) => {
-  var query = `SELECT post, comment, upvote, downvote FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
-  console.log(query);
+  var query = `SELECT post, comment, upvote, downvote, cid FROM comments WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
