@@ -102,7 +102,7 @@ export class subBlockedposts extends LitElement {
           return Promise.reject(response);
       }).then(function (data) {
           console.log(data);
-          location.reload();
+          location.replace(`profile.html?val=${current.selected}`);
       }).catch(function (error) {
           console.warn('Something went wrong.', error);
       });
