@@ -243,6 +243,7 @@ export class seePost extends LitElement {
 
     render() {
         return html`
+          <link rel="stylesheet" href="./src/styles/postsAll.css">
         <p></p>
         ${this.data.map(item => html`
         <div class="main-post"> 
@@ -277,7 +278,7 @@ export class seePost extends LitElement {
                 <textarea
                     @input="${(e)=>item.content=e.target.value}"
                     id="content"placeholder="Text (Optional)"></textarea>
-                <button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.pid,item.title, item.content)}" type="button">Publish</button><br>
+                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.pid,item.title, item.content)}" type="button">Publish</button><br>
                 <br><br>
                     </form>
                 ` :
@@ -288,7 +289,7 @@ export class seePost extends LitElement {
         `)}
         <form class="post-comment">
             <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
-            <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
+           <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
         </form><br>
         <div class="comments"> 
             <comments-all></comments-all>
