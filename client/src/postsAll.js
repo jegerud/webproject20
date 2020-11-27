@@ -15,6 +15,7 @@ export class postsAll extends LitElement {
             edit: {type: Boolean},
             title: {type: String},
             content: {type: String},
+            globalPid: {type: Number}
         }
     }
 
@@ -170,6 +171,14 @@ export class postsAll extends LitElement {
     }
 
 
+    handleEditClick(pid){
+        this.edit = true;
+        this.globalPid = pid;
+
+
+    }
+
+
 
 
     render() {
@@ -195,7 +204,7 @@ export class postsAll extends LitElement {
             ${this.userid == item.user ?
             html`
                 <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete</button>
-                <button class="button" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button>
+                <button class="button" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="like">Edit</button>
             ` :
             html``
             }
@@ -206,7 +215,7 @@ export class postsAll extends LitElement {
             html``
             }
             </like><br><br>
-            ${this.edit == true ?
+            ${this.edit == true && this.userid == item.user && item.pid == this.globalPid ?
             html`
             <form>
             <input
