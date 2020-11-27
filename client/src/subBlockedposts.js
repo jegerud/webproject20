@@ -13,13 +13,45 @@ export class subBlockedposts extends LitElement {
     static styles = css`
     :host {
         display: block;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .body {
-        padding-left: 20px;
+    .head{
+      color: #3983AD;
+      font-size: large;
+      text-decoration: none;
     }
     .sublikes {
         padding-left: 20px;
         font-size: 13px;
+    }
+    .button {
+      display: inline;
+      outline: none;
+      font-size: x-small;
+      border-radius: 500px;
+      justify-content: center;
+      cursor: pointer;
+      text-transform: uppercase;
+      height: 30px;
+      width: 120x;
+      opacity: 0.9;
+      background-color: #ffffff;
+      border: 1px solid black;
+    }
+    #approve {
+      margin-left: 5px;
+    }
+    #approve:hover {
+      background-color: #66bb6a;
+      background: darken(#C06C84,10%);
+      box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+      transform: translate3d(0, -2px, 0);
+    }
+    #delete:hover{
+      background-color: #f44336;
+      background: darken(#C06C84,10%);
+      box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+      transform: translate3d(0, -2px, 0);
     }
     `;
 
@@ -138,12 +170,12 @@ export class subBlockedposts extends LitElement {
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-            <b><a href="posts.html?pid=${item.pid}">${item.title}, ${item.pid}</a></b>
+            <b><a class="head" href="posts.html?pid=${item.pid}">${item.title}, ${item.pid}</a></b>
             <p class="body">${item.content}</p>
             <div>
-                <button @click="${(e) => this.deletePost(item.pid)}" type="button">Delete post</button> 
-                <button @click="${(e) => this.unblockPost(item.pid)}" type="button">Approve post</button>
-            </div><br><br>
+                <button class="button" @click="${(e) => this.deletePost(item.pid)}" id="delete" type="button">Delete</button> 
+                <button class="button" @click="${(e) => this.unblockPost(item.pid)}" id="approve" type="button">Approve</button>
+            </div><br>
             `)}
             ` : 
             html`

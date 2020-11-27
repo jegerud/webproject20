@@ -18,6 +18,7 @@ export class subMyposts extends LitElement {
     }
     .head {
     color: #3983AD;
+    text-decoration: none;
 
     }
     .body {
