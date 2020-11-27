@@ -169,7 +169,7 @@ export class postsAll extends LitElement {
                 <button class="button" @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.userid == item.user ? 
             html`
-                <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete Comment</button> 
+                <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete</button> 
             ` :
             html``
             }
