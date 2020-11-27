@@ -39,7 +39,25 @@
     grid-area: profile;
 }
 
-
 .sidebar {
     grid-area: sidebar;
 }
+
+.subcontainer {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto 480px;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "info profilepic";
+    padding: 40px;
+}
+
+.info {
+    grid-area: info;
+}
+
+.profilepic {
+    grid-area: profilepic;
+}
+

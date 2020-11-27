@@ -18,7 +18,7 @@ export class postsAll extends LitElement {
             globalPid: {type: Number}
         }
     }
-
+    
     constructor() {
         super();
         this.edit = false;
@@ -167,19 +167,12 @@ export class postsAll extends LitElement {
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
-
     }
-
 
     handleEditClick(pid){
         this.edit = true;
         this.globalPid = pid;
-
-
     }
-
-
-
 
     render() {
         return html`
