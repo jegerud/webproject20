@@ -55,9 +55,7 @@ export class menuBar extends LitElement {
 
      .then((responseText) => {
          var data = JSON.parse(responseText);
-         console.log(data);
          this.picture = data;
-         console.log(this.picture);
      })
      .catch((error) => {
          console.log("The data could not be fetched");
@@ -92,8 +90,7 @@ export class menuBar extends LitElement {
    sendKeyword(){
       var urlString = (window.location.href).toLowerCase();
       var url = new URL(urlString);
-      console.log(url);
-     location.replace("http://localhost:8080/searchPosts.html?keyword="+this.title)
+      location.replace("http://localhost:8080/searchPosts.html?keyword="+this.title)
    }
 
    render() {

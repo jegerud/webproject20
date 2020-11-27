@@ -46,9 +46,10 @@
   }
 
   .button{
+
     display: inline;
     outline: none;
-    font-size: small;
+    font-size: x-small;
     border-radius: 500px;
     justify-content: center;
     cursor: pointer;

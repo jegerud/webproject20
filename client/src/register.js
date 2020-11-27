@@ -42,8 +42,7 @@ export class userRegister extends LitElement {
                 console.log("Not registered");
             }
         }).catch(function (error) {
-            console.log("This didnt work");
-            // console.warn('Something went wrong.', error);
+            console.warn('Something went wrong.', error);
         });
     }
 
