@@ -182,17 +182,17 @@ export class seeCommments extends LitElement {
         <p class="comment-title">Posted by <b>${item.username}</b></p>
         <p class="comment-content">${item.comment}</p> 
         <like>
-            <button class="button" @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
-            <button class="button" @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            <button class="btn" @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+            <button class="btn" @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
         ${this.userid == item.user ? 
         html`
-            <button  class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="delete">Delete</button> 
+            <button  class="btn" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="delete">Delete</button> 
         ` :
         html``
         }
         ${this.usertype != 'user' ? 
         html`
-            <button class="button" @click="${(e) => this.blockComment(item.cid)}" type="button" id="blockPost" >Block</button> 
+            <button class="btn" @click="${(e) => this.blockComment(item.cid)}" type="button" id="blockPost" >Block</button> 
         ` :
         html``
         }
