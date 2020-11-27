@@ -15,8 +15,6 @@ export class postsAll extends LitElement {
         }
     }
     
-
-    
     constructor() {
         super();
         this.data = [];
