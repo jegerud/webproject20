@@ -100,7 +100,7 @@ export class menuBar extends LitElement {
       return html`
       <link rel="stylesheet" href="./src/styles/header.css">
       <div class="header">
-         <a href="/" class="logo">Creddit</a>
+         <a href="/" class="logo">Company XYZ</a>
          ${!this.loggedIn ?
             html` `:
             html`
