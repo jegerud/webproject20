@@ -12,13 +12,19 @@ export class subMyposts extends LitElement {
     static styles = css`
     :host {
         display: block;
+        font-size: large;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .head {
+    color: #3983AD;
+
     }
     .body {
         padding-left: 0px;
+        
     }
     .sublikes {
-        padding-left: 10px;
-        font-size: 13px;
+        padding-left: 0px;
     }
     `;
 
@@ -59,11 +65,11 @@ export class subMyposts extends LitElement {
             html`
             ${this.data.map(item => html`
             <h4>
-                <a href="posts.html">${item.title}</a>
+                <a class = "head" href="posts.html">${item.title}</a>
             </h4>
             <p class="body">${item.content}</p>
             <div>
-              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}</p>
+              <p class="sublikes">Likes: ${item.upvote}<br>Dislikes: ${item.downvote}</p>
             </div>
             `)}
             ` : html`

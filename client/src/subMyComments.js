@@ -9,19 +9,6 @@ export class subMycomments extends LitElement {
       };
     }
 
-    static styles = css`
-    :host {
-        display: block;
-    }
-    .body {
-        padding-left: 20px;
-    }
-    .sublikes {
-        padding-left: 20px;
-        font-size: 13px;
-    }
-    `;
-
     constructor() {
       super();
       this.data = [];
