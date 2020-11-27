@@ -106,13 +106,19 @@ export class postsAll extends LitElement {
         });
     }
 
-    blockPost(postid) {
-        var url = 'http://localhost:8081/handleblock';
+    blockPost(postid, mode = 0) {
+        var url = '';
         var rawData = {
             "place": 'posts',
             "type": 'pid',
             "id": postid,
             "value": 1
+        }
+
+        if (mode == 0) {
+            url = 'http://localhost:8081/handleblock';
+        } else {
+            url = 'http://localhost:8081/deletecomments';
         }
 
         fetch(url, {
@@ -161,6 +167,12 @@ export class postsAll extends LitElement {
             <like>
                 <button class="button" @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button class="button" @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            ${this.userid == item.user ? 
+            html`
+                <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete Comment</button> 
+            ` :
+            html``
+            }
             ${this.usertype != 'user' ? 
             html`
                 <button class="button" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
