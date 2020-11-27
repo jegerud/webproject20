@@ -13,7 +13,6 @@ export class menuBar extends LitElement {
       super();
       this.getUserid();
       this.getUserName();
-      this.getPicture();
       window.currentUser = {
          id: this.id,
          name: this.username,
@@ -21,6 +20,7 @@ export class menuBar extends LitElement {
          image: this.picture,
          loggedIn: true
       };
+      if(this.loggedIn){this.getPicture();};
    }
 
    getUserid() {
@@ -105,7 +105,7 @@ export class menuBar extends LitElement {
             html` `:
             html`
             <div class="header-pb">
-               <img src="${String(this.picture)}" alt="Kunne ikke laste bilde" id="profilePicture">
+               <img src="${String(this.picture)}" alt=" " id="profilePicture">
             </div> `}
       <div class="header-right">
       <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
