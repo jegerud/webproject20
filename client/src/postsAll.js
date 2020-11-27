@@ -11,7 +11,10 @@ export class postsAll extends LitElement {
             current: {type: Number},
             time: {type: Boolean},
             options: { type: Array },
-            selected: { type: String }
+            selected: { type: String },
+            edit: {type: Boolean},
+            title: {type: String},
+            content: {type: String},
         }
     }
     
@@ -19,6 +22,7 @@ export class postsAll extends LitElement {
     
     constructor() {
         super();
+        this.edit = false; 
         this.data = [];
         this.getUserid();
         this.getSorting();
@@ -146,6 +150,36 @@ export class postsAll extends LitElement {
         location.replace(url);
     }
 
+    handleEdit(pid){
+        var rawData = {
+            "title": this.title,
+            "content": this.content,
+            "pid": pid
+        }
+        console.log("Pung");
+        fetch('http://localhost:8081/updatePost', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+
+    }
+
+
+
+
     render() {
         return html`
         <link rel="stylesheet" href="./src/styles/postsAll.css">
@@ -170,16 +204,32 @@ export class postsAll extends LitElement {
             ${this.userid == item.user ? 
             html`
                 <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete</button> 
+                <button class="button" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button> 
             ` :
             html``
             }
             ${this.usertype != 'user' ? 
             html`
-                <button class="button" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
+                <button class="button" @click="${(e) => this.blockPost}" type="button" id="blockPost">Block Post</button> 
             ` :
             html``
             }
             </like><br><br>
+            ${this.edit == true ? 
+            html`
+            <form>
+            <input
+                @input="${(e)=>this.title=e.target.value}"
+                type="text" placeholder="Title" id="title" name="title"><br><br>
+            <textarea
+                @input="${(e)=>this.content=e.target.value}"
+                id="content"placeholder="Text (Optional)"></textarea>
+            <button class="button" id="publish" @click="${(e)=> this.handleEdit(item.pid)}" type="button">Publish</button><br>
+            <br><br>
+                </form>
+            ` :
+            html``
+            }
             <hr class="solid">
         </div>
         <br>`)}
