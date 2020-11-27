@@ -133,7 +133,7 @@ export class seePost extends LitElement {
             "type": 'pid',
             "id": postid,
             "value": 1
-          }
+        }
 
         fetch(url, {
             method: 'POST',
@@ -148,11 +148,62 @@ export class seePost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.replace("index.html");
+            location.reload("index.html");
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
+
+    deletePost(postid) {
+        var rawData = {
+          "place": 'comments',
+          "type": 'post',
+          "id": postid
+        }
+        
+        fetch('http://localhost:8081/deletebypid', {
+          method: 'POST',
+          body: JSON.stringify(rawData),
+          headers: {
+              'Content-Type': 'application/json; charset=UTF-8'
+          }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            console.log("Comments deleted!");
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+  
+        rawData = {
+          "place": 'posts',
+          "type": 'pid',
+          "id": postid
+        }
+        
+        fetch('http://localhost:8081/deletebypid', {
+          method: 'POST',
+          body: JSON.stringify(rawData),
+          headers: {
+              'Content-Type': 'application/json; charset=UTF-8'
+          }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            console.log("Deleting posts");
+            location.replace(`index.html`);
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+      }
 
     render() {
         return html`
@@ -166,6 +217,12 @@ export class seePost extends LitElement {
             <like>
                 <button class="btn" @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            ${this.userid == item.user ? 
+            html`
+                <button class="btn" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button> 
+            ` :
+            html``
+            }
             ${this.usertype != 'user' ? 
             html`
                 <button class="btn" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
