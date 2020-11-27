@@ -209,7 +209,7 @@ export class seePost extends LitElement {
       }
 
 
-      handleEdit(pid, title, content){
+      handleEdit(title, content){
           var current = this;
           var rawData = {
             "title": title,
@@ -230,7 +230,7 @@ export class seePost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.replace();
+            location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
@@ -272,7 +272,7 @@ export class seePost extends LitElement {
                 <textarea
                     @input="${(e)=>item.content=e.target.value}"
                     id="content"placeholder="Text (Optional)"></textarea>
-                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.pid,item.title, item.content)}" type="button">Publish</button><br>
+                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.title, item.content)}" type="button">Publish</button><br>
                 <br><br>
                     </form>
                 ` :
