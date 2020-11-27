@@ -105,7 +105,7 @@ export class menuBar extends LitElement {
             html` `:
             html`
             <div class="header-pb">
-               <img src="${String(this.picture)}" alt=" " id="profilePicture">
+               <img src="${String(this.picture)}" alt="Kunne ikke laste bildet" id="profilePicture">
             </div> `}
       <div class="header-right">
       <input @input="${(e)=>this.title=e.target.value}" type="Text"  placeholder="Search...">
