@@ -5,7 +5,8 @@ export class menuBar extends LitElement {
       return {
         userid: {type: Number},
         loggedIn: {type: Boolean},
-        username: {type: String}
+        username: {type: String},
+        picture: {type: String}
       };
    }
 
