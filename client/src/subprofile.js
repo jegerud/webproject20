@@ -224,7 +224,7 @@ export class subProfile extends LitElement {
               return Promise.reject(response);
             }).then(function (data) {
           if (data) {
-            current.changeEmail = 2;
+            current.changeImage = 2;
           } else {
             alert("Something went wrong, please try again later!");
           }
@@ -394,9 +394,9 @@ export class subProfile extends LitElement {
             ${this.changeImage == 1 ? 
             html`
             <br>
-            <div>New Image
+            <div>New Image (Put in image link)
               <input @input="${(e)=>this.newImage=e.target.value}"
-              type="file" placeholder="" id="newImg" name="newImg">
+              type="text" placeholder="" id="newImg" name="newImg">
             </div><br>
             <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
               type="button" name="" value="submit"></input>`
