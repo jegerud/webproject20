@@ -3,24 +3,6 @@ html{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.subcontainer {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: auto 230px;
-    grid-template-rows: auto;
-    grid-template-areas: 
-        "info profilepic";
-    padding: 40px;
-}
-
-.info {
-    grid-area: info;
-}
-
-.profilepic {
-    grid-area: profilepic;
-}
-
 #userAttributes {
     font-size: large;
 }
