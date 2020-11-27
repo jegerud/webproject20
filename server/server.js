@@ -228,7 +228,7 @@ app.get('/comments/user/:uid', (req, res) => {
 
 app.get('/posts/pid/:pid', (req, res) => {
   var query = `SELECT posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
-               INNER JOIN users ON posts.user = users.uid WHERE  pid = ${req.params.pid}`;
+               INNER JOIN users ON posts.user = users.uid WHERE pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -289,7 +289,6 @@ app.post('/deletecomments', (req, res) => {
 
 app.post('/deletebypid', (req, res) => {
   var query = `DELETE FROM ${req.body.place} WHERE ${req.body.type} = '${req.body.id}'`
-  console.log(query);
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
