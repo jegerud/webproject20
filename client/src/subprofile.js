@@ -305,7 +305,7 @@ export class subProfile extends LitElement {
             class="btn" type="button" name="" value="Handle moderator request"></input></p>` : html``}
             ${item.userType == 'user' && item.request == true ? 
             html`<p>Moderator request sent!</p>` : html``}
-          </div>
+          </div><br>
           
             ${this.changeUsername == 0 ? 
             html`
@@ -315,12 +315,13 @@ export class subProfile extends LitElement {
 
           </div>${this.changeUsername == 1 ? 
             html`
-            <div>New username 
+            <div> 
+            Change username:<br><br>
               <input @input="${(e)=>this.newUsername=e.target.value}"
-              type="text" placeholder="" id="oldPass" name="oldPass">
-            </div><br>
-            <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
-              type="button" name="submitter" value="confirm username"></input>
+              type="text" placeholder="Username..." id="oldPass" name="oldPass">
+              <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
+              type="button" name="submitter" value="Submit"></input>
+            </div>
             ` : html` `}
             
           ${this.changeUsername == 2 ? 
@@ -337,12 +338,14 @@ export class subProfile extends LitElement {
 
           <div> ${this.changeEmail == 1 ? 
             html`
-            <div><br>New e-mail 
+            <div><br>
+            Change e-mail:<br><br> 
               <input @input="${(e)=>this.newEmail=e.target.value}"
-              type="text" placeholder="" id="oldPass" name="oldPass">
+              type="text" placeholder="New e-mail..." id="oldPass" name="oldPass">
+              <input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
+              type="button" name="" value="Submit"></input>
             </div><br>
-            <p><input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
-              type="button" name="" value="Confirm e-mail"></input></p>
+            
             ` : html` `}
 
           ${this.changeEmail == 2 ? 
@@ -362,20 +365,22 @@ export class subProfile extends LitElement {
             ${this.changePassword == 1 ? 
             html`
             <br>
-            <div>Old password 
+            Change password:<br><br>
+            <div>
               <input @input="${(e)=>this.oldPassword=e.target.value}"
-              type="password" placeholder="" id="oldPass" name="oldPass">
+              type="password" placeholder="Old password..." id="oldPass" name="oldPass">
             </div><br>
-            <div>New password 
+            <div>
               <input @input="${(e)=>this.newPassword=e.target.value}"
-              type="password" placeholder="" id="newPass" name="newPass">
+              type="password" placeholder="New password..." id="newPass" name="newPass">
             </div><br>
-            <div>Confirm new password 
+            <div> 
               <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
-              type="password" placeholder="" id="newPass2" name="newPass2">
+              type="password" placeholder="Confirm new password..." id="newPass2" name="newPass2">
+              <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
+              type="button" name="" value="submit"></input>
             </div><br>
-            <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
-              type="button" name="" value="submit"></input>` 
+            ` 
             : html` `}
 
           ${this.changePassword == 2 ? 
@@ -395,12 +400,14 @@ export class subProfile extends LitElement {
               ${this.changeImage == 1 ? 
               html`
               <br>
-              <div>New Image (Put in image link)
+              Change profile image:<br><br>
+              <div>
                 <input @input="${(e)=>this.newImage=e.target.value}"
-                type="text" placeholder="" id="newImg" name="newImg">
+                type="text" placeholder="Image link..." id="oldPass" name="newImg">
+                <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
+                type="button" name="" value="submit"></input>
               </div><br>
-              <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
-                type="button" name="" value="submit"></input>`
+              `
               : html` `}
 
             ${this.changeImage == 2 ? 

@@ -9,12 +9,14 @@ export class seePost extends LitElement {
             userid: {type: Number},
             usertype: {type: String},
             username: {type: String},
-            selected: {type: Number}
+            selected: {type: Number},
+            edit: {type: Boolean}
         }
     }
 
     constructor() {
         super();
+        this.edit = false; 
         this.data = [];
         this.getUserid();
         this.getPostid();
@@ -42,7 +44,6 @@ export class seePost extends LitElement {
     async getResource() {
         var current = this;
         var url = `http://localhost:8081/posts/pid/${current.postId}`;
-        console.log(url);
         fetch(url, {
             method: 'GET'
         })
@@ -99,7 +100,7 @@ export class seePost extends LitElement {
     handlePost(mode) {
         var url = '';
         let rawData = {
-            "pid":this.postId
+            "pid": this.postId
         }
 
         if (mode == 1) {
@@ -126,15 +127,16 @@ export class seePost extends LitElement {
         });
     }
 
-    blockPost(postid) {
+    blockPost() {
+        var current = this;
         var url = 'http://localhost:8081/handleblock';
         var rawData = {
             "place": 'posts',
             "type": 'pid',
-            "id": postid,
+            "id": current.postId,
             "value": 1
         }
-
+        console.log(url);
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -148,17 +150,18 @@ export class seePost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.reload("index.html");
+            location.replace("index.html");
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
 
-    deletePost(postid) {
+    deletePost() {
+        var current = this;
         var rawData = {
           "place": 'comments',
           "type": 'post',
-          "id": postid
+          "id": current.postId
         }
         
         fetch('http://localhost:8081/deletebypid', {
@@ -182,7 +185,7 @@ export class seePost extends LitElement {
         rawData = {
           "place": 'posts',
           "type": 'pid',
-          "id": postid
+          "id": current.postId
         }
         
         fetch('http://localhost:8081/deletebypid', {
@@ -205,8 +208,37 @@ export class seePost extends LitElement {
         });
       }
 
+
+      handleEdit(pid, title, content){
+          var current = this;
+          var rawData = {
+            "title": title,
+            "content": content,
+            "pid": current.postId
+        }
+
+        fetch('http://localhost:8081/updatePost', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.replace();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
     render() {
         return html`
+          <link rel="stylesheet" href="./src/styles/postsAll.css">
         <p></p>
         ${this.data.map(item => html`
         <div class="main-post"> 
@@ -219,23 +251,39 @@ export class seePost extends LitElement {
                 <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.userid == item.user ? 
             html`
-                <button class="btn" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button> 
+                <button class="btn" @click="${(e) => this.deletePost()}" type="button" id="like">Delete</button> 
             ` :
             html``
             }
             ${this.usertype != 'user' ? 
             html`
-                <button class="btn" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
+                <button class="btn" @click="${(e) => this.blockPost()}" type="button" id="blockPost">Block Post</button> 
+                <button class="btn" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button>
             ` :
             html``
             }
             </like><br><br>
+            ${this.edit == true && this.userid == item.user ?
+                html`
+                <form>
+                <input
+                    @input="${(e)=>item.title=e.target.value}"
+                    type="text" placeholder="Title" id="title" name="title"><br><br>
+                <textarea
+                    @input="${(e)=>item.content=e.target.value}"
+                    id="content"placeholder="Text (Optional)"></textarea>
+                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.pid,item.title, item.content)}" type="button">Publish</button><br>
+                <br><br>
+                    </form>
+                ` :
+                html``
+            }
             <hr class="solid">
         </div>
         `)}
         <form class="post-comment">
             <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
-            <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
+           <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
         </form><br>
         <div class="comments"> 
             <comments-all></comments-all>

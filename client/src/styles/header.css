@@ -57,6 +57,7 @@
     background-color: #ddd;
     color: black;
     border-radius: 17px;
+    cursor: pointer;
   }
 
   /* Style the active/current link*/
@@ -100,6 +101,7 @@
     background-color: #ddd;
     color: black;
     border-radius: 17px;
+    cursor: pointer;
   }
 
   #form{

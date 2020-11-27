@@ -12,7 +12,6 @@ export class newPost extends LitElement {
 
     static styles = css`
     .button {
-
         outline: none;
         font-size: small;
         border-radius: 500px;
@@ -33,7 +32,7 @@ export class newPost extends LitElement {
         margin-right: 5px;
         margin-top: 9px;
         font-size: 16px;
-        width: 50%;
+        width: 100%;
       }
 
     #content {
@@ -44,7 +43,7 @@ export class newPost extends LitElement {
         margin-right: 5px;
         margin-top: 9px;
         font-size: 13px;
-        height:90px;
+        height:100px;
         width: 100%;
         box-sizing:border-box;
         resize: none;
