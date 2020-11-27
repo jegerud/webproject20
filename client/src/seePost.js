@@ -9,7 +9,7 @@ export class seePost extends LitElement {
             userid: {type: Number},
             usertype: {type: String},
             username: {type: String},
-            current: {type: Number}
+            selected: {type: Number}
         }
     }
 
@@ -41,13 +41,14 @@ export class seePost extends LitElement {
 
     async getResource() {
         var current = this;
-        fetch(`http://localhost:8081/posts/pid/${current.postId}`, {
+        var url = `http://localhost:8081/posts/pid/${current.postId}`;
+        console.log(url);
+        fetch(url, {
             method: 'GET'
         })
         .then((response) => response.text())
         .then((responseText) => {
             current.data = JSON.parse(responseText);
-            console.log(current.data);
         })
         .catch((error) => {
             console.log("The data could not be fetched");
@@ -72,13 +73,11 @@ export class seePost extends LitElement {
     }
 
     _handleClick() {
-        console.log(this.comment);
         let rawData = {
             "comment": this.comment,
             "pid":this.postId,
             "uid":this.userid
         }
-        console.log(rawData);
         fetch('http://localhost:8081/comments', {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -91,7 +90,6 @@ export class seePost extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(data);
             location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
@@ -158,6 +156,7 @@ export class seePost extends LitElement {
 
     render() {
         return html`
+        <p></p>
         ${this.data.map(item => html`
         <div class="main-post"> 
             <hr class="solid">
@@ -179,7 +178,7 @@ export class seePost extends LitElement {
         `)}
         <form class="post-comment">
             <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
-            <button class="btn" @click="${this._handleClick}" type="btn" id ="publish">Publish</button><br>
+            <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
         </form><br>
         <div class="comments"> 
             <comments-all></comments-all>
