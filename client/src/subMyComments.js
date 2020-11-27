@@ -27,16 +27,15 @@ export class subMycomments extends LitElement {
     .button {
       display: inline;
       outline: none;
-      font-size: small;
+      font-size: x-small;
       border-radius: 500px;
       justify-content: center;
       cursor: pointer;
       text-transform: uppercase;
       height: 30px;
-      width: 80px;
-      opacity: 0.9;
-      background-color: #ffffff;
-      border: 1px solid black;
+      width: 100px;
+      opacity: 1;
+      border: none;
       margin-left: 10px;
     }
     .button:hover{

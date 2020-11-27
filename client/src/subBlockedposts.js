@@ -33,10 +33,9 @@ export class subBlockedposts extends LitElement {
       cursor: pointer;
       text-transform: uppercase;
       height: 30px;
-      width: 120x;
-      opacity: 0.9;
-      background-color: #ffffff;
-      border: 1px solid black;
+      width: 100px;
+      opacity: 1;
+      border: none;
     }
     #approve {
       margin-left: 5px;
