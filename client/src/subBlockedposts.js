@@ -130,7 +130,6 @@ export class subBlockedposts extends LitElement {
       }).catch(function (error) {
           console.warn('Something went wrong.', error);
       });
-
     }
 
 
