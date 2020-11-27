@@ -134,10 +134,13 @@ export class subAllusers extends LitElement {
 
     render() {
       return html`
+      <link rel="stylesheet" href="./src/styles/allUsers.css">
       <br>
       ${this.data.map(item => html`
+      <div class="userInfo">
         <a>Username:  ${item.username}</a><br>
-        <a>User Type: ${item.userType}</a><br>
+        <a>User Type: ${item.userType}</a>
+      </div>
         ${item.username != this.user[0].username ? 
             html`
             <input id="submit" @click="${() => this.deleteUser(item.username)}" type="submit" 

@@ -1,0 +1,57 @@
+.sel {
+    position: relative;
+    display: inline-block;
+    border-radius: 17px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: inline;
+    outline: none;
+    font-size: x-small;
+    border-radius: 500px;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 30px;
+    width: 100px;
+    opacity: 0.9;
+    background-color: #ffffff;
+    border: 1px solid black;
+  }
+
+  #delete:hover{
+      background-color: #fdd835;
+      background: darken(#C06C84,10%);
+      box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+      transform: translate3d(0, -2px, 0);
+  }
+
+  #block:hover{
+    background-color: #f57c00;
+  }
+
+  .comment-title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  }
+
+
+
+  
+  
