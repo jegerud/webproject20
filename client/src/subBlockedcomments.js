@@ -13,6 +13,11 @@ export class subBlockedcomments extends LitElement {
     static styles = css`
     :host {
         display: block;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .head {
+      text-decoration: none;
+      color: #3983AD;
     }
     .body {
         padding-left: 20px;
@@ -20,6 +25,31 @@ export class subBlockedcomments extends LitElement {
     .sublikes {
         padding-left: 20px;
         font-size: 13px;
+    }
+    .button {
+      display: inline;
+      outline: none;
+      font-size: x-small;
+      border-radius: 500px;
+      justify-content: center;
+      cursor: pointer;
+      text-transform: uppercase;
+      height: 30px;
+      width: 100px;
+      opacity: 1;
+      border: none;
+    }
+    #delete:hover{
+      background-color: #f44336;
+      background: darken(#C06C84,10%);
+      box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+      transform: translate3d(0, -2px, 0);
+    }
+    #approve:hover{
+      background-color: #66bb6a;
+      background: darken(#C06C84,10%);
+      box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+      transform: translate3d(0, -2px, 0);
     }
     `;
 
@@ -94,11 +124,11 @@ export class subBlockedcomments extends LitElement {
           <br>
           ${this.data != 0 ? html `
             ${this.data.map(item => html`
-            <b><a href="posts.html?pid=${item.post}">${item.post}: Link</a></b>
+            <b><a class="head" href="posts.html?pid=${item.post}">${item.post}: Link</a></b>
             <p class="body">${item.comment}</p>
             <div>
-                <button @click="${(e) => this.handleBlock(1, item.cid)}" type="button">Delete comment</button> 
-                <button @click="${(e) => this.handleBlock(0, item.cid)}" type="button">Approve comment</button>
+                <button class="button" @click="${(e) => this.handleBlock(1, item.cid)}" id="delete" type="button">Delete</button> 
+                <button class="button" @click="${(e) => this.handleBlock(0, item.cid)}" id="approve" type="button">Approve</button>
             </div><br><br>
             `)}
             ` : 

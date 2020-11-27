@@ -18,6 +18,7 @@ export class subMyposts extends LitElement {
     }
     .head {
     color: #3983AD;
+    text-decoration: none;
 
     }
     .body {
@@ -32,16 +33,15 @@ export class subMyposts extends LitElement {
       margin-top: 15px; 
       display: inline;
       outline: none;
-      font-size: small;
+      font-size: x-small;
       border-radius: 500px;
       justify-content: center;
       cursor: pointer;
       text-transform: uppercase;
       height: 30px;
-      width: 80px;
-      opacity: 0.9;
-      background-color: #ffffff;
-      border: 1px solid black;
+      width: 100px;
+      opacity: 1;
+      border: none;
     }
     #delete:hover{
       background-color: #f44336;
