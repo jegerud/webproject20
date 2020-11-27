@@ -5,7 +5,8 @@ export class subMycomments extends LitElement {
       return {
         loggedIn: {type: Boolean},
         userid: {type: Number},
-        data: {type: Array}
+        data: {type: Array},
+        selected: {type: Number}
       };
     }
 
@@ -26,7 +27,20 @@ export class subMycomments extends LitElement {
       super();
       this.data = [];
       this.getUserid();
+      this.getSorting();
       this.getResource();
+    }
+
+    getSorting(){
+      var current = this;
+      var parameters = location.search.substring(1).split("&");
+      if(parameters.length > 1){
+          var temp = parameters[1].split("=");
+          current.selected = unescape(temp[1]);
+          console.log(current.selected);
+      } else {
+          current.selected = 1;
+      }
     }
 
     getUserid() {
