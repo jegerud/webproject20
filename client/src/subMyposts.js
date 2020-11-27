@@ -27,6 +27,31 @@ export class subMyposts extends LitElement {
     .sublikes {
         padding-left: 0px;
     }
+
+    #delete{
+      margin-top: 15px; 
+      display: inline;
+      outline: none;
+      font-size: small;
+      border-radius: 500px;
+      justify-content: center;
+      cursor: pointer;
+      text-transform: uppercase;
+      height: 30px;
+      width: 80px;
+      opacity: 0.9;
+      background-color: #ffffff;
+      border: 1px solid black;
+    }
+    #delete:hover{
+      background-color: #f44336;
+      background: darken(#C06C84,10%);
+      box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+      transform: translate3d(0, -2px, 0);
+    }
+    .poststats {
+      display: inline;
+    }
     `;
 
     constructor() {
@@ -135,9 +160,9 @@ export class subMyposts extends LitElement {
                 <a class = "head" href="posts.html">${item.title}</a>
             </h4>
             <p class="body">${item.content}</p>
-            <div>
-              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}
-              <button @click="${(e) => this.deletePost(item.pid)}" type="button" id ="button">Delete</button></p>
+            <div class = "poststats">
+              <p class="sublikes">Likes: ${item.upvote} | Dislikes: ${item.downvote}
+              <br><button class="button" @click="${(e) => this.deletePost(item.pid)}" type="button" id ="delete">Delete</button></p>
             </div>
             `)}
             ` : html`

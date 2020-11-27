@@ -50,7 +50,7 @@ export class newPost extends LitElement {
         resize: none;
       }
       #publish {
-        
+        margin-top: 15px; 
       }
 
       #publish:hover{
