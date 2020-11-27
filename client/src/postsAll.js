@@ -149,7 +149,6 @@ export class postsAll extends LitElement {
             "content": this.content,
             "pid": pid
         }
-        console.log("Pung");
         fetch('http://localhost:8081/updatePost', {
             method: 'POST',
             body: JSON.stringify(rawData),
