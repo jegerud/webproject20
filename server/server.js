@@ -117,7 +117,7 @@ app.get('/getComments', (req, res) => {
 });
 
 app.get('/allposts/:time', (req, res) => {
-  var query = `SELECT posts.pid, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
+  var query = `SELECT posts.pid, posts.user, posts.title, posts.content, posts.upvote, posts.downvote, posts.date, users.email, users.username 
               FROM posts INNER JOIN users ON posts.user = users.uid WHERE posts.blocked = 0
               ORDER BY `;
   if (req.params.time == 2) {
@@ -240,7 +240,7 @@ app.get('/posts/pid/:pid', (req, res) => {
 });
 
 app.get('/posts/user/:uid', (req, res) => {
-  var query = `SELECT title, content, upvote, downvote FROM posts WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
+  var query = `SELECT pid, title, content, upvote, downvote FROM posts WHERE user = ${req.params.uid} ORDER BY upvote DESC`;
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -277,7 +277,6 @@ app.post('/handleblock', (req, res) => {
 
 app.post('/deletecomments', (req, res) => {
   var query = `DELETE FROM comments WHERE cid = '${req.body.id}'`
-  console.log(query);
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -290,6 +289,7 @@ app.post('/deletecomments', (req, res) => {
 
 app.post('/deletebypid', (req, res) => {
   var query = `DELETE FROM ${req.body.place} WHERE ${req.body.type} = '${req.body.id}'`
+  console.log(query);
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
