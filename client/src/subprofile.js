@@ -305,7 +305,7 @@ export class subProfile extends LitElement {
             class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
             ${item.userType == 'user' && item.request == true ? 
             html`<p>Moderator request sent!</p>` : html``}
-          </div>
+          </div><br>
           
             ${this.changeUsername == 0 ? 
             html`
