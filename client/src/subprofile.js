@@ -320,7 +320,7 @@ export class subProfile extends LitElement {
               <input @input="${(e)=>this.newUsername=e.target.value}"
               type="text" placeholder="Username..." id="oldPass" name="oldPass">
               <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
-              type="button" name="submitter" value="confirm"></input>
+              type="button" name="submitter" value="Submit"></input>
             </div>
             ` : html` `}
             
@@ -343,7 +343,7 @@ export class subProfile extends LitElement {
               <input @input="${(e)=>this.newEmail=e.target.value}"
               type="text" placeholder="New e-mail..." id="oldPass" name="oldPass">
               <input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
-              type="button" name="" value="Confirm"></input>
+              type="button" name="" value="Submit"></input>
             </div><br>
             
             ` : html` `}
