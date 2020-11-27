@@ -206,37 +206,31 @@ export class subProfile extends LitElement {
 
     submitImage(){
         var current = this;
-        var file = req.files.uploaded_image;
         let newData = {
           "uid": this.userid,
-          "image": this.file.name
+          "image": this.newImage
         }
         console.log(newData.image);
-        if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
-          fetch('http://localhost:8081/updateImage', {
+        fetch('http://localhost:8081/updateImage', {
             method: 'POST',
             body: JSON.stringify(newData),
             headers: {
               'Content-Type': 'application/json; charset=UTF-8'
             }
-          }).then(function (response) {
-          if (response.ok) {
-              return response.json();
-          }
-          return Promise.reject(response);
-          }).then(function (data) {
+          }).then((response) => {
+              if (response.ok) {
+                return response.json();
+              }
+              return Promise.reject(response);
+            }).then(function (data) {
           if (data) {
-            current.changeEmail = 2;
+            current.changeImage = 2;
           } else {
             alert("Something went wrong, please try again later!");
           }
           }).catch(function (error) {
             console.warn('Something went wrong.', error);
-          });
-        } else {
-          message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-          res.render('index.ejs',{message: message});
-        } 
+          }); 
     }
 
     submitUsername() {
@@ -320,12 +314,12 @@ export class subProfile extends LitElement {
 
           </div>${this.changeUsername == 1 ? 
             html`
-            <div> 
+            <div>New username 
               <input @input="${(e)=>this.newUsername=e.target.value}"
-              type="text" placeholder="New username..." id="newUserName" name="">
-              <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
-              type="button" name="submitter1" value="Submit"></input>
-            </div>
+              type="text" placeholder="" id="oldPass" name="oldPass">
+            </div><br>
+            <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
+              type="button" name="submitter" value="confirm username"></input>
             ` : html` `}
             
           ${this.changeUsername == 2 ? 
@@ -342,12 +336,12 @@ export class subProfile extends LitElement {
 
           <div> ${this.changeEmail == 1 ? 
             html`
-            <div><br>
+            <div><br>New e-mail 
               <input @input="${(e)=>this.newEmail=e.target.value}"
-              type="text" placeholder="New e-mail..." id="newEmail" name="oldPass">
-              <input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
-              type="button" name="" value="Submit"></input>
+              type="text" placeholder="" id="oldPass" name="oldPass">
             </div><br>
+            <p><input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
+              type="button" name="" value="Confirm e-mail"></input></p>
             ` : html` `}
 
           ${this.changeEmail == 2 ? 
@@ -367,21 +361,21 @@ export class subProfile extends LitElement {
             ${this.changePassword == 1 ? 
             html`
             <br>
-            <div> 
+            <div>Old password 
               <input @input="${(e)=>this.oldPassword=e.target.value}"
-              type="password" placeholder="Old password..." id="oldPass" name="oldPass">
+              type="password" placeholder="" id="oldPass" name="oldPass">
             </div><br>
-            <div> 
+            <div>New password 
               <input @input="${(e)=>this.newPassword=e.target.value}"
-              type="password" placeholder="New password..." id="newPass" name="newPass">
+              type="password" placeholder="" id="newPass" name="newPass">
             </div><br>
-            <div> 
+            <div>Confirm new password 
               <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
-              type="password" placeholder="Confirm new password..." id="newPass2" name="newPass2">
-              <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
-              type="button" name="" value="submit"></input>
-            </div>  
-            ` : html` `}
+              type="password" placeholder="" id="newPass2" name="newPass2">
+            </div><br>
+            <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
+              type="button" name="" value="submit"></input>` 
+            : html` `}
 
           ${this.changePassword == 2 ? 
             html`
@@ -400,9 +394,9 @@ export class subProfile extends LitElement {
             ${this.changeImage == 1 ? 
             html`
             <br>
-            <div>New Image
+            <div>New Image (Put in image link)
               <input @input="${(e)=>this.newImage=e.target.value}"
-              type="file" placeholder="" id="newImg" name="newImg">
+              type="text" placeholder="" id="newImg" name="newImg">
             </div><br>
             <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
               type="button" name="" value="submit"></input>`
