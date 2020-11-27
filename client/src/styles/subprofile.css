@@ -23,7 +23,7 @@ html{
     cursor: pointer;
     text-transform: uppercase;
     height: 30px;
-    width: 200px;
+    width: 250px;
     opacity: 0.9;
     background-color: #ffffff;
     border: 1px solid black;
@@ -67,7 +67,12 @@ html{
 }
 
 #moderatorBtn {
-    
+    padding-left: 10px;
+    padding-bottom: 20px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
 }
 
 #newEmail {

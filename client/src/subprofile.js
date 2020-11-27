@@ -301,16 +301,16 @@ export class subProfile extends LitElement {
             <p class="usertype"><b>Usertype:</b> ${item.userType}</p>
             ${item.userType == 'user' && item.request == false ? 
             html`
-            <input id="submit" @click="${this.handleRequest}" type="submit" 
-            class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
+            <p><input id="submit" @click="${this.handleRequest}" type="submit" 
+            class="btn" type="button" name="" value="Handle moderator request"></input></p>` : html``}
             ${item.userType == 'user' && item.request == true ? 
             html`<p>Moderator request sent!</p>` : html``}
           </div><br>
           
             ${this.changeUsername == 0 ? 
             html`
-            <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Username"></input>
+            <p><input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Username"></input></p>
             ` : html` `}
 
           </div>${this.changeUsername == 1 ? 
