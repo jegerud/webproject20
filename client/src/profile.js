@@ -125,7 +125,14 @@ export class profilePage extends LitElement {
         </ul>
         ${this.selected == 1 ?
             html`
-                <sub-profile></sub-profile>
+                <div class="subcontainer">
+                    <div class="info"> 
+                        <sub-profile></sub-profile>
+                    </div>
+                    <div class="profilepic">
+                        <sub-picture></sub-picture>
+                    </div>
+                </div>
             `:html``}
         ${this.selected == 2 ?
             html`
