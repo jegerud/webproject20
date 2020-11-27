@@ -14,9 +14,7 @@ export class postsAll extends LitElement {
             selected: { type: String }
         }
     }
-    
-
-    
+        
     constructor() {
         super();
         this.data = [];
@@ -50,7 +48,6 @@ export class postsAll extends LitElement {
 
     async getResource() {
         var url = `http://localhost:8081/allposts/${this.selected}`;
-        console.log(url);
         fetch(url, {
             method: 'GET'
         })
@@ -107,7 +104,7 @@ export class postsAll extends LitElement {
         });
     }
 
-    blockPost(postid, mode = 0) {
+    blockPost(postid) {
         var url = 'http://localhost:8081/handleblock';
         var rawData = {
             "place": 'posts',
@@ -141,56 +138,6 @@ export class postsAll extends LitElement {
         location.replace(url);
     }
 
-    deletePost(postid) {
-        var rawData = {
-          "place": 'comments',
-          "type": 'post',
-          "id": postid,
-        }
-        
-        fetch('http://localhost:8081/deletebypid', {
-          method: 'POST',
-          body: JSON.stringify(rawData),
-          headers: {
-              'Content-Type': 'application/json; charset=UTF-8'
-          }
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        }).then(function (data) {
-            console.log(data);
-        }).catch(function (error) {
-            console.warn('Something went wrong.', error);
-        });
-  
-        rawData = {
-          "place": 'posts',
-          "type": 'pid',
-          "id": postid,
-        }
-        
-        fetch('http://localhost:8081/deletebypid', {
-          method: 'POST',
-          body: JSON.stringify(rawData),
-          headers: {
-              'Content-Type': 'application/json; charset=UTF-8'
-          }
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        }).then(function (data) {
-            console.log(data);
-            location.reload();
-        }).catch(function (error) {
-            console.warn('Something went wrong.', error);
-        });
-  
-      }
-
     render() {
         return html`
         <link rel="stylesheet" href="./src/styles/postsAll.css">
@@ -201,7 +148,6 @@ export class postsAll extends LitElement {
         `)}
         </select>
         </form>
-        <br><br>
         ${this.data.map(item => html`
         <div class="post"> 
             <h4 class="title">
@@ -212,12 +158,6 @@ export class postsAll extends LitElement {
             <like>
                 <button class="button" @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
                 <button class="button" @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-            ${this.userid == item.user ? 
-            html`
-                <button class="button" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button> 
-            ` :
-            html``
-            }
             ${this.usertype != 'user' ? 
             html`
                 <button class="button" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
