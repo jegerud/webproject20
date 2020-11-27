@@ -44,7 +44,6 @@ export class seePost extends LitElement {
     async getResource() {
         var current = this;
         var url = `http://localhost:8081/posts/pid/${current.postId}`;
-        console.log(url);
         fetch(url, {
             method: 'GET'
         })
@@ -101,7 +100,7 @@ export class seePost extends LitElement {
     handlePost(mode) {
         var url = '';
         let rawData = {
-            "pid":this.postId
+            "pid": this.postId
         }
 
         if (mode == 1) {
@@ -128,15 +127,16 @@ export class seePost extends LitElement {
         });
     }
 
-    blockPost(postid) {
+    blockPost() {
+        var current = this;
         var url = 'http://localhost:8081/handleblock';
         var rawData = {
             "place": 'posts',
             "type": 'pid',
-            "id": postid,
+            "id": current.postId,
             "value": 1
         }
-
+        console.log(url);
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -150,18 +150,18 @@ export class seePost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.reload("index.html");
+            location.replace("index.html");
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
 
-    deletePost(postid) {
+    deletePost() {
         var current = this;
         var rawData = {
           "place": 'comments',
           "type": 'post',
-          "id": current.postid
+          "id": current.postId
         }
         
         fetch('http://localhost:8081/deletebypid', {
@@ -185,7 +185,7 @@ export class seePost extends LitElement {
         rawData = {
           "place": 'posts',
           "type": 'pid',
-          "id": current.postid
+          "id": current.postId
         }
         
         fetch('http://localhost:8081/deletebypid', {
@@ -230,16 +230,11 @@ export class seePost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.reload();
+            location.replace();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
-
-    handleEditClick(pid){
-        this.edit = true;
-    }
-
 
     render() {
         return html`
@@ -255,14 +250,14 @@ export class seePost extends LitElement {
                 <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.userid == item.user ? 
             html`
-                <button class="btn" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button> 
+                <button class="btn" @click="${(e) => this.deletePost()}" type="button" id="like">Delete</button> 
             ` :
             html``
             }
             ${this.usertype != 'user' ? 
             html`
-                <button class="btn" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
-                <button class="btn" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="like">Edit</button>
+                <button class="btn" @click="${(e) => this.blockPost()}" type="button" id="blockPost">Block Post</button> 
+                <button class="btn" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button>
             ` :
             html``
             }
