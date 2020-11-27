@@ -16,25 +16,7 @@ export class seeCommments extends LitElement {
     }
 
     static styles = css`
-    .sel {
-        position: relative;
-        display: inline-block;
-        border-radius: 17px;
-      }
-      
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        padding: 12px 16px;
-        z-index: 1;
-      }
-      
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
+    
     `
 
     constructor() {
@@ -190,6 +172,7 @@ export class seeCommments extends LitElement {
 
     render() {
         return html`
+         <link rel="stylesheet" href="./src/styles/seeComments.css">
         <select id="sel" @change="${this.onChange}">
         ${this.options.map(item => html`
             <option value="${item.value}" ?selected=${this.selected == item.value}>${item.text}</option>
@@ -199,11 +182,11 @@ export class seeCommments extends LitElement {
         <p class="comment-title">Posted by <b>${item.username}</b></p>
         <p class="comment-content">${item.comment}</p> 
         <like>
-            <button @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
-            <button @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+            <button class="button" @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+            <button class="button" @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
         ${this.usertype != 'user' ? 
         html`
-            <button @click="${(e) => this.blockComment(item.cid)}" type="button" id="like">Block Comment</button> 
+            <button class="button" @click="${(e) => this.blockComment(item.cid)}" type="button" id="block" >Block Comment</button> 
         ` :
         html``
         }
