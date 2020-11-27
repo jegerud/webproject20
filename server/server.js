@@ -168,7 +168,7 @@ app.post('/comments', (req, res) => {
   var query = `INSERT INTO comments (post, user, comment, upvote, downvote) 
                VALUES (${req.body.pid}, 
                        ${req.body.uid}, 
-                        '${req.body.comment}', '0', '0')`
+                      '${req.body.comment}', '0', '0')`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
@@ -204,9 +204,9 @@ app.get('/picture/:uid', (req, res) => {
     if (err) {
       res.status(400).send('Error in database operation.');
     } else {
-      console.log(result[0]["CONVERT(picture USING utf8)"]);
-      console.log("-------------");
-      console.log(result[0]);
+      // console.log(result[0]["CONVERT(picture USING utf8)"]);
+      // console.log("-------------");
+      // console.log(result[0]);
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(result[0]["CONVERT(picture USING utf8)"]));
@@ -226,9 +226,7 @@ app.get('/comments/user/:uid', (req, res) => {
   });
 });
 
-
-
-app.get('/posts/:pid', (req, res) => {
+app.get('/posts/pid/:pid', (req, res) => {
   var query = `SELECT posts.user, posts.title, posts.content, posts.upvote, posts.downvote, users.username FROM posts 
                INNER JOIN users ON posts.user = users.uid WHERE  pid = ${req.params.pid}`;
   db.query(query, (err, result) => {
