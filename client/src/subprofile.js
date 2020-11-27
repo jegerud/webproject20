@@ -33,6 +33,7 @@ export class subProfile extends LitElement {
       this.getPostScores();
       this.getCommentScores();
       this.getLikesScores();
+      this.getPicture();
     }
 
     getUserid() {
@@ -292,137 +293,144 @@ export class subProfile extends LitElement {
 
     render() {
         return html`
-         <link rel="stylesheet" href="./src/styles/subprofile.css">
-          ${this.data.map(item => html`
-          <div class="userAttributes">
-            <p class="username"><b>Username:</b> ${item.username}</p>
-            <p class="email"><b>E-mail:</b> ${item.email}</p>
-            <p class="usertype"><b>Usertype:</b> ${item.userType}</p>
-            ${item.userType == 'user' && item.request == false ? 
-            html`
-            <input id="submit" @click="${this.handleRequest}" type="submit" 
-            class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
-            ${item.userType == 'user' && item.request == true ? 
-            html`<p>Moderator request sent!</p>` : html``}
-          </div>
-          
-            ${this.changeUsername == 0 ? 
-            html`
-            <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Username"></input>
-            ` : html` `}
+        <link rel="stylesheet" href="./src/styles/subprofile.css">
+        <div class="subcontainer">
+           <div class="info">
+            ${this.data.map(item => html`
+            <div class="userAttributes">
+              <p class="username"><b>Username:</b> ${item.username}</p>
+              <p class="email"><b>E-mail:</b> ${item.email}</p>
+              <p class="usertype"><b>Usertype:</b> ${item.userType}</p>
+              ${item.userType == 'user' && item.request == false ? 
+              html`
+              <input id="submit" @click="${this.handleRequest}" type="submit" 
+              class="btn" type="button" name="" value="Handle moderator request"></input>` : html``}
+              ${item.userType == 'user' && item.request == true ? 
+              html`<p>Moderator request sent!</p>` : html``}
+            </div>
 
-          </div>${this.changeUsername == 1 ? 
-            html`
-            <div>New username 
-              <input @input="${(e)=>this.newUsername=e.target.value}"
-              type="text" placeholder="" id="oldPass" name="oldPass">
-            </div><br>
-            <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
-              type="button" name="submitter" value="confirm username"></input>
-            ` : html` `}
+              ${this.changeUsername == 0 ? 
+              html`
+              <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
+              class="btn" type="button" name="" value="Change Username"></input>
+              ` : html` `}
+
+            </div>${this.changeUsername == 1 ? 
+              html`
+              <div>New username 
+                <input @input="${(e)=>this.newUsername=e.target.value}"
+                type="text" placeholder="" id="oldPass" name="oldPass">
+              </div><br>
+              <input id="submit" @click="${this.submitUsername}" type="submit" class="btn_confirm" 
+                type="button" name="submitter" value="confirm username"></input>
+              ` : html` `}
+
+            ${this.changeUsername == 2 ? 
+              html`
+              <div>Username changed!</div>`
+              : html` `}<br>
             
-          ${this.changeUsername == 2 ? 
-            html`
-            <div>Username changed!</div>`
-            : html` `}<br>
-          
-          
-          ${this.changeEmail == 0 ? 
-            html`
-            <p><input id="submit" @click="${this.changeEmailClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Email"></input></p>
-            ` : html` `}
+            
+            ${this.changeEmail == 0 ? 
+              html`
+              <p><input id="submit" @click="${this.changeEmailClicked}" type="submit" 
+              class="btn" type="button" name="" value="Change Email"></input></p>
+              ` : html` `}
 
-          <div> ${this.changeEmail == 1 ? 
-            html`
-            <div><br>New e-mail 
-              <input @input="${(e)=>this.newEmail=e.target.value}"
-              type="text" placeholder="" id="oldPass" name="oldPass">
-            </div><br>
-            <p><input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
-              type="button" name="" value="Confirm e-mail"></input></p>
-            ` : html` `}
+            <div> ${this.changeEmail == 1 ? 
+              html`
+              <div><br>New e-mail 
+                <input @input="${(e)=>this.newEmail=e.target.value}"
+                type="text" placeholder="" id="oldPass" name="oldPass">
+              </div><br>
+              <p><input id="submit" @click="${this.submitEmail}" type="submit" class="btn_confirm" 
+                type="button" name="" value="Confirm e-mail"></input></p>
+              ` : html` `}
 
-          ${this.changeEmail == 2 ? 
-            html`
-            <br><br>
-            <div>E-mail changed!</div>`
-            : html` `}
-          `)}
+            ${this.changeEmail == 2 ? 
+              html`
+              <br><br>
+              <div>E-mail changed!</div>`
+              : html` `}
+            `)}
 
-          <div>
-            ${this.changePassword == 0? 
-            html`<input id="submit" @click="${this.changePasswordClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Password"></input>
-            <br><br>
-            `: html` `}
+            <div>
+              ${this.changePassword == 0? 
+              html`<input id="submit" @click="${this.changePasswordClicked}" type="submit" 
+              class="btn" type="button" name="" value="Change Password"></input>
+              <br><br>
+              `: html` `}
 
-            ${this.changePassword == 1 ? 
-            html`
-            <br>
-            <div>Old password 
-              <input @input="${(e)=>this.oldPassword=e.target.value}"
-              type="password" placeholder="" id="oldPass" name="oldPass">
-            </div><br>
-            <div>New password 
-              <input @input="${(e)=>this.newPassword=e.target.value}"
-              type="password" placeholder="" id="newPass" name="newPass">
-            </div><br>
-            <div>Confirm new password 
-              <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
-              type="password" placeholder="" id="newPass2" name="newPass2">
-            </div><br>
-            <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
-              type="button" name="" value="submit"></input>` 
-            : html` `}
+              ${this.changePassword == 1 ? 
+              html`
+              <br>
+              <div>Old password 
+                <input @input="${(e)=>this.oldPassword=e.target.value}"
+                type="password" placeholder="" id="oldPass" name="oldPass">
+              </div><br>
+              <div>New password 
+                <input @input="${(e)=>this.newPassword=e.target.value}"
+                type="password" placeholder="" id="newPass" name="newPass">
+              </div><br>
+              <div>Confirm new password 
+                <input @input="${(e)=>this.newPasswordValidate=e.target.value}"
+                type="password" placeholder="" id="newPass2" name="newPass2">
+              </div><br>
+              <input id="submit" @click="${this.submitPassword}" type="submit" class="btn_confirm" 
+                type="button" name="" value="submit"></input>` 
+              : html` `}
 
-          ${this.changePassword == 2 ? 
-            html`
-            <br><br>
-            <div>Password changed!</div>`
-            : html` `}
+            ${this.changePassword == 2 ? 
+              html`
+              <br><br>
+              <div>Password changed!</div>`
+              : html` `}
+            </div>
+
+            <div>
+              ${this.changeImage == 0? 
+              html`<input id="submit" @click="${this.changeImageClicked}" type="submit" 
+              class="btn" type="button" name="" value="Change Image"></input>
+              <br><br>
+              `: html` `}
+
+              ${this.changeImage == 1 ? 
+              html`
+              <br>
+              <div>New Image (Put in image link)
+                <input @input="${(e)=>this.newImage=e.target.value}"
+                type="text" placeholder="" id="newImg" name="newImg">
+              </div><br>
+              <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
+                type="button" name="" value="submit"></input>`
+              : html` `}
+
+            ${this.changeImage == 2 ? 
+              html`
+              <br><br>
+              <div>Image changed!</div>`
+              : html` `}
+            </div>
+            
+            <div id="stats">
+              <p>
+                <b>Number of posts:</b>
+                ${this.nrPost}
+              </p>
+              <p>
+                <b>Number of comments:</b>
+                ${this.nrComments}
+              </p>
+              <p>
+                <b>Number of likes:</b>
+                ${this.nrLikes}
+              </p>
+            </div>
           </div>
-
-          <div>
-            ${this.changeImage == 0? 
-            html`<input id="submit" @click="${this.changeImageClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Image"></input>
-            <br><br>
-            `: html` `}
-
-            ${this.changeImage == 1 ? 
-            html`
-            <br>
-            <div>New Image (Put in image link)
-              <input @input="${(e)=>this.newImage=e.target.value}"
-              type="text" placeholder="" id="newImg" name="newImg">
-            </div><br>
-            <input id="submit" @click="${this.submitImage}" type="submit" class="btn_confirm" 
-              type="button" name="" value="submit"></input>`
-            : html` `}
-
-          ${this.changeImage == 2 ? 
-            html`
-            <br><br>
-            <div>Image changed!</div>`
-            : html` `}
+          <div class="profilepic">
+              kuk
           </div>
-          
-          <div id="stats">
-            <p>
-              <b>Number of posts:</b>
-              ${this.nrPost}
-            </p>
-            <p>
-              <b>Number of comments:</b>
-              ${this.nrComments}
-            </p>
-            <p>
-              <b>Number of likes:</b>
-              ${this.nrLikes}
-            </p>
-          </div>
+        </div>
     `;}
 }
 
