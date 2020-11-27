@@ -256,13 +256,14 @@ export class seePost extends LitElement {
             ${this.userid == item.user ? 
             html`
                 <button class="btn" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button> 
+                <button class="btn" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="like">Edit</button>
             ` :
             html``
             }
             ${this.usertype != 'user' ? 
             html`
                 <button class="btn" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button> 
-                <button class="btn" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="like">Edit</button>
+                
             ` :
             html``
             }
