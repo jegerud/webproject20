@@ -306,10 +306,16 @@ export class subProfile extends LitElement {
             html`<p>Moderator request sent!</p>` : html``}
           </div>
           
+          ${this.changeEmail == 0 ? 
+            html`
+            <p><input id="submit" @click="${this.changeEmailClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Email"></input></p>
+            ` : html` `}
+
             ${this.changeUsername == 0 ? 
             html`
-            <input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
-            class="btn" type="button" name="" value="Change Username"></input>
+            <p><input id="submit" @click="${this.changeUsernameClicked}" type="submit" 
+            class="btn" type="button" name="" value="Change Username"></input><p>
             ` : html` `}
 
           </div>${this.changeUsername == 1 ? 
