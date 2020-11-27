@@ -251,15 +251,14 @@ export class seePost extends LitElement {
                 <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.userid == item.user ?
             html`
-                <button class="btn" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button>
-                <button class="btn" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="like">Edit</button>
+                <button class="btn" @click="${(e) => this.deletePost()}" type="button" id="like">Delete</button> 
+                <button class="btn" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button>
             ` :
             html``
             }
             ${this.usertype != 'user' ?
             html`
-                <button class="btn" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button>
-
+                <button class="btn" @click="${(e) => this.blockPost()}" type="button" id="blockPost">Block Post</button>
             ` :
             html``
             }
