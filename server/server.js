@@ -587,3 +587,17 @@ app.get('/seeAllRequests', (req, res) => {
   });
 });
 
+
+app.post('/updatePost', (req, res) => {
+  var query = `UPDATE posts SET title = '${req.body.title}', content = '${req.body.content}' WHERE pid='${req.body.pid}'`
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(400).send('Error in database operation.');
+      res.end(JSON.stringify(false));
+    } else {
+      res.end(JSON.stringify(true));
+    }
+  });
+});
+
+
