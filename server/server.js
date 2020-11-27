@@ -306,7 +306,7 @@ app.post('/register', (req, res) => {
   bcrypt.hash(myPlaintextPassword, saltRounds, (err, hash) => {
     var query = `INSERT INTO users (uid, email, password, userType, picture, username)
                  VALUES (NULL, '${req.body.email}', '${hash}',
-                        'user', 'https://news.images.itv.com/image/file/935582/img.jpg', '${req.body.username}')`
+                        'user', 'https://p1.hiclipart.com/preview/565/751/756/man-avatar-male-silhouette-user-profile-gentleman-suit-head-png-clipart.jpg', '${req.body.username}')`
     var loginquery = `SELECT * FROM users WHERE username LIKE '${req.body.username}'`
     db.query(query, (err, result) => {
       if (err) {

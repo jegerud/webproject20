@@ -113,8 +113,7 @@ export class newPost extends LitElement {
                 <textarea
                     @input="${(e)=>this.content=e.target.value}"
                     id="content"placeholder="Text (Optional)"></textarea>
-                <button class="button" id="publish" @click="${this._handleClick}" type="button">Publish</button><br>
-                <br><br>
+                <button class="button" id="publish" @click="${this._handleClick}" type="button">Publish</button>
             </form>` :
             html``}
         `;
