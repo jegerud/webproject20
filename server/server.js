@@ -402,7 +402,7 @@ app.post('/updateEmail', (req, res) => {
 });
 
 app.post('/updateImage', (req, res) => {
-  var query = `UPDATE users SET picture = '${req.body.email}' WHERE uid LIKE '${req.body.uid}'`
+  var query = `UPDATE users SET picture = '${req.body.image}' WHERE uid = '${req.body.uid}'`
   db.query(query, (err, result) => {
     if (err) {
       res.status(400).send('Error in database operation.');
