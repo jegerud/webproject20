@@ -86,6 +86,7 @@ export class subBlockedposts extends LitElement {
     }
 
     unblockPost(postid) {
+      var current = this;
       var url = 'http://localhost:8081/handleblock';
       var rawData = {
         "place": 'posts',

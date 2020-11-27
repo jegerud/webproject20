@@ -137,6 +137,58 @@ export class postsAll extends LitElement {
         });
     }
 
+    deletePost(pid) {
+        var current = this;
+        var rawData = {
+          "place": 'comments',
+          "type": 'post',
+          "id": pid
+        }
+        
+        fetch('http://localhost:8081/deletebypid', {
+          method: 'POST',
+          body: JSON.stringify(rawData),
+          headers: {
+              'Content-Type': 'application/json; charset=UTF-8'
+          }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            console.log("Comments deleted!");
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+  
+        rawData = {
+          "place": 'posts',
+          "type": 'pid',
+          "id": pid
+        }
+        
+        fetch('http://localhost:8081/deletebypid', {
+          method: 'POST',
+          body: JSON.stringify(rawData),
+          headers: {
+              'Content-Type': 'application/json; charset=UTF-8'
+          }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            console.log("Deleting posts");
+            location.replace(`index.html`);
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+      }
+
     onChange(){
         this.selected = this.shadowRoot.querySelector('#sel').value
         var url = "index.html?value=" + this.selected;
@@ -195,14 +247,14 @@ export class postsAll extends LitElement {
                 <button class="button" @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.userid == item.user ?
             html`
-                <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete</button>
+                <button class="button" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button>
                 <button class="button" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="edit">Edit</button>
             ` :
             html``
             }
             ${this.usertype != 'user' ?
             html`
-                <button class="button" @click="${(e) => this.blockPost}" type="button" id="blockPost">Block Post</button>
+                <button class="button" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button>
             ` :
             html``
             }
