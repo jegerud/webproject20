@@ -217,7 +217,7 @@ export class postsAll extends LitElement {
             <textarea
                 @input="${(e)=>this.content=e.target.value}"
                 id="content"placeholder="Text (Optional)"></textarea>
-            <br><button class="button" id="publish" @click="${(e)=> this.handleEdit(item.pid)}" type="button">Publish</button><br>
+            <button class="button" id="publish" @click="${(e)=> this.handleEdit(item.pid)}" type="button">Publish</button><br>
             <br><br>
                 </form>
             ` :

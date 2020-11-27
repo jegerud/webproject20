@@ -6,7 +6,6 @@ export class sideBar extends LitElement {
   .vertical-menu {
       align-items: stretch
       position: absolute;
-      padding: 10px
     }
     
     .vertical-menu a {
@@ -18,18 +17,12 @@ export class sideBar extends LitElement {
       text-align: center;
       font-size: 20px;
       font-family: Trebuchet MS, sans-serif;
-      
+      border-radius: 15px;
     }
     
     .vertical-menu a:hover {
-      background-color: #ccc; 
-      border-radius: 3px;
-    }
-    
-    .vertical-menu a.active {
-      background-color: #A9A9A9; 
       color: white;
-      text-align: center;   
+      background-color: #3983AD;
     }
     `;
   
@@ -59,8 +52,6 @@ export class sideBar extends LitElement {
          ${this.loggedIn ?
           html`
             <a href="./profile.html" class="active">My Profile</a>
-            <a href="">New Post</a>
-            <a href="">New Link</a>
           `:
           html`
             <a href="" class="active">Register</a>
