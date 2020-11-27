@@ -44,7 +44,6 @@
   }
 
   .button{
-
     display: inline;
     outline: none;
     font-size: x-small;
@@ -77,6 +76,47 @@
     background: darken(#C06C84,10%);
     box-shadow: 0 4px 17px rgba(0,0,0,0.2);
     transform: translate3d(0, -2px, 0);
+  }
+
+  #publish:hover{
+    background-color: #3983AD;
+    color: white;
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+  }
+  
+  #publish{
+    margin-top: 10px;
+  }
+    #edit:hover {
+    background-color: #3983AD;
+    color: white;
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+  }
+
+  #content{
+    border-width: thin;
+    padding: 6px;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-top: 9px;
+    font-size: 16px;
+    width: 60%;
+    height: 90px;
+  }
+
+  #title{
+        border-width: thin;
+        float: left;
+        padding: 6px;
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-top: 9px;
+        font-size: 16px;
+        width: 60%;
   }
 
 

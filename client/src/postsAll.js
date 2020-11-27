@@ -197,7 +197,7 @@ export class postsAll extends LitElement {
             ${this.userid == item.user ?
             html`
                 <button class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="like">Delete</button>
-                <button class="button" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="like">Edit</button>
+                <button class="button" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="edit">Edit</button>
             ` :
             html``
             }
@@ -217,7 +217,7 @@ export class postsAll extends LitElement {
             <textarea
                 @input="${(e)=>this.content=e.target.value}"
                 id="content"placeholder="Text (Optional)"></textarea>
-            <button class="button" id="publish" @click="${(e)=> this.handleEdit(item.pid)}" type="button">Publish</button><br>
+            <br><button class="button" id="publish" @click="${(e)=> this.handleEdit(item.pid)}" type="button">Publish</button><br>
             <br><br>
                 </form>
             ` :
