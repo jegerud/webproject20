@@ -5,7 +5,8 @@ export class subMyposts extends LitElement {
       return {
         loggedIn: {type: Boolean},
         userid: {type: Number},
-        data: {type: Array}
+        data: {type: Array},
+        selected: {type: Number}
       };
     }
 
@@ -32,7 +33,20 @@ export class subMyposts extends LitElement {
       super();
       this.data = [];
       this.getUserid();
+      this.getSorting();
       this.getResource();
+    }
+
+    getSorting(){
+      var current = this;
+      var parameters = location.search.substring(1).split("&");
+      if(parameters.length > 1){
+          var temp = parameters[1].split("=");
+          current.selected = unescape(temp[1]);
+          console.log(current.selected);
+      } else {
+          current.selected = 1;
+      }
     }
 
     getUserid() {
@@ -58,6 +72,59 @@ export class subMyposts extends LitElement {
       });
     }
 
+    deletePost(postid) {
+      var current = this;
+      var rawData = {
+        "place": 'comments',
+        "type": 'post',
+        "id": postid
+      }
+      
+      fetch('http://localhost:8081/deletebypid', {
+        method: 'POST',
+        body: JSON.stringify(rawData),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+          if (response.ok) {
+              return response.json();
+          }
+          return Promise.reject(response);
+      }).then(function (data) {
+          console.log(data);
+          console.log("Comments deleted!");
+      }).catch(function (error) {
+          console.warn('Something went wrong.', error);
+      });
+
+      rawData = {
+        "place": 'posts',
+        "type": 'pid',
+        "id": postid
+      }
+      
+      fetch('http://localhost:8081/deletebypid', {
+        method: 'POST',
+        body: JSON.stringify(rawData),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }).then(function (response) {
+          if (response.ok) {
+              return response.json();
+          }
+          return Promise.reject(response);
+      }).then(function (data) {
+          console.log(data);
+          console.log("Deleting posts");
+          location.replace(`profile.html?val=2`);
+      }).catch(function (error) {
+          console.warn('Something went wrong.', error);
+      });
+
+    }
+
     render() {
         return html`
           <br>
@@ -69,7 +136,8 @@ export class subMyposts extends LitElement {
             </h4>
             <p class="body">${item.content}</p>
             <div>
-              <p class="sublikes">Likes: ${item.upvote}<br>Dislikes: ${item.downvote}</p>
+              <p class="sublikes">Likes: ${item.upvote}, Dislikes: ${item.downvote}
+              <button @click="${(e) => this.deletePost(item.pid)}" type="button" id ="button">Delete</button></p>
             </div>
             `)}
             ` : html`

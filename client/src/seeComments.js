@@ -15,10 +15,6 @@ export class seeCommments extends LitElement {
         }
     }
 
-    static styles = css`
-    
-    `
-
     constructor() {
         super();
         this.data = [];
@@ -68,7 +64,6 @@ export class seeCommments extends LitElement {
         .then((response) => response.text())
         .then((responseText) => {
             this.data = JSON.parse(responseText);
-            console.log(this.data);
         })
         .catch((error) => {
             console.log("The data could not be fetched");
@@ -142,21 +137,26 @@ export class seeCommments extends LitElement {
         location.replace(url);
     }
 
-    blockComment(commentid) {
-        var url = 'http://localhost:8081/handleblock';
+    blockComment(commentid, mode = 0) {
+        var url = '';
         var rawData = {
             "place": 'comments',
             "type": 'cid',
             "id": commentid,
             "value": 1
-          }
+        }
+        if (mode == 0) {
+            url = 'http://localhost:8081/handleblock';
+        } else {
+            url = 'http://localhost:8081/deletecomments';
+        }
 
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            }
+            },
         }).then(function (response) {
             if (response.ok) {
                 return response.json();
@@ -184,9 +184,15 @@ export class seeCommments extends LitElement {
         <like>
             <button class="button" @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
             <button class="button" @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+        ${this.userid == item.user ? 
+        html`
+            <button  class="button" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="delete">Delete</button> 
+        ` :
+        html``
+        }
         ${this.usertype != 'user' ? 
         html`
-            <button class="button" @click="${(e) => this.blockComment(item.cid)}" type="button" id="block" >Block Comment</button> 
+            <button class="button" @click="${(e) => this.blockComment(item.cid)}" type="button" id="blockPost" >Block</button> 
         ` :
         html``
         }
