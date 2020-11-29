@@ -327,7 +327,7 @@ export class subProfile extends LitElement {
           ${this.changeUsername == 2 ? 
             html`
             <div>Username changed!</div>`
-            : html` `}<br>
+            : html` `}
           
 
           ${this.changeEmail == 0 ? 
