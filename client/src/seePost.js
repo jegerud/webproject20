@@ -230,7 +230,7 @@ export class seePost extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.replace();
+            location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
