@@ -1,0 +1,105 @@
+
+html{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#userAttributes {
+    font-size: large;
+}
+
+#stats > p {
+    padding-right: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle
+}
+
+.btn {
+    display: inline;
+    outline: none;
+    font-size: small;
+    border-radius: 500px;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 30px;
+    width: 250px;
+    opacity: 0.9;
+    background-color: #ffffff;
+    border: 1px solid black;
+}
+
+.btn:hover{
+    background: darken(#C06C84,20%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+}
+
+.btn_confirm {
+    position: relative;
+    outline: none;
+    font-size: small;
+    text-decoration: none;
+    border-radius: 500px;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-size-adjust: 100%;
+    height: 30px;
+    width: 100px;
+    opacity: 0.9;
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid white;
+}
+.btn_confirm:hover{
+    background: darken(#C06C84,10%);
+    box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
+}
+
+#newUserName {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+
+#moderatorBtn {
+    padding-left: 10px;
+    padding-bottom: 20px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+
+#newEmail {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+#oldPass {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+#newPass {
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}
+#newPass2{
+    padding-left: 10px;
+    width: 200px;
+    height: 30px;
+    border-radius: 17px;
+    outline: none;
+}

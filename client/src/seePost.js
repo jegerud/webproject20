@@ -1,64 +1,55 @@
 import { LitElement, html, css } from '../node_modules/lit-element/lit-element';
 
-export class postsAll extends LitElement {
+export class seePost extends LitElement {
     static get properties() {
         return {
             data: {type: Array},
+            postId: {type: Number},
+            comment: {type: String},
             userid: {type: Number},
-            loggedIn: {type: Boolean},
             usertype: {type: String},
             username: {type: String},
-            current: {type: Number},
-            time: {type: Boolean},
-            options: { type: Array },
-            selected: { type: String },
-            edit: {type: Boolean},
-            title: {type: String},
-            content: {type: String},
-            globalPid: {type: Number}
+            selected: {type: Number},
+            edit: {type: Boolean}
         }
     }
-    
+
     constructor() {
         super();
         this.edit = false;
         this.data = [];
         this.getUserid();
-        this.getSorting();
-        this.getUsertype();
+        this.getPostid();
         this.getResource();
-        this.options = [{value:1, text:"Date"},
-                        {value:2, text:"Likes"}];
+        this.getUsertype();
+    }
+
+    getPostid(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        var temp = parameters[0].split("=");
+        current.postId = unescape(temp[1]);
     }
 
     getUserid() {
-        this.userid = localStorage.getItem('userid');
-        if (this.userid !== undefined && this.userid !== null) {
-           this.loggedIn = true;
-        } else {
-           this.loggedIn = false;
-        }
-    }
-
-    getSorting(){
         var current = this;
-        var parameters = location.search.substring(1).split("&");
-        if (parameters != "") {
-            var temp = parameters[0].split("=");
-            current.selected = unescape(temp[1]);
+        current.userid = localStorage.getItem('userid');
+        if (current.userid !== undefined && current.userid !== null) {
+           current.loggedIn = true;
         } else {
-            current.selected = 1;
+           current.loggedIn = false;
         }
     }
 
     async getResource() {
-        var url = `http://localhost:8081/allposts/${this.selected}`;
+        var current = this;
+        var url = `http://localhost:8081/posts/pid/${current.postId}`;
         fetch(url, {
             method: 'GET'
         })
         .then((response) => response.text())
         .then((responseText) => {
-            this.data = JSON.parse(responseText);
+            current.data = JSON.parse(responseText);
         })
         .catch((error) => {
             console.log("The data could not be fetched");
@@ -67,7 +58,8 @@ export class postsAll extends LitElement {
     }
 
     async getUsertype() {
-        fetch(`http://localhost:8081/getUserinfo/${this.userid}`, {
+        var current = this;
+        fetch(`http://localhost:8081/getUserinfo/${current.userid}`, {
             method: 'GET'})
         .then((response) => response.text())
         .then((responseText) => {
@@ -80,16 +72,43 @@ export class postsAll extends LitElement {
             console.error(error);
         });
     }
-    handleClick(pid, mode) {
+
+    _handleClick() {
+        let rawData = {
+            "comment": this.comment,
+            "pid":this.postId,
+            "uid":this.userid
+        }
+        fetch('http://localhost:8081/comments', {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    handlePost(mode) {
         var url = '';
         let rawData = {
-            "pid": pid
+            "pid": this.postId
         }
+
         if (mode == 1) {
             url = 'http://localhost:8081/likepost';
         } else {
             url = 'http://localhost:8081/dislikepost';
         }
+
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -102,22 +121,22 @@ export class postsAll extends LitElement {
             }
             return Promise.reject(response);
         }).then(function (data) {
-            console.log(data);
             location.reload();
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
 
-    blockPost(postid) {
+    blockPost() {
+        var current = this;
         var url = 'http://localhost:8081/handleblock';
         var rawData = {
             "place": 'posts',
             "type": 'pid',
-            "id": postid,
+            "id": current.postId,
             "value": 1
         }
-
+        console.log(url);
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -131,20 +150,20 @@ export class postsAll extends LitElement {
             return Promise.reject(response);
         }).then(function (data) {
             console.log(data);
-            location.reload();
+            location.replace("index.html");
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
     }
 
-    deletePost(pid) {
+    deletePost() {
         var current = this;
         var rawData = {
           "place": 'comments',
           "type": 'post',
-          "id": pid
+          "id": current.postId
         }
-        
+
         fetch('http://localhost:8081/deletebypid', {
           method: 'POST',
           body: JSON.stringify(rawData),
@@ -162,13 +181,13 @@ export class postsAll extends LitElement {
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
-  
+
         rawData = {
           "place": 'posts',
           "type": 'pid',
-          "id": pid
+          "id": current.postId
         }
-        
+
         fetch('http://localhost:8081/deletebypid', {
           method: 'POST',
           body: JSON.stringify(rawData),
@@ -189,18 +208,15 @@ export class postsAll extends LitElement {
         });
       }
 
-    onChange(){
-        this.selected = this.shadowRoot.querySelector('#sel').value
-        var url = "index.html?value=" + this.selected;
-        location.replace(url);
-    }
 
-    handleEdit(pid){
-        var rawData = {
-            "title": this.title,
-            "content": this.content,
-            "pid": pid
+      handleEdit(title, content){
+          var current = this;
+          var rawData = {
+            "title": title,
+            "content": content,
+            "pid": current.postId
         }
+
         fetch('http://localhost:8081/updatePost', {
             method: 'POST',
             body: JSON.stringify(rawData),
@@ -220,65 +236,60 @@ export class postsAll extends LitElement {
         });
     }
 
-    handleEditClick(pid){
-        this.edit = true;
-        this.globalPid = pid;
-    }
-
     render() {
         return html`
-        <link rel="stylesheet" href="./src/styles/postsAll.css">
-        <form>
-        <select id="sel" @change="${this.onChange}">
-        ${this.options.map(item => html`
-            <option value="${item.value}" ?selected=${this.selected == item.value}>${item.text}</option>
-        `)}
-        </select>
-        </form>
+          <link rel="stylesheet" href="./src/styles/postsAll.css">
+        <p></p>
         ${this.data.map(item => html`
-        <div class="post">
-            <h4 class="title">
-            <a id="link" href="posts.html?pid=${item.pid}">${item.title}</a>
-            </h4>
+        <div class="main-post">
+            <hr class="solid">
+            <h4 class="head">${item.title}</h4>
             <p class="post-content">${item.content}</p>
-            <p href="./profile.html" class="user">Posted by: <b id="username">${item.username}</b></p>
+            <p id="posted">Posted by <b>${item.username}</b></p>
             <like>
-                <button class="button" @click="${(e) => this.handleClick(item.pid, 1)}" type="button" id="like">Likes: ${item.upvote}</button>
-                <button class="button" @click="${(e) => this.handleClick(item.pid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+                <button class="btn" @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button>
+                <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
             ${this.userid == item.user ?
             html`
-                <button class="button" @click="${(e) => this.deletePost(item.pid)}" type="button" id="like">Delete</button>
-                <button class="button" @click="${(e) => this.handleEditClick(item.pid)}" type="button" id="edit">Edit</button>
+                <button class="btn" @click="${(e) => this.deletePost()}" type="button" id="like">Delete</button> 
+                <button class="btn" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button>
             ` :
             html``
             }
             ${this.usertype != 'user' ?
             html`
-                <button class="button" @click="${(e) => this.blockPost(item.pid)}" type="button" id="blockPost">Block Post</button>
+                <button class="btn" @click="${(e) => this.blockPost()}" type="button" id="blockPost">Block Post</button>
             ` :
             html``
             }
             </like><br><br>
-            ${this.edit == true && this.userid == item.user && item.pid == this.globalPid ?
-            html`
-            <form>
-            <input
-                @input="${(e)=>this.title=e.target.value}"
-                type="text" placeholder="Title" id="title" name="title"><br><br>
-            <textarea
-                @input="${(e)=>this.content=e.target.value}"
-                id="content"placeholder="Text (Optional)"></textarea> <br>
-            <button class="button" id="publish" @click="${(e)=> this.handleEdit(item.pid)}" type="button">Publish</button><br>
-            <br><br>
-                </form>
-            ` :
-            html``
+            ${this.edit == true && this.userid == item.user ?
+                html`
+                <form>
+                <input
+                    @input="${(e)=>item.title=e.target.value}"
+                    type="text" placeholder="Title" id="title" name="title"><br><br>
+                <textarea
+                    @input="${(e)=>item.content=e.target.value}"
+                    id="content"placeholder="Text (Optional)"></textarea>
+                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.title, item.content)}" type="button">Publish</button><br>
+                <br><br>
+                    </form>
+                ` :
+                html``
             }
             <hr class="solid">
         </div>
-        <br>`)}
+        `)}
+        <form class="post-comment">
+            <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
+           <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
+        </form><br>
+        <div class="comments">
+            <comments-all></comments-all>
+        </div>
         `
     }
 }
 
-customElements.define('posts-all', postsAll);
+customElements.define('see-post', seePost);

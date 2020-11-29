@@ -4,19 +4,61 @@ export class seeCommments extends LitElement {
     static get properties() {
         return {
             data: {type: Array},
-            postId: {type: Number}
+            postId: {type: Number},
+            currentuid: {type: Number},
+            loggedIn: {type: Boolean},
+            usertype: {type: String},
+            username: {type: String},
+            current: {type: Number},
+            options: { type: Array },
+            selected: {type: String}
         }
     }
 
     constructor() {
         super();
-        this.postId = 1;
         this.data = [];
+        this.getPostid();
+        this.getUserid();
+        this.getSorting();
         this.getResource();
+        this.getUsertype();
+        this.options = [{value:1, text:"Date"}, 
+                        {value:2, text:"Likes"}];
+    }
+
+    getPostid(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        var temp = parameters[0].split("=");
+        current.postId = unescape(temp[1]);
+    }
+
+    getUserid() {
+        var current = this;
+        current.userid = localStorage.getItem('userid');
+        if (current.userid !== undefined && current.userid !== null) {
+           current.loggedIn = true;
+        } else {
+           current.loggedIn = false;
+        }
+    }
+
+    getSorting(){
+        var current = this;
+        var parameters = location.search.substring(1).split("&");
+        if(parameters.length > 1){
+            var temp = parameters[1].split("=");
+            current.selected = unescape(temp[1]);
+            console.log(current.selected);
+        } else {
+            current.selected = 1;
+        }
     }
 
     async getResource() {
-        fetch(`http://localhost:8081/comments/${this.postId}`, {
+        var url = `http://localhost:8081/comments/pid/${this.postId}/${this.selected}`;
+        fetch(url, {
             method: 'GET'
         })
         .then((response) => response.text())
@@ -25,17 +67,136 @@ export class seeCommments extends LitElement {
         })
         .catch((error) => {
             console.log("The data could not be fetched");
+            console.log(error);
+        });
+    }
+
+    async getUsertype() {
+        var current = this;
+        var url = `http://localhost:8081/getUserinfo/${current.userid}`
+        fetch(url, {
+            method: 'GET'})
+        .then((response) => response.text())
+        .then((responseText) => {
+            var user = JSON.parse(responseText);
+            current.usertype = user[0].userType;
+            current.username = user[0].username;
+        })
+        .catch((error) => {
+            console.log("The data could not be fetched");
             console.error(error);
+        });
+    }
+
+    getCurrentUserid(user) {
+        fetch(`http://localhost:8081/getUserid/${user}`, {
+            method: 'GET'
+        })
+        .then((response) => response.text())
+        .then((responseText) => {
+            this.currentuid = JSON.parse(responseText);
+            console.log(this.currentuid);
+        })
+        .catch((error) => {
+            console.log("The data could not be fetched");
+            console.error(error);
+        });
+    }
+
+    handleClick(commentid, mode) {
+        var url = '';
+        let rawData = {
+            "commentid": commentid
+        }
+        if (mode == 1) {
+            url = 'http://localhost:8081/likecomment';
+        } else {
+            url = 'http://localhost:8081/dislikecomment';
+        }
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
+        });
+    }
+
+    onChange(){
+        this.selected = this.shadowRoot.querySelector('#sel').value
+        var url = "?pid=" + this.postId + "&value=" + this.selected;
+        location.replace(url);
+    }
+
+    blockComment(commentid, mode = 0) {
+        var url = '';
+        var rawData = {
+            "place": 'comments',
+            "type": 'cid',
+            "id": commentid,
+            "value": 1
+        }
+        if (mode == 0) {
+            url = 'http://localhost:8081/handleblock';
+        } else {
+            url = 'http://localhost:8081/deletecomments';
+        }
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(rawData),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            console.log(data);
+            location.reload();
+        }).catch(function (error) {
+            console.warn('Something went wrong.', error);
         });
     }
 
     render() {
         return html`
+         <link rel="stylesheet" href="./src/styles/seeComments.css">
+        <select id="sel" @change="${this.onChange}">
+        ${this.options.map(item => html`
+            <option value="${item.value}" ?selected=${this.selected == item.value}>${item.text}</option>
+        `)}
+        </select>
         ${this.data.map(item => html`
-            <div class="post-comment">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i>${item.comment}</p>
-            </div>
+        <p class="comment-title">Posted by <b>${item.username}</b></p>
+        <p class="comment-content">${item.comment}</p> 
+        <like>
+            <button class="btn" @click="${(e) => this.handleClick(item.cid, 1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+            <button class="btn" @click="${(e) => this.handleClick(item.cid, 0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
+        ${this.userid == item.user ? 
+        html`
+            <button  class="btn" @click="${(e) => this.blockComment(item.cid, 1)}" type="button" id="delete">Delete</button> 
+        ` :
+        html``
+        }
+        ${this.usertype != 'user' ? 
+        html`
+            <button class="btn" @click="${(e) => this.blockComment(item.cid)}" type="button" id="blockPost" >Block</button> 
+        ` :
+        html``
+        }
+        </like><br><br><hr class="mid-solid">
         `)}
         `
     }
