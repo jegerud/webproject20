@@ -16,7 +16,7 @@ export class seePost extends LitElement {
 
     constructor() {
         super();
-        this.edit = false; 
+        this.edit = false;
         this.data = [];
         this.getUserid();
         this.getPostid();
@@ -163,7 +163,7 @@ export class seePost extends LitElement {
           "type": 'post',
           "id": current.postId
         }
-        
+
         fetch('http://localhost:8081/deletebypid', {
           method: 'POST',
           body: JSON.stringify(rawData),
@@ -181,13 +181,13 @@ export class seePost extends LitElement {
         }).catch(function (error) {
             console.warn('Something went wrong.', error);
         });
-  
+
         rawData = {
           "place": 'posts',
           "type": 'pid',
           "id": current.postId
         }
-        
+
         fetch('http://localhost:8081/deletebypid', {
           method: 'POST',
           body: JSON.stringify(rawData),
@@ -209,7 +209,7 @@ export class seePost extends LitElement {
       }
 
 
-      handleEdit(pid, title, content){
+      handleEdit(title, content){
           var current = this;
           var rawData = {
             "title": title,
@@ -241,24 +241,24 @@ export class seePost extends LitElement {
           <link rel="stylesheet" href="./src/styles/postsAll.css">
         <p></p>
         ${this.data.map(item => html`
-        <div class="main-post"> 
+        <div class="main-post">
             <hr class="solid">
             <h4 class="head">${item.title}</h4>
             <p class="post-content">${item.content}</p>
             <p id="posted">Posted by <b>${item.username}</b></p>
             <like>
-                <button class="btn" @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button> 
+                <button class="btn" @click="${(e) => this.handlePost(1)}" type="button" id="like">Likes: ${item.upvote}</button>
                 <button class="btn" @click="${(e) => this.handlePost(0)}" type="button" id="dislike">Dislikes: ${item.downvote}</button>
-            ${this.userid == item.user ? 
+            ${this.userid == item.user ?
             html`
                 <button class="btn" @click="${(e) => this.deletePost()}" type="button" id="like">Delete</button> 
                 <button class="btn" @click="${(e) => this.edit = true}" type="button" id="like">Edit</button>
             ` :
             html``
             }
-            ${this.usertype != 'user' ? 
+            ${this.usertype != 'user' ?
             html`
-                <button class="btn" @click="${(e) => this.blockPost()}" type="button" id="blockPost">Block Post</button> 
+                <button class="btn" @click="${(e) => this.blockPost()}" type="button" id="blockPost">Block Post</button>
             ` :
             html``
             }
@@ -272,7 +272,7 @@ export class seePost extends LitElement {
                 <textarea
                     @input="${(e)=>item.content=e.target.value}"
                     id="content"placeholder="Text (Optional)"></textarea>
-                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.pid,item.title, item.content)}" type="button">Publish</button><br>
+                <br><button class="btn" id="publish" @click="${(e)=> this.handleEdit(item.title, item.content)}" type="button">Publish</button><br>
                 <br><br>
                     </form>
                 ` :
@@ -285,7 +285,7 @@ export class seePost extends LitElement {
             <input @input="${(e)=>this.comment=e.target.value}" type="text" placeholder="Post a comment" id="post-comment" name="postcomment">
            <button class="btn" @click="${this._handleClick}" type="button" id ="publish">Publish</button><br>
         </form><br>
-        <div class="comments"> 
+        <div class="comments">
             <comments-all></comments-all>
         </div>
         `

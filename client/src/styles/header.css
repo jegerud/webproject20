@@ -31,6 +31,7 @@
   }
 
   .header-pb {
+    position: relative;
     display: visible;
     float: right;
     max-width: 100px;
@@ -131,6 +132,15 @@
     left: 30px;
     
 
+  }
+
+  .header-pb {
+    position: relative;
+    display: visible;
+    float: none;
+    margin-bottom: 10px;
+    max-width: 100px;
+    max-height: 100px;
   }
   
 }
