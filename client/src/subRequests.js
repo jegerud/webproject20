@@ -72,12 +72,13 @@ export class subRequests extends LitElement {
       ${this.data.length != 0 ? 
       html`
         ${this.data.map(item => html`
+        <link rel="stylesheet" href="./src/styles/subprofile.css">
         <br><b>UserID: ${item.uid}</b> 
         <p class="body">Username: ${item.username}</p>
         <p class="body">${item.email}</p>
         <div class="body">
-          <button @click="${(e)=>this.handleRequest(item.uid, 1)}" type="submit">Approve</button>
-          <button @click="${(e)=>this.handleRequest(item.uid, 0)}" type="submit">Disapprove</button> 
+          <button class="btn" @click="${(e)=>this.handleRequest(item.uid, 1)}" type="submit">Approve</button>
+          <button class="btn" @click="${(e)=>this.handleRequest(item.uid, 0)}" type="submit">Disapprove</button> 
         </div>
         `)}
       ` : 
